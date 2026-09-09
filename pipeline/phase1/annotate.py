@@ -283,6 +283,48 @@ def validate_response(
             if intent not in taxonomy.intents:
                 problems.append(f"unknown intent {intent!r}")
 
+        # Every remaining controlled vocabulary. Without these, an out-of-taxonomy
+        # value reaches enrichment.jsonl and only surfaces later as an
+        # enum_closure failure in validate.py, far from the record that caused it.
+        affect = response.get("expressed_affect") or {}
+        checks: list[tuple[str, object, set]] = [
+            ("situation", response.get("situations"), taxonomy.situations),
+            ("expressed_affect.primary", [affect.get("primary")] if affect.get("primary") else [],
+             taxonomy.emotions),
+            ("expressed_affect.secondary", affect.get("secondary"), taxonomy.emotions),
+            ("addressed_state", [s.get("state") for s in response.get("addressed_states") or []],
+             taxonomy.emotions),
+            ("dependency_reason", (response.get("context_dependency") or {}).get("reasons"),
+             taxonomy.dependency_reasons),
+            ("isolation_kind", (response.get("isolation_risk") or {}).get("kinds"),
+             taxonomy.isolation_kinds),
+            ("avoid_for_state", (response.get("safety") or {}).get("avoid_for_states"),
+             taxonomy.emotions),
+            ("content_advisory", (response.get("safety") or {}).get("content_advisories"),
+             taxonomy.content_advisories),
+        ]
+        for label, values, allowed in checks:
+            for value in values or []:
+                if value not in allowed:
+                    problems.append(f"unknown {label} {value!r}")
+
+        for purpose in response.get("scripture_purpose") or []:
+            if purpose.get("purpose") not in taxonomy.scripture_purposes:
+                problems.append(f"unknown scripture_purpose {purpose.get('purpose')!r}")
+            role = purpose.get("speaker_role")
+            if role is not None and role not in taxonomy.speaker_roles:
+                problems.append(f"unknown speaker_role {role!r}")
+            cond = purpose.get("promise_conditionality")
+            if cond is not None and cond not in taxonomy.promise_conditionality:
+                problems.append(f"unknown promise_conditionality {cond!r}")
+
+        for intent, block in (response.get("purpose_suitability") or {}).items():
+            if intent not in taxonomy.intents:
+                problems.append(f"unknown purpose_suitability intent {intent!r}")
+            for blocker in (block or {}).get("blockers") or []:
+                if blocker not in taxonomy.blockers:
+                    problems.append(f"unknown blocker {blocker!r}")
+
     return problems
 
 

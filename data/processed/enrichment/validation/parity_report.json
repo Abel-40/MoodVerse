@@ -9,11 +9,11 @@
   },
   "annotated": {
     "bible": 28,
-    "quran": 12
+    "quran": 27
   },
   "annotation_coverage": {
     "bible": 0.0009,
-    "quran": 0.0019
+    "quran": 0.0043
   },
   "status_distribution": {
     "bible": {
@@ -22,14 +22,14 @@
       "INCLUDE_WITH_CONTEXT": 4
     },
     "quran": {
-      "REVIEW_REQUIRED": 6231,
-      "INCLUDE_WITH_CONTEXT": 1,
+      "REVIEW_REQUIRED": 6224,
+      "INCLUDE_WITH_CONTEXT": 8,
       "EXCLUDE_FROM_DEFAULT_RECOMMENDATIONS": 4
     }
   },
   "mean_curation_confidence": {
     "bible": 0.314,
-    "quran": 0.45
+    "quran": 0.459
   },
   "mean_scores": {
     "bible": {
@@ -37,8 +37,8 @@
       "context_dependency": 2.429
     },
     "quran": {
-      "standalone_usefulness": 2.083,
-      "context_dependency": 1.667
+      "standalone_usefulness": 2.0,
+      "context_dependency": 2.074
     }
   },
   "purpose_coverage": {
@@ -48,11 +48,11 @@
     },
     "hope": {
       "bible": 0,
-      "quran": 0
+      "quran": 1
     },
     "encouragement": {
       "bible": 1,
-      "quran": 0
+      "quran": 1
     },
     "peace": {
       "bible": 0,
@@ -60,7 +60,7 @@
     },
     "guidance": {
       "bible": 0,
-      "quran": 0
+      "quran": 3
     },
     "strength": {
       "bible": 1,
@@ -68,7 +68,7 @@
     },
     "patience": {
       "bible": 0,
-      "quran": 0
+      "quran": 1
     },
     "gratitude": {
       "bible": 0,
@@ -76,23 +76,23 @@
     },
     "praise": {
       "bible": 0,
-      "quran": 0
+      "quran": 2
     },
     "repentance": {
       "bible": 0,
-      "quran": 0
+      "quran": 1
     },
     "forgiveness": {
       "bible": 0,
-      "quran": 0
+      "quran": 2
     },
     "wisdom": {
       "bible": 0,
-      "quran": 0
+      "quran": 3
     },
     "perseverance": {
       "bible": 1,
-      "quran": 0
+      "quran": 1
     }
   },
   "gaps": [
@@ -120,9 +120,9 @@
     {
       "purpose": "hope",
       "religion": "quran",
-      "include_verses": 0,
+      "include_verses": 1,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 19
     },
     {
       "purpose": "encouragement",
@@ -134,9 +134,9 @@
     {
       "purpose": "encouragement",
       "religion": "quran",
-      "include_verses": 0,
+      "include_verses": 1,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 19
     },
     {
       "purpose": "peace",
@@ -162,9 +162,9 @@
     {
       "purpose": "guidance",
       "religion": "quran",
-      "include_verses": 0,
+      "include_verses": 3,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 17
     },
     {
       "purpose": "strength",
@@ -190,9 +190,9 @@
     {
       "purpose": "patience",
       "religion": "quran",
-      "include_verses": 0,
+      "include_verses": 1,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 19
     },
     {
       "purpose": "gratitude",
@@ -218,9 +218,9 @@
     {
       "purpose": "praise",
       "religion": "quran",
-      "include_verses": 0,
+      "include_verses": 2,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 18
     },
     {
       "purpose": "repentance",
@@ -232,9 +232,9 @@
     {
       "purpose": "repentance",
       "religion": "quran",
-      "include_verses": 0,
+      "include_verses": 1,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 19
     },
     {
       "purpose": "forgiveness",
@@ -246,9 +246,9 @@
     {
       "purpose": "forgiveness",
       "religion": "quran",
-      "include_verses": 0,
+      "include_verses": 2,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 18
     },
     {
       "purpose": "wisdom",
@@ -260,9 +260,9 @@
     {
       "purpose": "wisdom",
       "religion": "quran",
-      "include_verses": 0,
+      "include_verses": 3,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 17
     },
     {
       "purpose": "perseverance",
@@ -274,9 +274,9 @@
     {
       "purpose": "perseverance",
       "religion": "quran",
-      "include_verses": 0,
+      "include_verses": 1,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 19
     }
   ],
   "gate_passed": false,

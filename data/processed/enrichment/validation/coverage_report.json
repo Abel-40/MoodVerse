@@ -8,9 +8,18 @@
       "exhaustion|encouragement": 1,
       "exhaustion|perseverance": 1,
       "exhaustion|strength": 1
+    },
+    "quran": {
+      "anger|forgiveness": 1,
+      "anger|instruction": 1,
+      "anger|wisdom": 1,
+      "guilt|forgiveness": 1,
+      "guilt|hope": 1,
+      "guilt|repentance": 1
     }
   },
   "cells_populated": {
-    "bible": 4
+    "bible": 4,
+    "quran": 6
   }
 }
