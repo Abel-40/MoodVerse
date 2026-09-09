@@ -1,0 +1,94 @@
+{
+  "validation_report_version": "1.0.0",
+  "generated_by": "processed/enrichment/validate.py",
+  "taxonomy_version": "1.0.0",
+  "enrichment_records": 37339,
+  "corpus_records": 37339,
+  "all_passed": true,
+  "checks": {
+    "all_corpus_records_present": {
+      "passed": true,
+      "failures": 0,
+      "examples": [],
+      "note": "Every Phase 0 record has an enrichment record."
+    },
+    "no_duplicates": {
+      "passed": true,
+      "failures": 0,
+      "examples": [],
+      "note": "No canonical_id appears twice."
+    },
+    "no_orphans": {
+      "passed": true,
+      "failures": 0,
+      "examples": [],
+      "note": "No enrichment record lacks a corpus record."
+    },
+    "required_keys_present": {
+      "passed": true,
+      "failures": 0,
+      "examples": [],
+      "note": "Every record carries the required top-level keys."
+    },
+    "enum_closure": {
+      "passed": true,
+      "failures": 0,
+      "examples": [],
+      "note": "Every value exists in taxonomy 1.0.0."
+    },
+    "ordinal_ranges": {
+      "passed": true,
+      "failures": 0,
+      "examples": [],
+      "note": "Every ordinal is within its declared scale."
+    },
+    "confidence_banded": {
+      "passed": true,
+      "failures": 0,
+      "examples": [],
+      "note": "Confidence is one of [0.2, 0.4, 0.6, 0.8, 0.95]."
+    },
+    "corpus_text_not_drifted": {
+      "passed": true,
+      "failures": 0,
+      "examples": [],
+      "note": "corpus_text_sha256 matches the Phase 0 text."
+    },
+    "context_spans_resolve": {
+      "passed": true,
+      "failures": 0,
+      "examples": [],
+      "note": "Every context span endpoint is a real id in the same book/surah."
+    },
+    "conditional_requirements": {
+      "passed": true,
+      "failures": 0,
+      "examples": [],
+      "note": "Reasons, explanations and speaker roles present where required."
+    },
+    "quran_cross_reference_null": {
+      "passed": true,
+      "failures": 0,
+      "examples": [],
+      "note": "cross_reference_context is null for all 6,236 Quran records."
+    },
+    "derived_sources_zero_weight": {
+      "passed": true,
+      "failures": 0,
+      "examples": [],
+      "note": "Only TCEC cols and ELQVv2 contribute nothing."
+    },
+    "phase0_flagged_routed_to_review": {
+      "passed": true,
+      "failures": 0,
+      "examples": [],
+      "note": "Phase 0 warning/unresolved records are reviewed before serving."
+    },
+    "no_source_label_targets_forbidden_axis": {
+      "passed": true,
+      "failures": 0,
+      "examples": [],
+      "note": "No source label maps to addressed_states, intent or any suitability field."
+    }
+  }
+}

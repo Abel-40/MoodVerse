@@ -1,0 +1,265 @@
+{
+  "parity_report_version": "1.0.0",
+  "generated_by": "processed/enrichment/validate.py",
+  "why": "If enrichment quality tracked source-annotation density, Quran verses would win retrieval slots because they are better documented, not because they are better answers. These metrics exist to detect that, and a failing cell is filled by targeted annotation - never by lowering the bar for the scarce side.",
+  "minimum_include_per_purpose": 20,
+  "records": {
+    "bible": 31103,
+    "quran": 6236
+  },
+  "annotated": {},
+  "annotation_coverage": {
+    "bible": 0.0,
+    "quran": 0.0
+  },
+  "status_distribution": {
+    "bible": {
+      "REVIEW_REQUIRED": 31103
+    },
+    "quran": {
+      "REVIEW_REQUIRED": 6236
+    }
+  },
+  "mean_curation_confidence": {},
+  "mean_scores": {},
+  "purpose_coverage": {
+    "comfort": {
+      "bible": 0,
+      "quran": 0
+    },
+    "hope": {
+      "bible": 0,
+      "quran": 0
+    },
+    "encouragement": {
+      "bible": 0,
+      "quran": 0
+    },
+    "peace": {
+      "bible": 0,
+      "quran": 0
+    },
+    "guidance": {
+      "bible": 0,
+      "quran": 0
+    },
+    "strength": {
+      "bible": 0,
+      "quran": 0
+    },
+    "patience": {
+      "bible": 0,
+      "quran": 0
+    },
+    "gratitude": {
+      "bible": 0,
+      "quran": 0
+    },
+    "praise": {
+      "bible": 0,
+      "quran": 0
+    },
+    "repentance": {
+      "bible": 0,
+      "quran": 0
+    },
+    "forgiveness": {
+      "bible": 0,
+      "quran": 0
+    },
+    "wisdom": {
+      "bible": 0,
+      "quran": 0
+    },
+    "perseverance": {
+      "bible": 0,
+      "quran": 0
+    }
+  },
+  "gaps": [
+    {
+      "purpose": "comfort",
+      "religion": "bible",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "comfort",
+      "religion": "quran",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "hope",
+      "religion": "bible",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "hope",
+      "religion": "quran",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "encouragement",
+      "religion": "bible",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "encouragement",
+      "religion": "quran",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "peace",
+      "religion": "bible",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "peace",
+      "religion": "quran",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "guidance",
+      "religion": "bible",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "guidance",
+      "religion": "quran",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "strength",
+      "religion": "bible",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "strength",
+      "religion": "quran",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "patience",
+      "religion": "bible",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "patience",
+      "religion": "quran",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "gratitude",
+      "religion": "bible",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "gratitude",
+      "religion": "quran",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "praise",
+      "religion": "bible",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "praise",
+      "religion": "quran",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "repentance",
+      "religion": "bible",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "repentance",
+      "religion": "quran",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "forgiveness",
+      "religion": "bible",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "forgiveness",
+      "religion": "quran",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "wisdom",
+      "religion": "bible",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "wisdom",
+      "religion": "quran",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "perseverance",
+      "religion": "bible",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    },
+    {
+      "purpose": "perseverance",
+      "religion": "quran",
+      "include_verses": 0,
+      "required": 20,
+      "shortfall": 20
+    }
+  ],
+  "gate_passed": false,
+  "note": "gate_passed is false while the corpus is unannotated. That is the correct reading of an empty corpus, not a failure of the metric."
+}

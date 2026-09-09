@@ -1,0 +1,2956 @@
+{
+  "quarantine_version": "1.0.0",
+  "generated_by": "processed/enrichment/build_ledger.py",
+  "policy": "Labels here are preserved and visible but contribute nothing to any aggregate. Nothing is deleted or corrected in the corpus. Quarantine is a decision recorded for review, not a repair.",
+  "low_frequency_threshold": 2,
+  "count": 159,
+  "entries": [
+    {
+      "mapping_id": "complete_quran_data.category.divine_attributes_signs",
+      "source": "Complete_Quran_data",
+      "annotation_type": "category",
+      "label": "Divine Attributes & Signs",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:19"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.category.eschatology",
+      "source": "Complete_Quran_data",
+      "annotation_type": "category",
+      "label": "Eschatology",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:19"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.category.moral_teaching_context",
+      "source": "Complete_Quran_data",
+      "annotation_type": "category",
+      "label": "Moral teaching context",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency",
+        "column_bleed_suspected"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:17",
+        "quran:2:38"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.category.revelation",
+      "source": "Complete_Quran_data",
+      "annotation_type": "category",
+      "label": "Revelation",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency",
+        "column_bleed_suspected"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:6:154",
+        "quran:46:12"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.category.spiritual_reminder",
+      "source": "Complete_Quran_data",
+      "annotation_type": "category",
+      "label": "Spiritual reminder",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency",
+        "column_bleed_suspected"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:5:11",
+        "quran:8:26"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.category.supplication_spiritivity_dua_dhikr_tazkiyah",
+      "source": "Complete_Quran_data",
+      "annotation_type": "category",
+      "label": "Supplication & Spiritivity (Dua, Dhikr, Tazkiyah)",
+      "occurrences": 1,
+      "anomalies": [
+        "near_duplicate_candidate",
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": "Supplication & Spirituality (Dua, Dhikr, Tazkiyah)",
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:15:40"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.category.worship_ibadah",
+      "source": "Complete_Quran_data",
+      "annotation_type": "category",
+      "label": "Worship (‘Ibadah)'",
+      "occurrences": 1,
+      "anomalies": [
+        "spelling_variant_group",
+        "near_duplicate_candidate",
+        "low_frequency"
+      ],
+      "spelling_variants": [
+        "Worship (‘Ibadah)",
+        "Worship (‘Ibadah)’"
+      ],
+      "canonical_spelling": "Worship (‘Ibadah)",
+      "variant_of_label": "Worship (‘Ibadah)",
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:45"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.category.worship_ibadah",
+      "source": "Complete_Quran_data",
+      "annotation_type": "category",
+      "label": "Worship (‘Ibadah)’",
+      "occurrences": 1,
+      "anomalies": [
+        "spelling_variant_group",
+        "near_duplicate_candidate",
+        "low_frequency"
+      ],
+      "spelling_variants": [
+        "Worship (‘Ibadah)",
+        "Worship (‘Ibadah)'"
+      ],
+      "canonical_spelling": "Worship (‘Ibadah)",
+      "variant_of_label": "Worship (‘Ibadah)",
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:43"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.context.revelation",
+      "source": "Complete_Quran_data",
+      "annotation_type": "context",
+      "label": "Revelation",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency",
+        "column_bleed_suspected"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:24:1"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.emotion.arrogance",
+      "source": "Complete_Quran_data",
+      "annotation_type": "emotion",
+      "label": "Arrogance",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:18:35",
+        "quran:34:35"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.emotion.challenge",
+      "source": "Complete_Quran_data",
+      "annotation_type": "emotion",
+      "label": "Challenge",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:23"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.emotion.faith",
+      "source": "Complete_Quran_data",
+      "annotation_type": "emotion",
+      "label": "Faith",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:7:122",
+        "quran:26:47"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.emotion.justice",
+      "source": "Complete_Quran_data",
+      "annotation_type": "emotion",
+      "label": "Justice",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:70:24"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.emotion.kindness",
+      "source": "Complete_Quran_data",
+      "annotation_type": "emotion",
+      "label": "Kindness",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:51:26",
+        "quran:51:27"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.emotion.warning",
+      "source": "Complete_Quran_data",
+      "annotation_type": "emotion",
+      "label": "Warning",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:5:102"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.beauty",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Beauty",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:12:31"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.blessings",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Blessings",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:37:113"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.challenge",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Challenge",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:23"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.choice",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Choice",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:74:37"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.covenant",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Covenant",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:40"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.creation_of_adam",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Creation of Adam",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:15:29"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.day_of_judgment",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Day of Judgment",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:70:26"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.deception",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Deception",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:17:64"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.disease_metaphorical",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Disease (metaphorical)",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:10"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.divine_blessings",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Divine Blessings",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:18:33"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.divine_judgment",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Divine Judgment",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:26:113"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.divine_protection",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Divine Protection",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:37:10",
+        "quran:37:40"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.divine_signs",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Divine Signs",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:30:46"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.divine_support",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Divine Support",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:20:46"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.divine_will",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Divine Will",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:42:49",
+        "quran:53:26"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.divine_wisdom",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Divine Wisdom",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:6:8"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.divine_decree",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Divine decree",
+      "occurrences": 2,
+      "anomalies": [
+        "spelling_variant_group",
+        "near_duplicate_candidate",
+        "low_frequency"
+      ],
+      "spelling_variants": [
+        "Divine Decree"
+      ],
+      "canonical_spelling": "Divine Decree",
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:3:166",
+        "quran:8:42"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.ethics_morality_akhlaq",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Ethics & Morality (Akhlaq)",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:7:80",
+        "quran:27:54"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.falsehood",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Falsehood",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:17:81"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.greed",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Greed",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:70:18"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.healing",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Healing",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:10:57",
+        "quran:26:80"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.hijrah",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Hijrah",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:8:72"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.human_nature",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Human Nature",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:17:100"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.humanity",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Humanity",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:30",
+        "quran:55:3"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.joy",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Joy",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:36:55"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.judgment",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Judgment",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:77:13"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.leadership",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Leadership",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:28:41"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.life_and_death",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Life and Death",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:7:25"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.love_of_allah",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Love of Allah",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:165"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.materialism",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Materialism",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:102:1"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.miracles",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Miracles",
+      "occurrences": 1,
+      "anomalies": [
+        "near_duplicate_candidate",
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:23"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.morality",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Morality",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:24:30",
+        "quran:29:45"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.moses",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Moses",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:53"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.protection",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Protection",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:37:7",
+        "quran:113:4"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.provision",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Provision",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:57"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.purification",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Purification",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:74:4"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.purity",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Purity",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:56:79"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.regret",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Regret",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:89:24"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.return_to_allah",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Return to Allah",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:29:57"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.righteousness",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Righteousness",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:56:38",
+        "quran:74:39"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.suffering",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Suffering",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:21:83"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.temptation",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Temptation",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:17:64"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.time",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Time",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:103:1"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.trials",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Trials",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:21:111"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.trustworthiness",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Trustworthiness",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:23:8"
+      ]
+    },
+    {
+      "mapping_id": "complete_quran_data.theme_tag.youth",
+      "source": "Complete_Quran_data",
+      "annotation_type": "theme_tag",
+      "label": "Youth",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:18:13"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.category.divine_attributes_signs",
+      "source": "Only TCEC cols",
+      "annotation_type": "category",
+      "label": "Divine Attributes & Signs",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:19"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.category.eschatology",
+      "source": "Only TCEC cols",
+      "annotation_type": "category",
+      "label": "Eschatology",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:19"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.category.moral_teaching_context",
+      "source": "Only TCEC cols",
+      "annotation_type": "category",
+      "label": "Moral teaching context",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency",
+        "column_bleed_suspected"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:17",
+        "quran:2:38"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.category.revelation",
+      "source": "Only TCEC cols",
+      "annotation_type": "category",
+      "label": "Revelation",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency",
+        "column_bleed_suspected"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:6:154",
+        "quran:46:12"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.category.spiritual_reminder",
+      "source": "Only TCEC cols",
+      "annotation_type": "category",
+      "label": "Spiritual reminder",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency",
+        "column_bleed_suspected"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:5:11",
+        "quran:8:26"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.category.supplication_spiritivity_dua_dhikr_tazkiyah",
+      "source": "Only TCEC cols",
+      "annotation_type": "category",
+      "label": "Supplication & Spiritivity (Dua, Dhikr, Tazkiyah)",
+      "occurrences": 1,
+      "anomalies": [
+        "near_duplicate_candidate",
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": "Supplication & Spirituality (Dua, Dhikr, Tazkiyah)",
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:15:40"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.category.worship_ibadah",
+      "source": "Only TCEC cols",
+      "annotation_type": "category",
+      "label": "Worship (‘Ibadah)'",
+      "occurrences": 1,
+      "anomalies": [
+        "spelling_variant_group",
+        "near_duplicate_candidate",
+        "low_frequency"
+      ],
+      "spelling_variants": [
+        "Worship (‘Ibadah)",
+        "Worship (‘Ibadah)’"
+      ],
+      "canonical_spelling": "Worship (‘Ibadah)",
+      "variant_of_label": "Worship (‘Ibadah)",
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:45"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.category.worship_ibadah",
+      "source": "Only TCEC cols",
+      "annotation_type": "category",
+      "label": "Worship (‘Ibadah)’",
+      "occurrences": 1,
+      "anomalies": [
+        "spelling_variant_group",
+        "near_duplicate_candidate",
+        "low_frequency"
+      ],
+      "spelling_variants": [
+        "Worship (‘Ibadah)",
+        "Worship (‘Ibadah)'"
+      ],
+      "canonical_spelling": "Worship (‘Ibadah)",
+      "variant_of_label": "Worship (‘Ibadah)",
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:43"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.context.revelation",
+      "source": "Only TCEC cols",
+      "annotation_type": "context",
+      "label": "Revelation",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency",
+        "column_bleed_suspected"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:24:1"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.emotion.arrogance",
+      "source": "Only TCEC cols",
+      "annotation_type": "emotion",
+      "label": "Arrogance",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:18:35",
+        "quran:34:35"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.emotion.challenge",
+      "source": "Only TCEC cols",
+      "annotation_type": "emotion",
+      "label": "Challenge",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:23"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.emotion.faith",
+      "source": "Only TCEC cols",
+      "annotation_type": "emotion",
+      "label": "Faith",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:7:122",
+        "quran:26:47"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.emotion.justice",
+      "source": "Only TCEC cols",
+      "annotation_type": "emotion",
+      "label": "Justice",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:70:24"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.emotion.kindness",
+      "source": "Only TCEC cols",
+      "annotation_type": "emotion",
+      "label": "Kindness",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:51:26",
+        "quran:51:27"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.emotion.warning",
+      "source": "Only TCEC cols",
+      "annotation_type": "emotion",
+      "label": "Warning",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:5:102"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.beauty",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Beauty",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:12:31"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.blessings",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Blessings",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:37:113"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.challenge",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Challenge",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:23"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.choice",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Choice",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:74:37"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.covenant",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Covenant",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:40"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.creation_of_adam",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Creation of Adam",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:15:29"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.day_of_judgment",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Day of Judgment",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:70:26"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.deception",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Deception",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:17:64"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.disease_metaphorical",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Disease (metaphorical)",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:10"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.divine_blessings",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Divine Blessings",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:18:33"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.divine_judgment",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Divine Judgment",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:26:113"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.divine_protection",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Divine Protection",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:37:10",
+        "quran:37:40"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.divine_signs",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Divine Signs",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:30:46"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.divine_support",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Divine Support",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:20:46"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.divine_will",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Divine Will",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:42:49",
+        "quran:53:26"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.divine_wisdom",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Divine Wisdom",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:6:8"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.divine_decree",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Divine decree",
+      "occurrences": 2,
+      "anomalies": [
+        "spelling_variant_group",
+        "near_duplicate_candidate",
+        "low_frequency"
+      ],
+      "spelling_variants": [
+        "Divine Decree"
+      ],
+      "canonical_spelling": "Divine Decree",
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:3:166",
+        "quran:8:42"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.ethics_morality_akhlaq",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Ethics & Morality (Akhlaq)",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:7:80",
+        "quran:27:54"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.falsehood",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Falsehood",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:17:81"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.greed",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Greed",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:70:18"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.healing",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Healing",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:10:57",
+        "quran:26:80"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.hijrah",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Hijrah",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:8:72"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.human_nature",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Human Nature",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:17:100"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.humanity",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Humanity",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:30",
+        "quran:55:3"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.joy",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Joy",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:36:55"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.judgment",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Judgment",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:77:13"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.leadership",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Leadership",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:28:41"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.life_and_death",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Life and Death",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:7:25"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.love_of_allah",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Love of Allah",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:165"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.materialism",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Materialism",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:102:1"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.miracles",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Miracles",
+      "occurrences": 1,
+      "anomalies": [
+        "near_duplicate_candidate",
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:23"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.morality",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Morality",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:24:30",
+        "quran:29:45"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.moses",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Moses",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:53"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.protection",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Protection",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:37:7",
+        "quran:113:4"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.provision",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Provision",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:57"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.purification",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Purification",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:74:4"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.purity",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Purity",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:56:79"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.regret",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Regret",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:89:24"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.return_to_allah",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Return to Allah",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:29:57"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.righteousness",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Righteousness",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:56:38",
+        "quran:74:39"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.suffering",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Suffering",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:21:83"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.temptation",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Temptation",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:17:64"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.time",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Time",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:103:1"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.trials",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Trials",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:21:111"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.trustworthiness",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Trustworthiness",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:23:8"
+      ]
+    },
+    {
+      "mapping_id": "only_tcec_cols.theme_tag.youth",
+      "source": "Only TCEC cols",
+      "annotation_type": "theme_tag",
+      "label": "Youth",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:18:13"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.abrogation",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Abrogation",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:106",
+        "quran:16:101"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.accountability_of_rulers",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Accountability of Rulers",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:134"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.adhaan_call_to_prayer",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Adhaan — Call to Prayer",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:5:58"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.animals_as_communities",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Animals as Communities",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:6:38",
+        "quran:29:60"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.breaking_the_fast",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Breaking the Fast",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:187"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.congregational_prayer",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Congregational Prayer",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:4:102"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.creation_of_jinn",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Creation of Jinn",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:15:27",
+        "quran:55:15"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.devotional_command_to_the_prophet",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Devotional Command to the Prophet",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:6:163"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.eid_and_celebration",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Eid and Celebration",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:20:59"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.elevation_of_the_prophet_s_mention",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Elevation of the Prophet's Mention",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:94:4"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.friday_prayer",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Friday Prayer",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:62:9"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.hijrah_to_madinah",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Hijrah to Madinah",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:9:40"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.i_tikaf",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "I'tikaf",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:187"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.increase_and_decrease_of_faith",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Increase and Decrease of Faith",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:9:124"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.justice_toward_non_muslims",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Justice toward Non-Muslims",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:4:90",
+        "quran:60:8"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.levels_of_paradise",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Levels of Paradise",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:4:96",
+        "quran:23:11"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.minor_signs",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Minor Signs",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:6:158",
+        "quran:47:18"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.patience_in_hardship",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Patience in Hardship",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:214",
+        "quran:3:153"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.preaching_and_admonition",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Preaching and Admonition",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:4:63",
+        "quran:87:9"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.prohibition_of_waste_and_excess",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Prohibition of Waste and Excess",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:7:31",
+        "quran:55:8"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.prophetic_mercy",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Prophetic Mercy",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:3:159",
+        "quran:9:128"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.prophetic_wisdom",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Prophetic Wisdom",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:3:164"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.psalms",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Psalms",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:4:163",
+        "quran:17:55"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.purification_through_trials",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Purification through Trials",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:3:141"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.rights_of_neighbors",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Rights of Neighbors",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:4:36",
+        "quran:24:27"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.sa_i",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Sa'i",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:158"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.seeking_help_through_prayer",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Seeking Help through Prayer",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:153"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.self_restraint_through_fasting",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Self-Restraint through Fasting",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:184"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.sending_blessings_on_the_prophet",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Sending Blessings on the Prophet",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:33:56"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.stages_of_revelation",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Stages of Revelation",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:17:106",
+        "quran:25:32"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.the_sunnah_as_source",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "The Sunnah as Source",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:4:61"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.umrah",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Umrah",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:158",
+        "quran:2:196"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.voluntary_fasting",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Voluntary Fasting",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:2:184"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.wealth_circulation",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Wealth Circulation",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:59:7"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.wife_of_imran_mother_of_maryam",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Wife of Imran (Mother of Maryam)",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:3:35"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.wife_of_pharaoh_asiyah",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Wife of Pharaoh (Asiyah)",
+      "occurrences": 1,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:66:11"
+      ]
+    },
+    {
+      "mapping_id": "qsac.semantic_tag.yearning_for_allah",
+      "source": "QSAC",
+      "annotation_type": "semantic_tag",
+      "label": "Yearning for Allah",
+      "occurrences": 2,
+      "anomalies": [
+        "low_frequency"
+      ],
+      "spelling_variants": [],
+      "canonical_spelling": null,
+      "variant_of_label": null,
+      "reason": "low_frequency",
+      "effect": "Preserved and visible; contributes nothing to any aggregate.",
+      "example_verses": [
+        "quran:17:79",
+        "quran:94:8"
+      ]
+    }
+  ]
+}

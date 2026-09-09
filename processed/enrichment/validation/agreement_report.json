@@ -1,0 +1,9 @@
+{
+  "agreement_report_version": "1.0.0",
+  "generated_by": "processed/enrichment/validate.py",
+  "gold_set_present": false,
+  "measurable": false,
+  "weighted_kappa": {},
+  "note": "No gold set exists, so per-field agreement cannot be measured. Until it can, no field's reliability is known, and the trust threshold in the cascade (gate1.field_below_agreement_threshold) has nothing to act on. Building the gold set requires human annotators - decision 12 in PHASE1A_DESIGN.md.",
+  "required_before_production": true
+}

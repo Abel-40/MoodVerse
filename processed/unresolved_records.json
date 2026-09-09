@@ -1,0 +1,16 @@
+{
+  "unresolved_records_version": "0.2.0",
+  "policy": "Nothing here has been repaired or removed. These are honest gaps in the sources.",
+  "counts": {
+    "records_with_errors": 0,
+    "records_with_unresolved_mappings": 0,
+    "cross_reference_edges_unresolved": 0,
+    "cross_reference_edges_not_attachable_to_any_record": 0
+  },
+  "unresolved_reference_strings": {
+    "as_cross_reference_source": {},
+    "as_cross_reference_target": {}
+  },
+  "edges_not_attachable_to_any_record": [],
+  "records": []
+}

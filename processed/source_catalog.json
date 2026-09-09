@@ -1,0 +1,493 @@
+{
+  "catalog_version": "0.2.0",
+  "generated_by": "processed/build_unified_corpus.py",
+  "raw_sources_are_read_only": true,
+  "source_relationships": [
+    {
+      "relationship": "derived_subset",
+      "from": "quran_complete",
+      "to": "quran_tcec_subset",
+      "evidence": "Only TCEC cols.csv is a verified column subset of Complete_Quran_data.csv (Surah, Ayah, Tags, Category, Emotion, Context). It is NOT an independent annotation source and must never be counted as a second opinion.",
+      "consequence": "Their annotations must be counted once, never as two independent opinions."
+    },
+    {
+      "relationship": "extended_edition",
+      "from": "elqv",
+      "to": "elqv_v2",
+      "evidence": "Identical verse keys and identical emotion labels on every shared verse (0 disagreements at build time); ELQVv2 adds seven English translations.",
+      "consequence": "One emotion opinion, two files. Do not treat as two annotators."
+    },
+    {
+      "relationship": "shared_translation_text",
+      "from": "qsac_dataset",
+      "to": "elqv_v2",
+      "evidence": "Both carry the Saheeh/Sahih International translation, under different column spellings and for different verse coverage.",
+      "consequence": "Kept separately with their own source labels; not merged or deduplicated."
+    },
+    {
+      "relationship": "shared_verse_space",
+      "from": "qsac_dataset",
+      "to": "quran_complete",
+      "evidence": "Identical 6,236 (surah, ayah) key sets; Arabic strings differ on 105 verses.",
+      "consequence": "Both readings preserved; text.original declares which source it came from."
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "bible_akjv",
+      "path": "bible related/AKJV.xml",
+      "sha256": "1ff3c7005dfff30f6ffb8588df9a0bc92a6223e197c931f508a610fbd38f26b2",
+      "size_bytes": 5130575,
+      "format": "xml (Zefania-style XMLBIBLE / BIBLEBOOK / CHAPTER / VERS)",
+      "domain": "bible",
+      "purpose": "Primary Bible scripture text for the corpus.",
+      "record_count": 31103,
+      "key_fields": [
+        "BIBLEBOOK@bnumber",
+        "BIBLEBOOK@bname",
+        "BIBLEBOOK@bsname",
+        "CHAPTER@cnumber",
+        "VERS@vnumber"
+      ],
+      "annotation_types": [],
+      "languages": [
+        "en"
+      ],
+      "translation_information": [
+        {
+          "translation_name": "AKJV",
+          "long_name": "American King James Version (declared by XMLBIBLE@name)",
+          "language": "en",
+          "verses": 31103
+        }
+      ],
+      "structure": {
+        "books": 66,
+        "chapters": 1189,
+        "verses": 31103,
+        "verses_with_child_elements": 0,
+        "verses_with_empty_text": 0
+      },
+      "status": "ingested",
+      "notes": "Verse text is the VERS element's text node; the extractor verified that no VERS element carries child markup, so no verse text is truncated. Books also supply bnumber/bsname, retained in location.book_number / location.book_short_name. Versification is KJV, except that 3 John carries 15 verses in this workspace's copy (published AKJV has 14; a local amendment splits verse 14 at its sentence boundary so the cross-reference file's versification resolves). No words were added: the two verses concatenate to the original verse 14."
+    },
+    {
+      "source_id": "bible_cross_references",
+      "path": "bible related/cross_references.txt",
+      "sha256": "5d4a3b992bd76c7cc7a3caee1d33b6c5cd0b7c25e9422f62c5793b69a8fe73be",
+      "size_bytes": 8301259,
+      "format": "tab-separated text with a single header row",
+      "domain": "bible",
+      "purpose": "Verse-to-verse cross-reference graph with community vote weights.",
+      "record_count": 344756,
+      "key_fields": [
+        "From Verse",
+        "To Verse",
+        "Votes"
+      ],
+      "annotation_types": [
+        "cross_reference_edge"
+      ],
+      "languages": [],
+      "translation_information": [],
+      "structure": {
+        "edges": 344756,
+        "distinct_source_refs": 29363,
+        "range_targets": 88130,
+        "cross_book_ranges": 18,
+        "negative_votes": 1243,
+        "zero_votes": 2271,
+        "votes_min": -86,
+        "votes_max": 1291,
+        "duplicate_edges": 0,
+        "unresolved_edges": 0
+      },
+      "reference_scheme": "OSIS book abbreviation + chapter + verse (Gen.1.1); targets may be verse ranges (John.1.1-John.1.3).",
+      "vote_semantics": "Votes are the OpenBible community's up/down weighting of a suggested link. They are NOT a relevance or similarity score and are NOT normalised. Negative and zero votes are preserved as published.",
+      "attribution": "#www.openbible.info CC-BY 2026-09-07",
+      "status": "ingested",
+      "notes": "Header declares 'www.openbible.info CC-BY'. All votes are integers, stored as JSON numbers after verifying str(int(v)) == v for every row."
+    },
+    {
+      "source_id": "quran_complete",
+      "path": "quran related/Complete_Quran_data.csv",
+      "sha256": "3a248a180009eee0a5a60c0e70758de759920fecf0e065aa4d71cf9f5ac48e1e",
+      "size_bytes": 4326543,
+      "format": "csv",
+      "domain": "quran",
+      "purpose": "Primary Quran Arabic text, Urdu and English translations, plus four thematic metadata columns.",
+      "record_count": 6236,
+      "key_fields": [
+        "Surah",
+        "Ayah",
+        "Arabic",
+        "Urdu",
+        "English",
+        "Tags",
+        "Category",
+        "Emotion",
+        "Context"
+      ],
+      "annotation_types": [
+        "theme_tag",
+        "category",
+        "emotion",
+        "context"
+      ],
+      "languages": [
+        "ar",
+        "ur",
+        "en"
+      ],
+      "translation_information": [
+        {
+          "translation_name": "English",
+          "language": "en",
+          "translator": "not identified in the source",
+          "verses": 6236
+        },
+        {
+          "translation_name": "Urdu",
+          "language": "ur",
+          "translator": "not identified in the source",
+          "verses": 6236
+        }
+      ],
+      "annotation_vocabularies": {
+        "category": [
+          "Divine Attributes & Signs",
+          "Divine Attributes & Signs (Asma wa Sifat)",
+          "Eschatology",
+          "Eschatology (Akhirah)",
+          "Ethics & Morality (Akhlaak)",
+          "Ethics & Morality (Akhlaq)",
+          "Faith (Aqeedah)",
+          "History & Stories (Qasas al-Anbiya)",
+          "Law (Ahkam)",
+          "Moral teaching context",
+          "Revelation",
+          "Social Relations (Mu‘amalat)",
+          "Spiritual reminder",
+          "Supplication & Spiritality (Dua, Dhikr, Tazkiyah)",
+          "Supplication & Spiritivity (Dua, Dhikr, Tazkiyah)",
+          "Supplication & Spirituality (Dua, Dhikr, Tazkiyah)",
+          "Worship (‘Ibadah)",
+          "Worship (‘Ibadah)'",
+          "Worship (‘Ibadah)’"
+        ],
+        "emotion": [
+          "Anger at Injustice",
+          "Arrogance",
+          "Awe",
+          "Brotherhood",
+          "Challenge",
+          "Comfort",
+          "Compassion",
+          "Determination",
+          "Faith",
+          "Fear",
+          "Gratitude",
+          "Guidance",
+          "Hope",
+          "Humility",
+          "Joy",
+          "Justice",
+          "Kindness",
+          "Love of Allah",
+          "Patience",
+          "Repentance",
+          "Sadness",
+          "Warning"
+        ],
+        "context": [
+          "Daily life context",
+          "Eschatological context",
+          "Eschological context",
+          "Historical story",
+          "Law-giving context",
+          "Madani Revelation",
+          "Makki Revelation",
+          "Moral teaching context",
+          "Revelation",
+          "Spiritual reminder",
+          "Worship guidance"
+        ],
+        "theme_tag_count": 118
+      },
+      "status": "ingested",
+      "notes": "Multi-value cells are comma-separated and some labels contain commas inside parentheses, so values are split on commas outside brackets. Provenance of the annotations is not stated in the file; treat them as one annotator's opinion. The Arabic column prepends the Basmala to ayah 1 of surahs 10-114 but not 2-8; see clarification.md."
+    },
+    {
+      "source_id": "quran_tcec_subset",
+      "path": "quran related/Only TCEC cols.csv",
+      "sha256": "32c3cb1acbe766bded6664d9f8640d41e95e464eea49c7085f156d2376983bdf",
+      "size_bytes": 753825,
+      "format": "csv",
+      "domain": "quran",
+      "purpose": "Tags/Category/Emotion/Context columns of Complete_Quran_data.csv, without the text columns.",
+      "record_count": 6236,
+      "key_fields": [
+        "Surah",
+        "Ayah",
+        "Tags",
+        "Category",
+        "Emotion",
+        "Context"
+      ],
+      "annotation_types": [
+        "theme_tag",
+        "category",
+        "emotion",
+        "context"
+      ],
+      "languages": [],
+      "translation_information": [],
+      "derived_from": "quran_complete",
+      "independent_annotation_source": false,
+      "derivation_check": {
+        "keys_identical": true,
+        "cells_compared": 24944,
+        "cells_mismatched": 0,
+        "mismatch_examples": [],
+        "conclusion": "Only TCEC cols.csv is a verified column subset of Complete_Quran_data.csv (Surah, Ayah, Tags, Category, Emotion, Context). It is NOT an independent annotation source and must never be counted as a second opinion."
+      },
+      "status": "ingested_as_derived",
+      "notes": "Verified at build time to be identical to Complete_Quran_data.csv on every compared cell. Its annotations are kept for provenance and are stamped derived_from='Complete_Quran_data' / independent_annotation=false so that no later phase can count them as a second, independent opinion."
+    },
+    {
+      "source_id": "elqv",
+      "path": "quran related/ELQV-main/ELQV.csv",
+      "sha256": "171eff9be7925f4c21a974d7ac6a5c8a553daf3197ad63b9fddf1217f5f4e445",
+      "size_bytes": 558512,
+      "format": "csv",
+      "domain": "quran",
+      "purpose": "Expert emotion annotation of a curated subset of Quran verses.",
+      "record_count": 2100,
+      "key_fields": [
+        "Sourah Arabic",
+        "Sourah Number",
+        "Verse Number",
+        "Verse Diac",
+        "Verse",
+        "Label"
+      ],
+      "annotation_types": [
+        "emotion"
+      ],
+      "languages": [
+        "ar"
+      ],
+      "translation_information": [],
+      "annotation_vocabularies": {
+        "emotion": [
+          "anger",
+          "fear",
+          "joy",
+          "sadness"
+        ]
+      },
+      "label_distribution": {
+        "anger": 495,
+        "fear": 675,
+        "joy": 589,
+        "sadness": 341
+      },
+      "coverage": {
+        "rows": 2100,
+        "unique_verses": 2087,
+        "verses_with_repeated_rows": 12,
+        "verses_with_multiple_labels": 4
+      },
+      "methodology": "Per the dataset README: verses selected using inclusion/exclusion criteria derived from the Encyclopedia of Thematic Interpretation of Quranic Studies; annotated by 24 specialists holding PhDs in Quranic sciences, Hadith or Arabic linguistics.",
+      "limitations": "Four emotion classes only (anger, fear, joy, sadness) and roughly a third of the Quran. The label set is the source's own; it is NOT MoodVerse's taxonomy and has not been mapped onto one.",
+      "status": "ingested",
+      "notes": "The file repeats some verses across rows; repeated rows are collapsed into one annotation carrying source_row_occurrences, and verses carrying more than one distinct label keep every label."
+    },
+    {
+      "source_id": "elqv_v2",
+      "path": "quran related/ELQV-main/ELQVv2.csv",
+      "sha256": "62bcf26ff8373cfd82b1a377cd88f9bf6272e2672fcc9b419ddfbdcd2237ef98",
+      "size_bytes": 2117801,
+      "format": "csv",
+      "domain": "quran",
+      "purpose": "Translation-extended edition of ELQV: the same verses with seven English translations.",
+      "record_count": 2100,
+      "key_fields": [
+        "Sourah_number",
+        "Verse_number",
+        "Sourah_Ar",
+        "Sourah_En",
+        "Verse_diac",
+        "Verse",
+        "Sahih_International",
+        "Pickthall",
+        "Yusuf_Ali (YA)",
+        "Shakir",
+        "Muhammad_Sarwar (MS)",
+        "Mohsin_Khan (MK)",
+        "Arberry",
+        "Label"
+      ],
+      "annotation_types": [
+        "emotion"
+      ],
+      "languages": [
+        "ar",
+        "en"
+      ],
+      "translation_information": [
+        {
+          "translation_name": "Sahih_International",
+          "language": "en",
+          "verses": 2100
+        },
+        {
+          "translation_name": "Pickthall",
+          "language": "en",
+          "verses": 2100
+        },
+        {
+          "translation_name": "Yusuf_Ali (YA)",
+          "language": "en",
+          "verses": 2100
+        },
+        {
+          "translation_name": "Shakir",
+          "language": "en",
+          "verses": 2100
+        },
+        {
+          "translation_name": "Muhammad_Sarwar (MS)",
+          "language": "en",
+          "verses": 2100
+        },
+        {
+          "translation_name": "Mohsin_Khan (MK)",
+          "language": "en",
+          "verses": 2100
+        },
+        {
+          "translation_name": "Arberry",
+          "language": "en",
+          "verses": 2100
+        }
+      ],
+      "annotation_vocabularies": {
+        "emotion": [
+          "anger",
+          "fear",
+          "joy",
+          "sadness"
+        ]
+      },
+      "label_distribution": {
+        "anger": 495,
+        "fear": 675,
+        "joy": 589,
+        "sadness": 341
+      },
+      "derived_from": "elqv",
+      "independent_annotation_source": false,
+      "derivation_check": {
+        "same_verse_keys_as_elqv": true,
+        "label_disagreements_with_elqv": []
+      },
+      "status": "ingested",
+      "notes": "The emotion labels are ELQV's labels, verified equal at build time, so ELQV and ELQVv2 are one opinion, not two. Its distinct contribution is the seven English translations. Translation column names are kept exactly as they appear in the header, including the '(YA)', '(MS)', '(MK)' suffixes."
+    },
+    {
+      "source_id": "qsac_dataset",
+      "path": "quran related/quran-semantic-annotation-corpus-master/data/qsac-dataset.csv",
+      "sha256": "e242e15533eea643a5181006501d56fb95b8674362e7b18ea16c08793471b7a2",
+      "size_bytes": 2471287,
+      "format": "csv with leading '#' comment block",
+      "domain": "quran",
+      "purpose": "Multi-label semantic annotation of the complete Quran, plus Arabic and the Saheeh International translation.",
+      "record_count": 6236,
+      "key_fields": [
+        "surah",
+        "ayah",
+        "arabic",
+        "eng",
+        "tags"
+      ],
+      "annotation_types": [
+        "semantic_tag"
+      ],
+      "languages": [
+        "ar",
+        "en"
+      ],
+      "translation_information": [
+        {
+          "translation_name": "Saheeh International",
+          "language": "en",
+          "verses": 6236
+        }
+      ],
+      "coverage": {
+        "verses": 6236,
+        "surahs": 114,
+        "tag_assignments_in_source": 16309,
+        "tag_assignments_stored": 16306,
+        "verses_with_repeated_tags": {
+          "quran:39:68": [
+            "Resurrection"
+          ],
+          "quran:40:72": [
+            "Punishments of Hell"
+          ],
+          "quran:54:7": [
+            "Resurrection"
+          ]
+        },
+        "verses_without_tags": 0
+      },
+      "ontology_artifact": "processed/qsac_ontology.json",
+      "ontology_relationship": "Every tag value in the dataset is expected to be a tag name in qsac-ontology.json; the pipeline checks this and reports any tag that is not.",
+      "ontology_summary": {
+        "ontology_version": "1.0",
+        "domains": 18,
+        "categories": 70,
+        "tags": 338,
+        "unique_tag_names": 338
+      },
+      "methodology": "Per the dataset README: LLM-assisted labelling guided by the QSAC ontology, 1-5 tags per verse.",
+      "limitations": "Tags are machine-generated with ontology guidance, not human-adjudicated, so they carry a different evidential weight from ELQV's expert emotion labels. Tags are thematic/semantic, not emotional.",
+      "status": "ingested",
+      "notes": "Tags are pipe-delimited. The '#' comment block is skipped when reading."
+    },
+    {
+      "source_id": "qsac_ontology",
+      "path": "quran related/quran-semantic-annotation-corpus-master/data/qsac-ontology.json",
+      "sha256": "95637f6ee8be5d7eb234820a2149805eae51e43d5526343290cca51fec2a7524",
+      "size_bytes": 398104,
+      "format": "json",
+      "domain": "quran",
+      "purpose": "Hierarchical Domain -> Category -> Tag ontology backing the QSAC tag vocabulary.",
+      "record_count": 338,
+      "key_fields": [
+        "version",
+        "domains[].name",
+        "domains[].categories[].name",
+        "...tags[].name",
+        "...tags[].keywords",
+        "...tags[].types"
+      ],
+      "annotation_types": [],
+      "languages": [
+        "en"
+      ],
+      "translation_information": [],
+      "structure": {
+        "version": "1.0",
+        "domains": 18,
+        "categories": 70,
+        "tags": 338,
+        "duplicate_tag_names": []
+      },
+      "status": "copied_verbatim",
+      "notes": "Copied byte-for-byte to processed/qsac_ontology.json; the copy's SHA-256 equals the source's, so the ontology can be proven unmodified. Note the root key is 'version', not 'ontology_version' as the repository README shows."
+    }
+  ]
+}

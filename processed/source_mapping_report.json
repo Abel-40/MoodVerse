@@ -1,0 +1,60 @@
+{
+  "mapping_report_version": "0.2.0",
+  "canonical_id_patterns": {
+    "bible": "bible:<book>:<chapter>:<verse>  (book = AKJV bname, e.g. bible:1 Samuel:2:3)",
+    "quran": "quran:<surah>:<ayah>"
+  },
+  "canonical_id_stability": "Ids are a pure function of the source's own identifiers (AKJV bname/cnumber/vnumber; surah/ayah). No counters, hashes or generated ids are used, so a rerun reproduces them exactly.",
+  "join_keys": {
+    "bible": "book + chapter + verse",
+    "quran": "surah + ayah",
+    "bible_cross_references": "OSIS book id + chapter + verse, mapped to AKJV book names via processed/osis_book_map.py"
+  },
+  "bible": {
+    "books_in_akjv": 66,
+    "osis_map_entries": 66,
+    "osis_codes_seen_in_cross_references": 66,
+    "osis_codes_missing_from_map": [],
+    "cross_reference_edges": 344756,
+    "edges_attached_to_records": 344756,
+    "edges_not_attachable": 0,
+    "records_with_cross_references": 29363,
+    "records_with_unresolved_cross_references": 0,
+    "unresolved_source_refs": {},
+    "unresolved_target_refs": {}
+  },
+  "quran": {
+    "verse_key_sets": {
+      "quran_complete": 6236,
+      "quran_tcec_subset": 6236,
+      "qsac": 6236,
+      "elqv": 2087,
+      "elqv_v2": 2087
+    },
+    "alignment": {
+      "complete_matches_qsac_key_set": true,
+      "tcec_matches_complete_key_set": true,
+      "elqv_is_subset_of_full_quran": true,
+      "elqv_v2_matches_elqv_key_set": true,
+      "elqv_label_disagreements_with_elqv_v2": []
+    },
+    "unmatched_rows": {
+      "quran_complete_unparseable_rows": 0
+    }
+  },
+  "derived_source_handling": {
+    "quran_tcec_subset": {
+      "keys_identical": true,
+      "cells_compared": 24944,
+      "cells_mismatched": 0,
+      "mismatch_examples": [],
+      "conclusion": "Only TCEC cols.csv is a verified column subset of Complete_Quran_data.csv (Surah, Ayah, Tags, Category, Emotion, Context). It is NOT an independent annotation source and must never be counted as a second opinion."
+    },
+    "elqv_v2": {
+      "derived_from": "elqv",
+      "label_disagreements": [],
+      "consequence": "Emotion labels counted once; ELQVv2 contributes translations."
+    }
+  },
+  "unresolved_policy": "A reference that cannot be resolved is kept, marked unresolved, and listed in unresolved_records.json. It is never dropped, guessed at, or snapped to a nearby verse."
+}

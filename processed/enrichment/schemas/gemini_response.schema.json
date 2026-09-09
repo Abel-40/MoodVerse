@@ -1,0 +1,1085 @@
+{
+  "_generated_by": "processed/enrichment/annotate.py response_schema()",
+  "_note": "Generated from taxonomy.json so the API contract and the enforced vocabulary cannot drift. Exported here for review; annotate.py builds it at call time rather than reading this file.",
+  "_taxonomy_version": "1.0.0",
+  "schema": {
+    "type": "OBJECT",
+    "properties": {
+      "canonical_id": {
+        "type": "STRING"
+      },
+      "verse_text_sha256": {
+        "type": "STRING"
+      },
+      "taxonomy_version": {
+        "type": "STRING"
+      },
+      "expressed_affect": {
+        "type": "OBJECT",
+        "properties": {
+          "primary": {
+            "type": "STRING",
+            "enum": [
+              "anger",
+              "anxiety",
+              "awe",
+              "confusion",
+              "despair",
+              "doubt",
+              "exhaustion",
+              "fear",
+              "gratitude",
+              "grief",
+              "guilt",
+              "hope",
+              "joy",
+              "loneliness",
+              "peace",
+              "sadness",
+              "shame"
+            ]
+          },
+          "secondary": {
+            "type": "ARRAY",
+            "items": {
+              "type": "STRING",
+              "enum": [
+                "anger",
+                "anxiety",
+                "awe",
+                "confusion",
+                "despair",
+                "doubt",
+                "exhaustion",
+                "fear",
+                "gratitude",
+                "grief",
+                "guilt",
+                "hope",
+                "joy",
+                "loneliness",
+                "peace",
+                "sadness",
+                "shame"
+              ]
+            }
+          },
+          "text_intensity": {
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "primary",
+          "text_intensity"
+        ]
+      },
+      "addressed_states": {
+        "type": "ARRAY",
+        "items": {
+          "type": "OBJECT",
+          "properties": {
+            "state": {
+              "type": "STRING",
+              "enum": [
+                "anger",
+                "anxiety",
+                "awe",
+                "confusion",
+                "despair",
+                "doubt",
+                "exhaustion",
+                "fear",
+                "gratitude",
+                "grief",
+                "guilt",
+                "hope",
+                "joy",
+                "loneliness",
+                "peace",
+                "sadness",
+                "shame"
+              ]
+            },
+            "emotional_relevance": {
+              "type": "INTEGER"
+            },
+            "evidence_span": {
+              "type": "STRING"
+            }
+          },
+          "required": [
+            "state",
+            "emotional_relevance",
+            "evidence_span"
+          ]
+        }
+      },
+      "serves_intensity": {
+        "type": "OBJECT",
+        "properties": {
+          "min": {
+            "type": "INTEGER"
+          },
+          "max": {
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "min",
+          "max"
+        ]
+      },
+      "nuance_terms": {
+        "type": "ARRAY",
+        "items": {
+          "type": "STRING"
+        }
+      },
+      "themes": {
+        "type": "ARRAY",
+        "items": {
+          "type": "STRING",
+          "enum": [
+            "accountability_and_reckoning",
+            "afterlife_punishment",
+            "afterlife_reward",
+            "community_history",
+            "contentment_and_simplicity",
+            "courage_and_strength",
+            "covenant_and_law",
+            "creation_and_nature",
+            "deliverance_and_rescue",
+            "divine_faithfulness",
+            "divine_guidance",
+            "divine_justice",
+            "divine_knowledge",
+            "divine_mercy",
+            "divine_power",
+            "divine_presence",
+            "divine_provision",
+            "doubt_and_questioning",
+            "family_and_kinship",
+            "forgiveness_between_people",
+            "generosity_and_charity",
+            "healing_and_restoration",
+            "hope_and_expectation",
+            "human_frailty",
+            "justice_toward_others",
+            "love_and_compassion",
+            "mortality_and_death",
+            "obedience_and_devotion",
+            "patience_and_endurance",
+            "peace_and_rest",
+            "praise_and_thanksgiving",
+            "prayer_and_supplication",
+            "pride_and_humility",
+            "prophetic_narrative",
+            "remembrance_and_meditation",
+            "renewal_and_new_beginning",
+            "repentance_and_return",
+            "resurrection_and_final_day",
+            "revelation_and_scripture",
+            "self_restraint",
+            "sin_and_wrongdoing",
+            "speech_and_truthfulness",
+            "suffering_and_trial",
+            "trust_and_reliance",
+            "wealth_and_possessions",
+            "wisdom_and_discernment",
+            "work_and_diligence"
+          ]
+        }
+      },
+      "intents": {
+        "type": "ARRAY",
+        "items": {
+          "type": "STRING",
+          "enum": [
+            "assurance",
+            "comfort",
+            "encouragement",
+            "forgiveness",
+            "gratitude",
+            "guidance",
+            "hope",
+            "instruction",
+            "lament",
+            "patience",
+            "peace",
+            "perseverance",
+            "praise",
+            "repentance",
+            "strength",
+            "warning",
+            "wisdom"
+          ]
+        }
+      },
+      "scripture_purpose": {
+        "type": "ARRAY",
+        "items": {
+          "type": "OBJECT",
+          "properties": {
+            "purpose": {
+              "type": "STRING",
+              "enum": [
+                "blessing_or_benediction",
+                "command",
+                "declaration_about_god",
+                "exhortation",
+                "genealogy_or_record",
+                "lament_or_complaint",
+                "legal_ruling",
+                "narrative_event",
+                "oath_or_covenant",
+                "praise_or_thanksgiving",
+                "prayer_or_supplication",
+                "prohibition",
+                "promise",
+                "prophecy_or_oracle",
+                "question_or_rhetorical",
+                "reported_speech",
+                "warning_or_threat",
+                "wisdom_saying"
+              ]
+            },
+            "speaker_role": {
+              "type": "STRING",
+              "enum": [
+                "adversary_or_negative_exemplar",
+                "divine",
+                "narrator",
+                "ordinary_person",
+                "prophet_or_apostle",
+                "righteous_figure",
+                "unattributed"
+              ]
+            },
+            "promise_conditionality": {
+              "type": "STRING",
+              "enum": [
+                "addressee_specific",
+                "conditional",
+                "unconditional"
+              ]
+            }
+          },
+          "required": [
+            "purpose"
+          ]
+        }
+      },
+      "situations": {
+        "type": "ARRAY",
+        "items": {
+          "type": "STRING",
+          "enum": [
+            "academic_pressure",
+            "addiction_struggle",
+            "aging",
+            "bereavement",
+            "betrayal_or_broken_trust",
+            "caregiving_burden",
+            "celebration_or_milestone",
+            "conflict_or_war",
+            "displacement_or_migration",
+            "financial_hardship",
+            "gratitude_moment",
+            "illness_loved_one",
+            "illness_own",
+            "injustice_experienced",
+            "isolation",
+            "life_transition",
+            "major_decision",
+            "marriage_difficulty",
+            "mental_health_struggle",
+            "moral_failure_aftermath",
+            "natural_disaster",
+            "new_beginning",
+            "parenting",
+            "persecution_or_discrimination",
+            "relationship_conflict",
+            "singleness",
+            "spiritual_dryness",
+            "temptation_struggle",
+            "unemployment_or_work_stress",
+            "waiting_for_answer"
+          ]
+        }
+      },
+      "standalone_usefulness": {
+        "type": "INTEGER"
+      },
+      "context_dependency": {
+        "type": "OBJECT",
+        "properties": {
+          "level": {
+            "type": "INTEGER"
+          },
+          "reasons": {
+            "type": "ARRAY",
+            "items": {
+              "type": "STRING",
+              "enum": [
+                "addressee_specific",
+                "conditional_apodosis_elsewhere",
+                "discourse_connective_opening",
+                "figurative_requires_frame",
+                "historical_occasion_required",
+                "irony_or_rhetorical_inversion",
+                "legal_or_ritual_frame_required",
+                "narrative_setup_required",
+                "partial_list_item",
+                "quoted_speech_unattributed",
+                "referent_named_earlier",
+                "speaker_is_adversary_or_negative_exemplar",
+                "syntactic_fragment",
+                "unresolved_pronoun"
+              ]
+            }
+          }
+        },
+        "required": [
+          "level",
+          "reasons"
+        ]
+      },
+      "recommended_context_span": {
+        "type": "OBJECT",
+        "properties": {
+          "start_canonical_id": {
+            "type": "STRING"
+          },
+          "end_canonical_id": {
+            "type": "STRING"
+          },
+          "reason": {
+            "type": "STRING"
+          }
+        }
+      },
+      "isolation_risk": {
+        "type": "OBJECT",
+        "properties": {
+          "level": {
+            "type": "INTEGER"
+          },
+          "kinds": {
+            "type": "ARRAY",
+            "items": {
+              "type": "STRING",
+              "enum": [
+                "addressee_specific_promise",
+                "apparent_blame_for_suffering",
+                "conditional_stripped",
+                "figurative_read_literally",
+                "historical_specific_command",
+                "irony_or_inversion",
+                "partial_statement",
+                "quoted_negative_speech"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "STRING"
+          }
+        },
+        "required": [
+          "level",
+          "kinds"
+        ]
+      },
+      "purpose_suitability": {
+        "type": "OBJECT",
+        "properties": {
+          "assurance": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          },
+          "comfort": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          },
+          "encouragement": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          },
+          "forgiveness": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          },
+          "gratitude": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          },
+          "guidance": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          },
+          "hope": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          },
+          "instruction": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          },
+          "lament": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          },
+          "patience": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          },
+          "peace": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          },
+          "perseverance": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          },
+          "praise": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          },
+          "repentance": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          },
+          "strength": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          },
+          "warning": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          },
+          "wisdom": {
+            "type": "OBJECT",
+            "properties": {
+              "score": {
+                "type": "INTEGER"
+              },
+              "basis": {
+                "type": "STRING"
+              },
+              "blockers": {
+                "type": "ARRAY",
+                "items": {
+                  "type": "STRING",
+                  "enum": [
+                    "addressed_to_specific_party",
+                    "archaic_or_opaque_phrasing",
+                    "conditional_promise",
+                    "could_increase_distress",
+                    "graphic_or_disturbing_content",
+                    "implies_blame_for_suffering",
+                    "judgment_or_threat_content",
+                    "no_call_to_turning",
+                    "requires_narrative_context",
+                    "speaker_is_negative_exemplar",
+                    "theologically_contested"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "score",
+              "basis",
+              "blockers"
+            ]
+          }
+        }
+      },
+      "safety": {
+        "type": "OBJECT",
+        "properties": {
+          "crisis_safe": {
+            "type": "BOOLEAN"
+          },
+          "avoid_for_states": {
+            "type": "ARRAY",
+            "items": {
+              "type": "STRING",
+              "enum": [
+                "anger",
+                "anxiety",
+                "awe",
+                "confusion",
+                "despair",
+                "doubt",
+                "exhaustion",
+                "fear",
+                "gratitude",
+                "grief",
+                "guilt",
+                "hope",
+                "joy",
+                "loneliness",
+                "peace",
+                "sadness",
+                "shame"
+              ]
+            }
+          },
+          "content_advisories": {
+            "type": "ARRAY",
+            "items": {
+              "type": "STRING",
+              "enum": [
+                "clinical_adjacent",
+                "death",
+                "graphic_imagery",
+                "illness",
+                "judgment_or_punishment",
+                "persecution",
+                "self_harm_adjacent",
+                "sexual_content",
+                "violence",
+                "war"
+              ]
+            }
+          }
+        },
+        "required": [
+          "crisis_safe",
+          "avoid_for_states",
+          "content_advisories"
+        ]
+      },
+      "source_disagreements": {
+        "type": "ARRAY",
+        "items": {
+          "type": "STRING"
+        }
+      },
+      "theologically_contested": {
+        "type": "BOOLEAN"
+      },
+      "model_rationale": {
+        "type": "STRING"
+      },
+      "self_reported_uncertainty": {
+        "type": "ARRAY",
+        "items": {
+          "type": "STRING"
+        }
+      }
+    },
+    "required": [
+      "canonical_id",
+      "verse_text_sha256",
+      "taxonomy_version",
+      "expressed_affect",
+      "addressed_states",
+      "themes",
+      "intents",
+      "scripture_purpose",
+      "standalone_usefulness",
+      "context_dependency",
+      "isolation_risk",
+      "purpose_suitability",
+      "safety",
+      "theologically_contested",
+      "model_rationale"
+    ]
+  }
+}

@@ -1,0 +1,67 @@
+# ===========================================================================
+# MoodVerse
+# ===========================================================================
+
+# ---------------------------------------------------------------------------
+# Secrets and credentials  -- never commit
+# ---------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+service-account*.json
+
+# ---------------------------------------------------------------------------
+# Proprietary LLM prompts  -- MoodVerse annotation prompts, not for publication
+# ---------------------------------------------------------------------------
+processed/enrichment/annotation/prompts/
+annotate_verse.md
+
+# Model run logs: raw request payloads and unreviewed model output
+processed/enrichment/annotation/runs/
+
+# ---------------------------------------------------------------------------
+# Generated pipeline artifacts
+#
+# These are deterministic outputs, not inputs. Same sources + same pipeline
+# version reproduce them byte-for-byte, so they are rebuilt, never committed.
+# The largest exceeds GitHub's 100 MB per-file limit in any case.
+#
+#   python processed/build_unified_corpus.py     -> Phase 0 outputs
+#   python processed/enrichment/build_priors.py  -> priors
+#   python processed/enrichment/curation.py      -> curation outputs
+# ---------------------------------------------------------------------------
+processed/unified_scripture_corpus.jsonl
+processed/cross_reference_graph.json
+processed/enrichment/priors/deterministic_priors.jsonl
+processed/enrichment/curation/enrichment.jsonl
+processed/enrichment/curation/decisions.jsonl
+
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# ---------------------------------------------------------------------------
+# OS and editor noise
+# ---------------------------------------------------------------------------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+*.swp
+*~
+*.tmp
+*.log

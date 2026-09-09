@@ -1,0 +1,1172 @@
+{
+  "validation_report_version": "0.2.0",
+  "corpus_schema_version": "phase0-2",
+  "validated_artifact": "processed/unified_scripture_corpus.jsonl",
+  "input_manifest": {
+    "bible_akjv": {
+      "path": "bible related/AKJV.xml",
+      "sha256": "1ff3c7005dfff30f6ffb8588df9a0bc92a6223e197c931f508a610fbd38f26b2",
+      "size_bytes": 5130575
+    },
+    "bible_cross_references": {
+      "path": "bible related/cross_references.txt",
+      "sha256": "5d4a3b992bd76c7cc7a3caee1d33b6c5cd0b7c25e9422f62c5793b69a8fe73be",
+      "size_bytes": 8301259
+    },
+    "quran_complete": {
+      "path": "quran related/Complete_Quran_data.csv",
+      "sha256": "3a248a180009eee0a5a60c0e70758de759920fecf0e065aa4d71cf9f5ac48e1e",
+      "size_bytes": 4326543
+    },
+    "quran_tcec_subset": {
+      "path": "quran related/Only TCEC cols.csv",
+      "sha256": "32c3cb1acbe766bded6664d9f8640d41e95e464eea49c7085f156d2376983bdf",
+      "size_bytes": 753825
+    },
+    "elqv": {
+      "path": "quran related/ELQV-main/ELQV.csv",
+      "sha256": "171eff9be7925f4c21a974d7ac6a5c8a553daf3197ad63b9fddf1217f5f4e445",
+      "size_bytes": 558512
+    },
+    "elqv_v2": {
+      "path": "quran related/ELQV-main/ELQVv2.csv",
+      "sha256": "62bcf26ff8373cfd82b1a377cd88f9bf6272e2672fcc9b419ddfbdcd2237ef98",
+      "size_bytes": 2117801
+    },
+    "qsac_dataset": {
+      "path": "quran related/quran-semantic-annotation-corpus-master/data/qsac-dataset.csv",
+      "sha256": "e242e15533eea643a5181006501d56fb95b8674362e7b18ea16c08793471b7a2",
+      "size_bytes": 2471287
+    },
+    "qsac_ontology": {
+      "path": "quran related/quran-semantic-annotation-corpus-master/data/qsac-ontology.json",
+      "sha256": "95637f6ee8be5d7eb234820a2149805eae51e43d5526343290cca51fec2a7524",
+      "size_bytes": 398104
+    }
+  },
+  "read_only_check": {
+    "files_checked": 8,
+    "modified_files": 0,
+    "modified_paths": []
+  },
+  "jsonl_integrity": {
+    "lines": 37339,
+    "malformed_lines": 0,
+    "expected_records": 37339,
+    "line_count_matches": true,
+    "duplicate_canonical_ids_on_disk": 0,
+    "utf8_decodable": true
+  },
+  "artifacts": {
+    "corpus": {
+      "path": "processed/unified_scripture_corpus.jsonl",
+      "records": 37339,
+      "size_bytes": 125569931
+    },
+    "graph": {
+      "path": "processed/cross_reference_graph.json",
+      "edges": 344756,
+      "size_bytes": 95098689
+    }
+  },
+  "source_extraction": {
+    "bible_akjv": {
+      "books": 66,
+      "chapters": 1189,
+      "verses": 31103,
+      "verses_with_child_elements": 0,
+      "verses_with_empty_text": 0,
+      "duplicate_canonical_ids": [],
+      "unexpected_elements": [],
+      "three_john_verses": 15
+    },
+    "bible_cross_references": {
+      "header": [
+        "From Verse",
+        "To Verse",
+        "Votes",
+        "#www.openbible.info CC-BY 2026-09-07"
+      ],
+      "data_rows": 344756,
+      "range_targets": 88130,
+      "cross_book_ranges": 18,
+      "negative_votes": 1243,
+      "zero_votes": 2271,
+      "votes_min": -86,
+      "votes_max": 1291,
+      "votes_lossless": true,
+      "non_integer_votes": [],
+      "distinct_source_refs": 29363,
+      "duplicate_edges": 0,
+      "osis_codes_seen_count": 66,
+      "osis_codes_missing_from_map": [],
+      "unresolved_source_refs": {},
+      "unresolved_target_refs": {},
+      "unresolved_edges": 0
+    },
+    "quran_complete": {
+      "rows": 6236,
+      "unique_verses": 6236,
+      "duplicate_rows": 0,
+      "unparseable_rows": 0
+    },
+    "quran_tcec_subset": {
+      "rows": 6236,
+      "unique_verses": 6236,
+      "duplicate_rows": 0
+    },
+    "qsac": {
+      "rows": 6236,
+      "unique_verses": 6236,
+      "duplicate_rows": 0,
+      "surahs": 114,
+      "tag_assignments_in_source": 16309,
+      "tag_assignments_stored": 16306,
+      "verses_with_repeated_tags": {
+        "quran:39:68": [
+          "Resurrection"
+        ],
+        "quran:40:72": [
+          "Punishments of Hell"
+        ],
+        "quran:54:7": [
+          "Resurrection"
+        ]
+      },
+      "verses_without_tags": 0,
+      "arabic_variants_recorded": 105
+    },
+    "elqv": {
+      "rows": 2100,
+      "unique_verses": 2087,
+      "duplicate_rows": 13,
+      "verses_with_repeated_rows": 12,
+      "verses_with_multiple_labels": 4,
+      "multi_label_verses": {
+        "quran:26:172": [
+          "anger",
+          "fear"
+        ],
+        "quran:79:17": [
+          "anger",
+          "fear"
+        ],
+        "quran:26:8": [
+          "anger",
+          "fear",
+          "sadness"
+        ],
+        "quran:20:12": [
+          "fear",
+          "joy"
+        ]
+      },
+      "label_distribution": {
+        "anger": 495,
+        "fear": 675,
+        "joy": 589,
+        "sadness": 341
+      }
+    },
+    "elqv_v2": {
+      "rows": 2100,
+      "unique_verses": 2087,
+      "duplicate_rows": 13,
+      "label_distribution": {
+        "anger": 495,
+        "fear": 675,
+        "joy": 589,
+        "sadness": 341
+      },
+      "translation_column_coverage": {
+        "Arberry": 2100,
+        "Mohsin_Khan (MK)": 2100,
+        "Muhammad_Sarwar (MS)": 2100,
+        "Pickthall": 2100,
+        "Sahih_International": 2100,
+        "Shakir": 2100,
+        "Yusuf_Ali (YA)": 2100
+      },
+      "label_disagreements_with_elqv": []
+    },
+    "qsac_ontology": {
+      "ontology_version": "1.0",
+      "domains": 18,
+      "categories": 70,
+      "tags": 338,
+      "unique_tag_names": 338,
+      "duplicate_tag_names": [],
+      "sha256_source": "95637f6ee8be5d7eb234820a2149805eae51e43d5526343290cca51fec2a7524",
+      "sha256_copy": "95637f6ee8be5d7eb234820a2149805eae51e43d5526343290cca51fec2a7524",
+      "copied_verbatim": true
+    },
+    "tcec_derivation_check": {
+      "keys_identical": true,
+      "cells_compared": 24944,
+      "cells_mismatched": 0,
+      "mismatch_examples": [],
+      "conclusion": "Only TCEC cols.csv is a verified column subset of Complete_Quran_data.csv (Surah, Ayah, Tags, Category, Emotion, Context). It is NOT an independent annotation source and must never be counted as a second opinion."
+    }
+  },
+  "records_total": 37339,
+  "records_bible": 31103,
+  "records_quran": 6236,
+  "duplicate_canonical_ids": [],
+  "invalid_canonical_ids": [],
+  "records_with_errors": [],
+  "records_with_unresolved": [],
+  "records_with_warnings": 120,
+  "empty_text": [],
+  "null_required_fields": [],
+  "unexpected_top_level_keys": {},
+  "non_utf8_records": 0,
+  "issue_code_counts": {},
+  "warning_code_counts": {
+    "multiple_labels_from_single_source": 4,
+    "original_text_variant_across_sources": 105,
+    "repeated_source_rows": 12,
+    "repeated_tag_within_source_row": 3
+  },
+  "bible": {
+    "books": 66,
+    "expected_books": 66,
+    "verses_per_book_min": 13,
+    "verses_per_book_max": 2461,
+    "cross_reference_edges_attached": 344756,
+    "cross_reference_edges_unresolved": 0
+  },
+  "quran": {
+    "verses": 6236,
+    "expected_verses": 6236,
+    "verse_count_matches_qsac_expectation": true,
+    "surahs": 114,
+    "expected_surahs": 114,
+    "surahs_contiguous_1_to_114": true,
+    "invalid_ayah_identifiers": [],
+    "records_without_any_translation": [],
+    "records_with_original_text_variants": 2172,
+    "qsac_tag_assignments": 16306,
+    "qsac_tags_absent_from_ontology": {},
+    "ontology_tags_declared": 338,
+    "ontology_tags_used_by_dataset": 323,
+    "ontology_tags_unused_by_dataset": [
+      "Analogical Reasoning",
+      "Birth and Early Life",
+      "Elevation of Rank",
+      "Farewell Sermon",
+      "First Revelation",
+      "Gratitude During Prosperity",
+      "Leading by Example",
+      "Makkan Period",
+      "Occasions of Revelation",
+      "Prophetic Justice",
+      "Scholarly Consensus",
+      "Shroud and Burial",
+      "The Bridge",
+      "Waqf",
+      "Zakat al-Fitr"
+    ]
+  },
+  "annotations": {
+    "total": 156723,
+    "by_source_and_type": {
+      "Complete_Quran_data / theme_tag": 33240,
+      "Only TCEC cols / theme_tag": 33240,
+      "AKJV / verse_text": 31103,
+      "QSAC / semantic_tag": 16306,
+      "Complete_Quran_data / emotion": 6635,
+      "Only TCEC cols / emotion": 6635,
+      "Complete_Quran_data / context": 6351,
+      "Only TCEC cols / context": 6351,
+      "Complete_Quran_data / category": 6339,
+      "Only TCEC cols / category": 6339,
+      "ELQV / emotion": 2092,
+      "ELQVv2 / emotion": 2092
+    },
+    "scripture_text_entries": 31103,
+    "semantic_annotations": 125620,
+    "derived_annotations_not_independent": 52565,
+    "annotations_backed_by_repeated_source_rows": 19,
+    "structure_errors": [],
+    "distinct_values_by_source_and_type": {
+      "AKJV / verse_text": 30826,
+      "Complete_Quran_data / category": 19,
+      "Complete_Quran_data / context": 11,
+      "Complete_Quran_data / emotion": 22,
+      "Complete_Quran_data / theme_tag": 118,
+      "ELQV / emotion": 4,
+      "ELQVv2 / emotion": 4,
+      "Only TCEC cols / category": 19,
+      "Only TCEC cols / context": 11,
+      "Only TCEC cols / emotion": 22,
+      "Only TCEC cols / theme_tag": 118,
+      "QSAC / semantic_tag": 323
+    }
+  },
+  "translations": {
+    "coverage_by_source_and_name": {
+      "Complete_Quran_data / English": 6236,
+      "Complete_Quran_data / Urdu": 6236,
+      "QSAC / Saheeh International": 6236,
+      "ELQVv2 / Arberry": 2087,
+      "ELQVv2 / Mohsin_Khan (MK)": 2087,
+      "ELQVv2 / Muhammad_Sarwar (MS)": 2087,
+      "ELQVv2 / Pickthall": 2087,
+      "ELQVv2 / Sahih_International": 2087,
+      "ELQVv2 / Shakir": 2087,
+      "ELQVv2 / Yusuf_Ali (YA)": 2087
+    }
+  },
+  "provenance": {
+    "entries_by_source": {
+      "AKJV": 31103,
+      "Complete_Quran_data": 6236,
+      "ELQV": 2087,
+      "ELQVv2": 2087,
+      "Only TCEC cols": 6236,
+      "QSAC": 6236
+    },
+    "records_without_provenance": []
+  },
+  "annotation_value_anomalies": {
+    "Complete_Quran_data / category": {
+      "distinct_values": 19,
+      "rare_values_max_5_occurrences": {
+        "Divine Attributes & Signs": 1,
+        "Eschatology": 1,
+        "Supplication & Spiritivity (Dua, Dhikr, Tazkiyah)": 1,
+        "Worship (‘Ibadah)'": 1,
+        "Worship (‘Ibadah)’": 1,
+        "Moral teaching context": 2,
+        "Revelation": 2,
+        "Spiritual reminder": 2,
+        "Ethics & Morality (Akhlaak)": 3,
+        "Supplication & Spiritality (Dua, Dhikr, Tazkiyah)": 4
+      },
+      "case_or_punctuation_variants": {
+        "worship ibadah": [
+          "Worship (‘Ibadah)",
+          "Worship (‘Ibadah)'",
+          "Worship (‘Ibadah)’"
+        ]
+      }
+    },
+    "Complete_Quran_data / context": {
+      "distinct_values": 11,
+      "rare_values_max_5_occurrences": {
+        "Revelation": 1
+      },
+      "case_or_punctuation_variants": {}
+    },
+    "Complete_Quran_data / emotion": {
+      "distinct_values": 22,
+      "rare_values_max_5_occurrences": {
+        "Challenge": 1,
+        "Justice": 1,
+        "Warning": 1,
+        "Arrogance": 2,
+        "Faith": 2,
+        "Kindness": 2
+      },
+      "case_or_punctuation_variants": {}
+    },
+    "Complete_Quran_data / theme_tag": {
+      "distinct_values": 118,
+      "rare_values_max_5_occurrences": {
+        "Beauty": 1,
+        "Blessings": 1,
+        "Challenge": 1,
+        "Choice": 1,
+        "Covenant": 1,
+        "Creation of Adam": 1,
+        "Day of Judgment": 1,
+        "Deception": 1,
+        "Disease (metaphorical)": 1,
+        "Divine Blessings": 1,
+        "Divine Judgment": 1,
+        "Divine Signs": 1,
+        "Divine Support": 1,
+        "Divine Wisdom": 1,
+        "Falsehood": 1,
+        "Greed": 1,
+        "Hijrah": 1,
+        "Human Nature": 1,
+        "Joy": 1,
+        "Judgment": 1,
+        "Leadership": 1,
+        "Life and Death": 1,
+        "Love of Allah": 1,
+        "Materialism": 1,
+        "Miracles": 1,
+        "Moses": 1,
+        "Provision": 1,
+        "Purification": 1,
+        "Purity": 1,
+        "Regret": 1,
+        "Return to Allah": 1,
+        "Suffering": 1,
+        "Temptation": 1,
+        "Time": 1,
+        "Trials": 1,
+        "Trustworthiness": 1,
+        "Youth": 1,
+        "Divine Protection": 2,
+        "Divine Will": 2,
+        "Divine decree": 2,
+        "Ethics & Morality (Akhlaq)": 2,
+        "Healing": 2,
+        "Humanity": 2,
+        "Morality": 2,
+        "Protection": 2,
+        "Righteousness": 2,
+        "Divine Command": 3,
+        "Eternity": 3,
+        "Intercession": 3,
+        "Qur'an": 3,
+        "Sacrifice": 3,
+        "Truth": 3,
+        "Anger at Injustice": 4,
+        "Miracle": 4,
+        "Sadness": 4,
+        "Trust in Allah": 4,
+        "Obedience": 5
+      },
+      "case_or_punctuation_variants": {
+        "divine decree": [
+          "Divine Decree",
+          "Divine decree"
+        ]
+      }
+    },
+    "Only TCEC cols / category": {
+      "distinct_values": 19,
+      "rare_values_max_5_occurrences": {
+        "Divine Attributes & Signs": 1,
+        "Eschatology": 1,
+        "Supplication & Spiritivity (Dua, Dhikr, Tazkiyah)": 1,
+        "Worship (‘Ibadah)'": 1,
+        "Worship (‘Ibadah)’": 1,
+        "Moral teaching context": 2,
+        "Revelation": 2,
+        "Spiritual reminder": 2,
+        "Ethics & Morality (Akhlaak)": 3,
+        "Supplication & Spiritality (Dua, Dhikr, Tazkiyah)": 4
+      },
+      "case_or_punctuation_variants": {
+        "worship ibadah": [
+          "Worship (‘Ibadah)",
+          "Worship (‘Ibadah)'",
+          "Worship (‘Ibadah)’"
+        ]
+      }
+    },
+    "Only TCEC cols / context": {
+      "distinct_values": 11,
+      "rare_values_max_5_occurrences": {
+        "Revelation": 1
+      },
+      "case_or_punctuation_variants": {}
+    },
+    "Only TCEC cols / emotion": {
+      "distinct_values": 22,
+      "rare_values_max_5_occurrences": {
+        "Challenge": 1,
+        "Justice": 1,
+        "Warning": 1,
+        "Arrogance": 2,
+        "Faith": 2,
+        "Kindness": 2
+      },
+      "case_or_punctuation_variants": {}
+    },
+    "Only TCEC cols / theme_tag": {
+      "distinct_values": 118,
+      "rare_values_max_5_occurrences": {
+        "Beauty": 1,
+        "Blessings": 1,
+        "Challenge": 1,
+        "Choice": 1,
+        "Covenant": 1,
+        "Creation of Adam": 1,
+        "Day of Judgment": 1,
+        "Deception": 1,
+        "Disease (metaphorical)": 1,
+        "Divine Blessings": 1,
+        "Divine Judgment": 1,
+        "Divine Signs": 1,
+        "Divine Support": 1,
+        "Divine Wisdom": 1,
+        "Falsehood": 1,
+        "Greed": 1,
+        "Hijrah": 1,
+        "Human Nature": 1,
+        "Joy": 1,
+        "Judgment": 1,
+        "Leadership": 1,
+        "Life and Death": 1,
+        "Love of Allah": 1,
+        "Materialism": 1,
+        "Miracles": 1,
+        "Moses": 1,
+        "Provision": 1,
+        "Purification": 1,
+        "Purity": 1,
+        "Regret": 1,
+        "Return to Allah": 1,
+        "Suffering": 1,
+        "Temptation": 1,
+        "Time": 1,
+        "Trials": 1,
+        "Trustworthiness": 1,
+        "Youth": 1,
+        "Divine Protection": 2,
+        "Divine Will": 2,
+        "Divine decree": 2,
+        "Ethics & Morality (Akhlaq)": 2,
+        "Healing": 2,
+        "Humanity": 2,
+        "Morality": 2,
+        "Protection": 2,
+        "Righteousness": 2,
+        "Divine Command": 3,
+        "Eternity": 3,
+        "Intercession": 3,
+        "Qur'an": 3,
+        "Sacrifice": 3,
+        "Truth": 3,
+        "Anger at Injustice": 4,
+        "Miracle": 4,
+        "Sadness": 4,
+        "Trust in Allah": 4,
+        "Obedience": 5
+      },
+      "case_or_punctuation_variants": {
+        "divine decree": [
+          "Divine Decree",
+          "Divine decree"
+        ]
+      }
+    },
+    "QSAC / semantic_tag": {
+      "distinct_values": 323,
+      "rare_values_max_5_occurrences": {
+        "Accountability of Rulers": 1,
+        "Adhaan — Call to Prayer": 1,
+        "Breaking the Fast": 1,
+        "Congregational Prayer": 1,
+        "Devotional Command to the Prophet": 1,
+        "Eid and Celebration": 1,
+        "Elevation of the Prophet's Mention": 1,
+        "Friday Prayer": 1,
+        "Hijrah to Madinah": 1,
+        "I'tikaf": 1,
+        "Increase and Decrease of Faith": 1,
+        "Prophetic Wisdom": 1,
+        "Purification through Trials": 1,
+        "Sa'i": 1,
+        "Seeking Help through Prayer": 1,
+        "Self-Restraint through Fasting": 1,
+        "Sending Blessings on the Prophet": 1,
+        "The Sunnah as Source": 1,
+        "Voluntary Fasting": 1,
+        "Wealth Circulation": 1,
+        "Wife of Imran (Mother of Maryam)": 1,
+        "Wife of Pharaoh (Asiyah)": 1,
+        "Abrogation": 2,
+        "Animals as Communities": 2,
+        "Creation of Jinn": 2,
+        "Justice toward Non-Muslims": 2,
+        "Levels of Paradise": 2,
+        "Minor Signs": 2,
+        "Patience in Hardship": 2,
+        "Preaching and Admonition": 2,
+        "Prohibition of Waste and Excess": 2,
+        "Prophetic Mercy": 2,
+        "Psalms": 2,
+        "Rights of Neighbors": 2,
+        "Stages of Revelation": 2,
+        "Umrah": 2,
+        "Yearning for Allah": 2,
+        "Ahl al-Bayt": 3,
+        "Balance of Hope and Fear": 3,
+        "Blood Money": 3,
+        "Contentment with Decree": 3,
+        "Fitrah": 3,
+        "Gambling": 3,
+        "Gentleness": 3,
+        "Love of the Prophet": 3,
+        "Recipients of Charity": 3,
+        "Relief of the Prophet's Burden": 3,
+        "Scholars and Teachers": 3,
+        "Seeing Allah": 3,
+        "Tawaf": 3,
+        "Testing through Blessings": 3,
+        "Al-Khidr": 4,
+        "Common Ground with People of the Book": 4,
+        "Compassion for Creation": 4,
+        "Correct Intention": 4,
+        "Dhul-Qarnayn": 4,
+        "Intoxicants": 4,
+        "Knowledge and Action": 4,
+        "No Compulsion in Religion": 4,
+        "Prayer Times": 4,
+        "Shahada": 4,
+        "Spiritual Equality of Men and Women": 4,
+        "Vows": 4,
+        "Zuhd": 4,
+        "Cleanliness": 5,
+        "Debt and Contracts": 5,
+        "Distinguishing Believers": 5,
+        "Envy": 5,
+        "Equality": 5,
+        "Haste": 5,
+        "Healing through the Quran": 5,
+        "Modesty and Hijab": 5,
+        "Obedience to Authority": 5,
+        "Return to Allah through Trials": 5,
+        "Struggling Against the Nafs": 5
+      },
+      "case_or_punctuation_variants": {}
+    }
+  },
+  "bible_book_table": [
+    {
+      "book_number": 1,
+      "book": "Genesis",
+      "book_short_name": "Gen.",
+      "osis_book_id": "Gen",
+      "chapters": 50,
+      "verses": 1533
+    },
+    {
+      "book_number": 2,
+      "book": "Exodus",
+      "book_short_name": "Exod.",
+      "osis_book_id": "Exod",
+      "chapters": 40,
+      "verses": 1213
+    },
+    {
+      "book_number": 3,
+      "book": "Leviticus",
+      "book_short_name": "Lev.",
+      "osis_book_id": "Lev",
+      "chapters": 27,
+      "verses": 859
+    },
+    {
+      "book_number": 4,
+      "book": "Numbers",
+      "book_short_name": "Num.",
+      "osis_book_id": "Num",
+      "chapters": 36,
+      "verses": 1288
+    },
+    {
+      "book_number": 5,
+      "book": "Deuteronomy",
+      "book_short_name": "Deut.",
+      "osis_book_id": "Deut",
+      "chapters": 34,
+      "verses": 959
+    },
+    {
+      "book_number": 6,
+      "book": "Joshua",
+      "book_short_name": "Josh.",
+      "osis_book_id": "Josh",
+      "chapters": 24,
+      "verses": 658
+    },
+    {
+      "book_number": 7,
+      "book": "Judges",
+      "book_short_name": "Judg.",
+      "osis_book_id": "Judg",
+      "chapters": 21,
+      "verses": 618
+    },
+    {
+      "book_number": 8,
+      "book": "Ruth",
+      "book_short_name": "Ruth",
+      "osis_book_id": "Ruth",
+      "chapters": 4,
+      "verses": 85
+    },
+    {
+      "book_number": 9,
+      "book": "1 Samuel",
+      "book_short_name": "1 Sam.",
+      "osis_book_id": "1Sam",
+      "chapters": 31,
+      "verses": 810
+    },
+    {
+      "book_number": 10,
+      "book": "2 Samuel",
+      "book_short_name": "2 Sam.",
+      "osis_book_id": "2Sam",
+      "chapters": 24,
+      "verses": 695
+    },
+    {
+      "book_number": 11,
+      "book": "1 Kings",
+      "book_short_name": "1 Kings",
+      "osis_book_id": "1Kgs",
+      "chapters": 22,
+      "verses": 816
+    },
+    {
+      "book_number": 12,
+      "book": "2 Kings",
+      "book_short_name": "2 Kings",
+      "osis_book_id": "2Kgs",
+      "chapters": 25,
+      "verses": 719
+    },
+    {
+      "book_number": 13,
+      "book": "1 Chronicles",
+      "book_short_name": "1 Chron.",
+      "osis_book_id": "1Chr",
+      "chapters": 29,
+      "verses": 942
+    },
+    {
+      "book_number": 14,
+      "book": "2 Chronicles",
+      "book_short_name": "2 Chron.",
+      "osis_book_id": "2Chr",
+      "chapters": 36,
+      "verses": 822
+    },
+    {
+      "book_number": 15,
+      "book": "Ezra",
+      "book_short_name": "Ezra",
+      "osis_book_id": "Ezra",
+      "chapters": 10,
+      "verses": 280
+    },
+    {
+      "book_number": 16,
+      "book": "Nehemiah",
+      "book_short_name": "Neh.",
+      "osis_book_id": "Neh",
+      "chapters": 13,
+      "verses": 406
+    },
+    {
+      "book_number": 17,
+      "book": "Esther",
+      "book_short_name": "Esther",
+      "osis_book_id": "Esth",
+      "chapters": 10,
+      "verses": 167
+    },
+    {
+      "book_number": 18,
+      "book": "Job",
+      "book_short_name": "Job",
+      "osis_book_id": "Job",
+      "chapters": 42,
+      "verses": 1070
+    },
+    {
+      "book_number": 19,
+      "book": "Psalms",
+      "book_short_name": "Ps.",
+      "osis_book_id": "Ps",
+      "chapters": 150,
+      "verses": 2461
+    },
+    {
+      "book_number": 20,
+      "book": "Proverbs",
+      "book_short_name": "Prov.",
+      "osis_book_id": "Prov",
+      "chapters": 31,
+      "verses": 915
+    },
+    {
+      "book_number": 21,
+      "book": "Ecclesiastes",
+      "book_short_name": "Eccles.",
+      "osis_book_id": "Eccl",
+      "chapters": 12,
+      "verses": 222
+    },
+    {
+      "book_number": 22,
+      "book": "Song of Solomon",
+      "book_short_name": "Song of Sol.",
+      "osis_book_id": "Song",
+      "chapters": 8,
+      "verses": 117
+    },
+    {
+      "book_number": 23,
+      "book": "Isaiah",
+      "book_short_name": "Isa.",
+      "osis_book_id": "Isa",
+      "chapters": 66,
+      "verses": 1292
+    },
+    {
+      "book_number": 24,
+      "book": "Jeremiah",
+      "book_short_name": "Jer.",
+      "osis_book_id": "Jer",
+      "chapters": 52,
+      "verses": 1364
+    },
+    {
+      "book_number": 25,
+      "book": "Lamentations",
+      "book_short_name": "Lam.",
+      "osis_book_id": "Lam",
+      "chapters": 5,
+      "verses": 154
+    },
+    {
+      "book_number": 26,
+      "book": "Ezekiel",
+      "book_short_name": "Ezek.",
+      "osis_book_id": "Ezek",
+      "chapters": 48,
+      "verses": 1273
+    },
+    {
+      "book_number": 27,
+      "book": "Daniel",
+      "book_short_name": "Dan.",
+      "osis_book_id": "Dan",
+      "chapters": 12,
+      "verses": 357
+    },
+    {
+      "book_number": 28,
+      "book": "Hosea",
+      "book_short_name": "Hosea",
+      "osis_book_id": "Hos",
+      "chapters": 14,
+      "verses": 197
+    },
+    {
+      "book_number": 29,
+      "book": "Joel",
+      "book_short_name": "Joel",
+      "osis_book_id": "Joel",
+      "chapters": 3,
+      "verses": 73
+    },
+    {
+      "book_number": 30,
+      "book": "Amos",
+      "book_short_name": "Amos",
+      "osis_book_id": "Amos",
+      "chapters": 9,
+      "verses": 146
+    },
+    {
+      "book_number": 31,
+      "book": "Obadiah",
+      "book_short_name": "Obad.",
+      "osis_book_id": "Obad",
+      "chapters": 1,
+      "verses": 21
+    },
+    {
+      "book_number": 32,
+      "book": "Jonah",
+      "book_short_name": "Jon.",
+      "osis_book_id": "Jonah",
+      "chapters": 4,
+      "verses": 48
+    },
+    {
+      "book_number": 33,
+      "book": "Micah",
+      "book_short_name": "Mic.",
+      "osis_book_id": "Mic",
+      "chapters": 7,
+      "verses": 105
+    },
+    {
+      "book_number": 34,
+      "book": "Nahum",
+      "book_short_name": "Nah.",
+      "osis_book_id": "Nah",
+      "chapters": 3,
+      "verses": 47
+    },
+    {
+      "book_number": 35,
+      "book": "Habakkuk",
+      "book_short_name": "Hab.",
+      "osis_book_id": "Hab",
+      "chapters": 3,
+      "verses": 56
+    },
+    {
+      "book_number": 36,
+      "book": "Zephaniah",
+      "book_short_name": "Zeph.",
+      "osis_book_id": "Zeph",
+      "chapters": 3,
+      "verses": 53
+    },
+    {
+      "book_number": 37,
+      "book": "Haggai",
+      "book_short_name": "Hag.",
+      "osis_book_id": "Hag",
+      "chapters": 2,
+      "verses": 38
+    },
+    {
+      "book_number": 38,
+      "book": "Zechariah",
+      "book_short_name": "Zech.",
+      "osis_book_id": "Zech",
+      "chapters": 14,
+      "verses": 211
+    },
+    {
+      "book_number": 39,
+      "book": "Malachi",
+      "book_short_name": "Mal.",
+      "osis_book_id": "Mal",
+      "chapters": 4,
+      "verses": 55
+    },
+    {
+      "book_number": 40,
+      "book": "Matthew",
+      "book_short_name": "Matt.",
+      "osis_book_id": "Matt",
+      "chapters": 28,
+      "verses": 1071
+    },
+    {
+      "book_number": 41,
+      "book": "Mark",
+      "book_short_name": "Mark",
+      "osis_book_id": "Mark",
+      "chapters": 16,
+      "verses": 678
+    },
+    {
+      "book_number": 42,
+      "book": "Luke",
+      "book_short_name": "Luke",
+      "osis_book_id": "Luke",
+      "chapters": 24,
+      "verses": 1151
+    },
+    {
+      "book_number": 43,
+      "book": "John",
+      "book_short_name": "John",
+      "osis_book_id": "John",
+      "chapters": 21,
+      "verses": 879
+    },
+    {
+      "book_number": 44,
+      "book": "Acts of the Apostles",
+      "book_short_name": "Acts",
+      "osis_book_id": "Acts",
+      "chapters": 28,
+      "verses": 1007
+    },
+    {
+      "book_number": 45,
+      "book": "Romans",
+      "book_short_name": "Rom.",
+      "osis_book_id": "Rom",
+      "chapters": 16,
+      "verses": 433
+    },
+    {
+      "book_number": 46,
+      "book": "1 Corinthians",
+      "book_short_name": "1 Cor.",
+      "osis_book_id": "1Cor",
+      "chapters": 16,
+      "verses": 437
+    },
+    {
+      "book_number": 47,
+      "book": "2 Corinthians",
+      "book_short_name": "2 Cor.",
+      "osis_book_id": "2Cor",
+      "chapters": 13,
+      "verses": 257
+    },
+    {
+      "book_number": 48,
+      "book": "Galatians",
+      "book_short_name": "Gal.",
+      "osis_book_id": "Gal",
+      "chapters": 6,
+      "verses": 149
+    },
+    {
+      "book_number": 49,
+      "book": "Ephesians",
+      "book_short_name": "Eph.",
+      "osis_book_id": "Eph",
+      "chapters": 6,
+      "verses": 155
+    },
+    {
+      "book_number": 50,
+      "book": "Philippians",
+      "book_short_name": "Phil.",
+      "osis_book_id": "Phil",
+      "chapters": 4,
+      "verses": 104
+    },
+    {
+      "book_number": 51,
+      "book": "Colossians",
+      "book_short_name": "Col.",
+      "osis_book_id": "Col",
+      "chapters": 4,
+      "verses": 95
+    },
+    {
+      "book_number": 52,
+      "book": "1 Thessalonians",
+      "book_short_name": "1 Thess.",
+      "osis_book_id": "1Thess",
+      "chapters": 5,
+      "verses": 89
+    },
+    {
+      "book_number": 53,
+      "book": "2 Thessalonians",
+      "book_short_name": "2 Thess.",
+      "osis_book_id": "2Thess",
+      "chapters": 3,
+      "verses": 47
+    },
+    {
+      "book_number": 54,
+      "book": "1 Timothy",
+      "book_short_name": "1 Tim.",
+      "osis_book_id": "1Tim",
+      "chapters": 6,
+      "verses": 113
+    },
+    {
+      "book_number": 55,
+      "book": "2 Timothy",
+      "book_short_name": "2 Tim.",
+      "osis_book_id": "2Tim",
+      "chapters": 4,
+      "verses": 83
+    },
+    {
+      "book_number": 56,
+      "book": "Titus",
+      "book_short_name": "Titus",
+      "osis_book_id": "Titus",
+      "chapters": 3,
+      "verses": 46
+    },
+    {
+      "book_number": 57,
+      "book": "Philemon",
+      "book_short_name": "Philem.",
+      "osis_book_id": "Phlm",
+      "chapters": 1,
+      "verses": 25
+    },
+    {
+      "book_number": 58,
+      "book": "Hebrews",
+      "book_short_name": "Heb.",
+      "osis_book_id": "Heb",
+      "chapters": 13,
+      "verses": 303
+    },
+    {
+      "book_number": 59,
+      "book": "James",
+      "book_short_name": "James",
+      "osis_book_id": "Jas",
+      "chapters": 5,
+      "verses": 108
+    },
+    {
+      "book_number": 60,
+      "book": "1 Peter",
+      "book_short_name": "1 Pet.",
+      "osis_book_id": "1Pet",
+      "chapters": 5,
+      "verses": 105
+    },
+    {
+      "book_number": 61,
+      "book": "2 Peter",
+      "book_short_name": "2 Pet.",
+      "osis_book_id": "2Pet",
+      "chapters": 3,
+      "verses": 61
+    },
+    {
+      "book_number": 62,
+      "book": "1 John",
+      "book_short_name": "1 John",
+      "osis_book_id": "1John",
+      "chapters": 5,
+      "verses": 105
+    },
+    {
+      "book_number": 63,
+      "book": "2 John",
+      "book_short_name": "2 John",
+      "osis_book_id": "2John",
+      "chapters": 1,
+      "verses": 13
+    },
+    {
+      "book_number": 64,
+      "book": "3 John",
+      "book_short_name": "3 John",
+      "osis_book_id": "3John",
+      "chapters": 1,
+      "verses": 15
+    },
+    {
+      "book_number": 65,
+      "book": "Jude",
+      "book_short_name": "Jude",
+      "osis_book_id": "Jude",
+      "chapters": 1,
+      "verses": 25
+    },
+    {
+      "book_number": 66,
+      "book": "Revelation",
+      "book_short_name": "Rev.",
+      "osis_book_id": "Rev",
+      "chapters": 22,
+      "verses": 404
+    }
+  ],
+  "conclusion": {
+    "phase": "0",
+    "status": "complete",
+    "phase_1_started": false,
+    "notes": [
+      "Counts are recomputed from the artifacts on disk, not carried over from a previous run.",
+      "No questionable source value was repaired; anomalies are reported in annotation_value_anomalies.",
+      "Source annotations remain source-specific; no MoodVerse taxonomy exists yet."
+    ]
+  }
+}
