@@ -4,21 +4,32 @@
   "description": "(user state x reflection intent x religion) cells with >=1 eligible verse.",
   "cells": {
     "bible": {
+      "anger|forgiveness": 1,
+      "anger|instruction": 1,
+      "anger|patience": 1,
+      "anger|wisdom": 1,
       "anxiety|comfort": 1,
+      "anxiety|hope": 1,
       "anxiety|lament": 1,
+      "anxiety|patience": 1,
       "confusion|assurance": 2,
       "confusion|comfort": 1,
       "confusion|guidance": 2,
       "despair|lament": 2,
-      "exhaustion|comfort": 2,
+      "exhaustion|comfort": 3,
       "exhaustion|encouragement": 3,
-      "exhaustion|lament": 1,
+      "exhaustion|lament": 2,
       "exhaustion|patience": 2,
       "exhaustion|perseverance": 3,
       "exhaustion|strength": 2,
-      "grief|comfort": 1,
+      "gratitude|gratitude": 1,
+      "gratitude|praise": 1,
+      "grief|comfort": 2,
+      "grief|lament": 1,
       "grief|patience": 1,
       "grief|wisdom": 1,
+      "loneliness|comfort": 1,
+      "loneliness|lament": 1,
       "sadness|comfort": 1,
       "sadness|patience": 1,
       "sadness|wisdom": 1
@@ -33,7 +44,7 @@
     }
   },
   "cells_populated": {
-    "bible": 18,
+    "bible": 29,
     "quran": 6
   }
 }
