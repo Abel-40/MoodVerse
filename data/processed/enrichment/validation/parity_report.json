@@ -8,18 +8,18 @@
     "quran": 6236
   },
   "annotated": {
-    "bible": 16,
+    "bible": 28,
     "quran": 12
   },
   "annotation_coverage": {
-    "bible": 0.0005,
+    "bible": 0.0009,
     "quran": 0.0019
   },
   "status_distribution": {
     "bible": {
-      "REVIEW_REQUIRED": 31091,
+      "REVIEW_REQUIRED": 31090,
       "EXCLUDE_FROM_DEFAULT_RECOMMENDATIONS": 9,
-      "INCLUDE_WITH_CONTEXT": 3
+      "INCLUDE_WITH_CONTEXT": 4
     },
     "quran": {
       "REVIEW_REQUIRED": 6231,
@@ -28,13 +28,13 @@
     }
   },
   "mean_curation_confidence": {
-    "bible": 0.388,
+    "bible": 0.314,
     "quran": 0.45
   },
   "mean_scores": {
     "bible": {
-      "standalone_usefulness": 1.125,
-      "context_dependency": 2.438
+      "standalone_usefulness": 1.036,
+      "context_dependency": 2.429
     },
     "quran": {
       "standalone_usefulness": 2.083,
@@ -51,7 +51,7 @@
       "quran": 0
     },
     "encouragement": {
-      "bible": 0,
+      "bible": 1,
       "quran": 0
     },
     "peace": {
@@ -63,7 +63,7 @@
       "quran": 0
     },
     "strength": {
-      "bible": 0,
+      "bible": 1,
       "quran": 0
     },
     "patience": {
@@ -91,7 +91,7 @@
       "quran": 0
     },
     "perseverance": {
-      "bible": 0,
+      "bible": 1,
       "quran": 0
     }
   },
@@ -127,9 +127,9 @@
     {
       "purpose": "encouragement",
       "religion": "bible",
-      "include_verses": 0,
+      "include_verses": 1,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 19
     },
     {
       "purpose": "encouragement",
@@ -169,9 +169,9 @@
     {
       "purpose": "strength",
       "religion": "bible",
-      "include_verses": 0,
+      "include_verses": 1,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 19
     },
     {
       "purpose": "strength",
@@ -267,9 +267,9 @@
     {
       "purpose": "perseverance",
       "religion": "bible",
-      "include_verses": 0,
+      "include_verses": 1,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 19
     },
     {
       "purpose": "perseverance",

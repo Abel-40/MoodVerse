@@ -4,10 +4,13 @@
   "description": "(user state x reflection intent x religion) cells with >=1 eligible verse.",
   "cells": {
     "bible": {
-      "despair|lament": 2
+      "despair|lament": 2,
+      "exhaustion|encouragement": 1,
+      "exhaustion|perseverance": 1,
+      "exhaustion|strength": 1
     }
   },
   "cells_populated": {
-    "bible": 1
+    "bible": 4
   }
 }
