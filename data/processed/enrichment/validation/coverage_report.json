@@ -2,6 +2,12 @@
   "coverage_report_version": "1.0.0",
   "generated_by": "processed/enrichment/validate.py",
   "description": "(user state x reflection intent x religion) cells with >=1 eligible verse.",
-  "cells": {},
-  "cells_populated": {}
+  "cells": {
+    "bible": {
+      "despair|lament": 2
+    }
+  },
+  "cells_populated": {
+    "bible": 1
+  }
 }

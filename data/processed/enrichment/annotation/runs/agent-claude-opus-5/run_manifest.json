@@ -1,0 +1,12 @@
+{
+  "run_id": "agent-claude-opus-5",
+  "annotator": "claude-opus-5",
+  "annotation_method": "agent_authored",
+  "provenance_note": "Annotations authored by the development agent during repository work, not obtained from a paid inference API. No scripture text was generated, corrected or paraphrased; every evidence_span is a verbatim substring of the Phase 0 text, enforced by annotate.validate_response.",
+  "api_calls": 0,
+  "taxonomy_version": "1.0.0",
+  "context_window": 2,
+  "updated_at": "2026-09-09T19:43:30.396665+00:00",
+  "responses_accepted": 28,
+  "responses_rejected_this_batch": 0
+}

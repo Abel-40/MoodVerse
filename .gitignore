@@ -39,7 +39,7 @@ data/processed/cross_reference_graph.json
 data/processed/enrichment/priors/deterministic_priors.jsonl
 data/processed/enrichment/curation/enrichment.jsonl
 data/processed/enrichment/curation/decisions.jsonl
-
+docs/*
 # Generated documentation -- rebuilt by pipeline/phase1/build_docs.py
 data/processed/enrichment/taxonomy/definitions.md
 data/processed/enrichment/mappings/mapping_rules.md

@@ -7,21 +7,40 @@
     "bible": 31103,
     "quran": 6236
   },
-  "annotated": {},
+  "annotated": {
+    "bible": 16,
+    "quran": 12
+  },
   "annotation_coverage": {
-    "bible": 0.0,
-    "quran": 0.0
+    "bible": 0.0005,
+    "quran": 0.0019
   },
   "status_distribution": {
     "bible": {
-      "REVIEW_REQUIRED": 31103
+      "REVIEW_REQUIRED": 31091,
+      "EXCLUDE_FROM_DEFAULT_RECOMMENDATIONS": 9,
+      "INCLUDE_WITH_CONTEXT": 3
     },
     "quran": {
-      "REVIEW_REQUIRED": 6236
+      "REVIEW_REQUIRED": 6231,
+      "INCLUDE_WITH_CONTEXT": 1,
+      "EXCLUDE_FROM_DEFAULT_RECOMMENDATIONS": 4
     }
   },
-  "mean_curation_confidence": {},
-  "mean_scores": {},
+  "mean_curation_confidence": {
+    "bible": 0.388,
+    "quran": 0.45
+  },
+  "mean_scores": {
+    "bible": {
+      "standalone_usefulness": 1.125,
+      "context_dependency": 2.438
+    },
+    "quran": {
+      "standalone_usefulness": 2.083,
+      "context_dependency": 1.667
+    }
+  },
   "purpose_coverage": {
     "comfort": {
       "bible": 0,
