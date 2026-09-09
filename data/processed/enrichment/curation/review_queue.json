@@ -12,9 +12,9 @@
   "counts": {
     "p2_crisis_relevant": 4,
     "p4_phase0_flagged": 120,
-    "p5_awaiting_annotation": 37198
+    "p5_awaiting_annotation": 37197
   },
-  "total": 37322,
+  "total": 37321,
   "sample_ids": {
     "p2_crisis_relevant": [
       "bible:Job:1:22",
