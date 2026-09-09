@@ -10,7 +10,7 @@ This allows V1 text input to evolve into V2 voice input without rewriting the re
 
 ```text
 ┌──────────────────────┐
-│     react native App      │
+│   React Native App   │
 │                      │
 │ Reflection           │
 │ Scripture selection  │
@@ -52,7 +52,7 @@ This allows V1 text input to evolve into V2 voice input without rewriting the re
 
 ### Layer A — Source-faithful corpus
 
-Currently under `processed/`.
+Currently under `data/processed/`, built by `pipeline/phase0/`.
 
 This is the completed Phase 0 baseline.
 
@@ -127,16 +127,57 @@ A user's reflection is embedded at request time.
 
 Vector similarity finds semantically related passages while metadata filters and curation rules prevent vector similarity from being the only decision mechanism.
 
-## 6. Gemini
+## 6. AI boundary: build time versus runtime
 
-Use an abstraction:
+MoodVerse uses AI in two places that must not be confused. They differ in who
+runs them, when, and what they are allowed to touch.
+
+### 6.1 Build time — corpus enrichment (no paid API)
+
+Enrichment and curation of the scripture corpus is **offline work performed by
+the development agent** and committed to the repository as versioned structured
+files under `data/processed/enrichment/`.
+
+- **No paid inference API is called to enrich the corpus.** Gemini is not
+  required, and is not used, for ingestion, enrichment or curation.
+- Annotations are written to `annotation/runs/<run_id>/responses.jsonl` by
+  `pipeline/phase1/agent_annotate.py` and replayed by `build_enrichment.py`,
+  which stays a pure function of its inputs.
+- Every authored annotation passes the same validator the paid path would have
+  faced (`annotate.validate_response`): evidence spans must be verbatim
+  substrings of the Phase 0 text, free text may not contain a scripture
+  reference, and malformed records are rejected rather than repaired.
+- Provenance is explicit. Each record carries the annotator, the run id and the
+  method `agent_authored`; `build_enrichment.py` records the field-level method
+  as `ai_generated` or `ai_reviewed`.
+- `pipeline/phase1/annotate.py` remains in the tree as the Gemini path. It is
+  optional, unused by default, and produces the identical output format.
+
+The consequence: **a clone with no API key can rebuild the entire corpus and
+enrichment layer.** Nothing about ingestion depends on a billing relationship.
+
+### 6.2 Runtime — reflection analysis (Gemini free tier)
+
+Gemini is reserved for serving a user request. Its only job is to turn a
+person's free-text reflection into validated structured data.
+
+- The runtime provider uses a **Gemini free-tier API key**, held server-side.
+- It analyses the reflection into emotions, themes and intent. It does not
+  select, rank, retrieve, quote or produce scripture.
+- Scripture always comes from the curated corpus in the database. The runtime
+  model never generates it, and never sees a request to.
+
+Use an abstraction so the provider can be swapped without touching application
+architecture:
 
 ```text
 AIProvider
-└── GeminiProvider
+└── GeminiProvider          # runtime reflection analysis, free tier
 ```
 
-The application depends on the interface, not directly on Gemini-specific implementation.
+The application depends on the interface, not on Gemini-specific code. Changing
+provider must mean adding a class, not editing the retrieval engine, the schema
+or the API surface.
 
 Gemini may analyze a reflection into validated structured data such as:
 
@@ -163,7 +204,7 @@ Gemini must not:
 ## 7. V1 text flow
 
 ```text
-react native
+React Native
   ↓
 Reflection text
   ↓
@@ -183,7 +224,7 @@ Selected scripture
   ↓
 Reflection persistence
   ↓
-react native result
+React Native result
 ```
 
 ## 8. V2 voice architecture
@@ -191,7 +232,7 @@ react native result
 V2 should add voice through an adapter:
 
 ```text
-react native microphone
+React Native microphone
        ↓
 Audio
        ↓
@@ -217,9 +258,9 @@ Do not make Cartesia a V1 dependency.
 
 ## 9. Database/security boundary
 
-react native communicates with FastAPI.
+React Native communicates with FastAPI.
 
-react native must not:
+React Native must not:
 
 - call Gemini directly;
 - expose Gemini API keys;
@@ -232,7 +273,7 @@ Privileged credentials remain server-side.
 
 The backend returns structured scripture information.
 
-react native renders the 9:16 card locally and handles:
+React Native renders the 9:16 card locally and handles:
 
 - export;
 - saving;
@@ -269,6 +310,10 @@ Do not implement future features merely to make the architecture look sophistica
 
 1. Scripture text comes from trusted corpus data.
 2. Gemini is not scripture source-of-truth.
+2a. Corpus enrichment requires no paid API. It is produced offline by the
+    development agent and committed as versioned files.
+2b. Gemini is a runtime concern only, on a free-tier key, for reflection
+    analysis. It never generates, selects or quotes scripture.
 3. Phase 0 source data remains immutable.
 4. Enrichment is separate from source data.
 5. Retrieval is separate from AI analysis.

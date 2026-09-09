@@ -7,14 +7,17 @@ The remaining work is intentionally divided into **four phases**.
 Do not skip phases or silently begin the next phase.
 
 ---
-phase one in certains kind of way it's done but cross check if it's not done yet
+**Phase 1 status: the pipeline is complete and passing; the corpus is not yet
+annotated.** All 14 validation checks and 18 tests pass, and the annotation
+harness is in place and producing records. What remains is annotation volume and
+one open decision on the confidence ceiling - see the note at the end of Phase 1.
 # Phase 1 — Scripture Curation and Enrichment
 
 ## Goal
 
 Turn the Phase 0 source-faithful corpus into a carefully curated MoodVerse reflection corpus.
 
-This phase comes before embeddings, PostgreSQL, FastAPI runtime, and Flutter.
+This phase comes before embeddings, PostgreSQL, FastAPI runtime, and React Native.
 
 ## Work
 
@@ -79,13 +82,29 @@ Do not assume a meaningful verse is automatically a good standalone emotional re
 
 ### AI assistance
 
-Gemini may assist annotation but cannot:
+**Corpus enrichment requires no paid API and must not call one.**
+
+Annotation is performed offline by the development agent and committed as
+versioned structured files under `data/processed/enrichment/`. Gemini is neither
+required nor used for ingestion, enrichment or curation. It is a runtime concern
+only - see `backend.md`.
+
+`pipeline/phase1/agent_annotate.py` writes annotations in the same run format
+`annotate.py` produces, so `build_enrichment.py` replays either unchanged. The
+Gemini path remains in the tree, optional and unused by default.
+
+Whichever path produces an annotation, the annotator cannot:
 
 - rewrite scripture;
 - invent scripture;
 - invent references;
 - replace source text;
-- silently overwrite source information.
+- silently overwrite source information;
+- decide a curation status - a deterministic cascade does that.
+
+Every annotation is validated by `annotate.validate_response`. Evidence spans
+must be verbatim substrings of the Phase 0 text, free-text fields may not carry
+a scripture reference, and a malformed record is rejected, never repaired.
 
 ### Cross references
 
@@ -98,13 +117,17 @@ The Quran has richer existing semantic annotations than the Bible. Annotation qu
 ## Expected structure
 
 ```text
-processed/
-└── enrichment/
-    ├── taxonomy/
-    ├── mappings/
-    ├── curation/
-    ├── provenance/
-    └── validation/
+data/processed/enrichment/
+├── taxonomy/
+├── mappings/
+├── priors/
+├── annotation/
+│   ├── prompts/        (private, not in the repository)
+│   └── runs/           versioned annotation runs
+├── curation/
+└── validation/
+
+pipeline/phase1/        the scripts that produce all of the above
 ```
 
 The exact structure may be refined during implementation.
@@ -122,6 +145,31 @@ The exact structure may be refined during implementation.
 
 Then HARD STOP.
 
+## Open decision: the confidence ceiling
+
+`build_enrichment.confidence_band` awards a record 0.60 confidence only when two
+independent annotation passes exist, or when an expert-tier source corroborates
+`expressed_affect` (which only Quran records can have, via ELQV). A single pass
+otherwise yields 0.40 when corroborated by priors or source labels, and 0.20 when
+not.
+
+`curation.py` gate 4 requires confidence >= 0.60 for `INCLUDE`, and gate 1
+rejects anything below 0.40 outright.
+
+Therefore **one annotation pass can never produce an `INCLUDE` record.** It can
+reach `INCLUDE_WITH_CONTEXT` at 0.40, and Bible records with no priors and no
+source labels sit at 0.20 and cannot earn any automatic status at all.
+
+This is the design working as written - default deny - not a defect. Resolving it
+is a policy decision, and the options are:
+
+1. run a genuinely independent second annotation pass;
+2. add a human review step that promotes records to `human_reviewed`;
+3. change what a single pass is worth in `confidence_band`.
+
+Option 3 is the cheapest and the most dangerous: it lowers the evidentiary bar
+for everything at once. Do not take it without deciding deliberately.
+
 ---
 
 # Phase 2 — Backend, Database, Embeddings and Retrieval Foundation
@@ -138,9 +186,10 @@ Recommended high-level structure:
 
 ```text
 MoodVerse/
-├── bible related/
-├── quran related/
-├── processed/
+├── data/
+│   ├── raw/
+│   └── processed/
+├── pipeline/
 ├── backend/
 │   ├── app/
 │   │   ├── api/
@@ -221,7 +270,7 @@ Then HARD STOP.
 
 ---
 
-# Phase 3 — AI Runtime, API and Flutter Application
+# Phase 3 — AI Runtime, API and React Native Application
 
 ## Goal
 
@@ -288,7 +337,7 @@ Implement secure authentication and protected resources.
 
 ## Sharing
 
-Render the scripture card locally in Flutter and provide device sharing/export.
+Render the scripture card locally in React Native and provide device sharing/export.
 
 ## Exit criteria
 
@@ -317,7 +366,7 @@ Phase 4 begins only after V1 is stable.
 Implement:
 
 ```text
-Flutter microphone
+React Native microphone
     ↓
 Audio
     ↓
@@ -413,7 +462,7 @@ Valid phase commands are:
 ```text
 Phase 1 — Scripture Curation and Enrichment
 Phase 2 — Backend, Database, Embeddings and Retrieval Foundation
-Phase 3 — AI Runtime, API and Flutter Application
+Phase 3 — AI Runtime, API and React Native Application
 Phase 4 — V2 Voice and Future Expansion
 ```
 
