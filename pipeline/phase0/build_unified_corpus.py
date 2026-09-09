@@ -8,7 +8,7 @@ Pipeline (Phase 0 stops at the last step; no AI curation, no embeddings, no DB):
 
 Guarantees
 ----------
-* Raw sources under `bible related/` and `quran related/` are opened read-only.
+* Raw sources under `data/raw/` are opened read-only.
   Their SHA-256 digests are recorded before and after the run and compared.
 * Deterministic: no randomness, no timestamps inside the corpus records, stable
   ordering everywhere.  Same inputs + same PIPELINE_VERSION => byte-identical
@@ -44,20 +44,24 @@ from osis_book_map import AKJV_BOOK_TO_OSIS, OSIS_TO_AKJV_BOOK
 PIPELINE_VERSION = "0.2.0"
 CORPUS_SCHEMA_VERSION = "phase0-2"
 
-OUT = Path(__file__).resolve().parent
-BASE = OUT.parent
+# pipeline/phase0/ -> repo root. Code lives under pipeline/, data under data/.
+HERE = Path(__file__).resolve().parent
+BASE = HERE.parent.parent
+OUT = BASE / "data" / "processed"
 
 # --- source paths (read-only) ------------------------------------------------
 SRC = {
-    "bible_akjv": "bible related/AKJV.xml",
-    "bible_cross_references": "bible related/cross_references.txt",
-    "quran_complete": "quran related/Complete_Quran_data.csv",
-    "quran_tcec_subset": "quran related/Only TCEC cols.csv",
-    "elqv": "quran related/ELQV-main/ELQV.csv",
-    "elqv_v2": "quran related/ELQV-main/ELQVv2.csv",
-    "qsac_dataset": "quran related/quran-semantic-annotation-corpus-master/data/qsac-dataset.csv",
-    "qsac_ontology": "quran related/quran-semantic-annotation-corpus-master/data/qsac-ontology.json",
+    "bible_akjv": "data/raw/bible/AKJV.xml",
+    "bible_cross_references": "data/raw/bible/cross_references.txt",
+    "quran_complete": "data/raw/quran/Complete_Quran_data.csv",
+    "quran_tcec_subset": "data/raw/quran/only_tcec_cols.csv",
+    "elqv": "data/raw/quran/elqv/ELQV.csv",
+    "elqv_v2": "data/raw/quran/elqv/ELQVv2.csv",
+    "qsac_dataset": "data/raw/quran/qsac/qsac-dataset.csv",
+    "qsac_ontology": "data/raw/quran/qsac/qsac-ontology.json",
 }
+
+OUT.mkdir(parents=True, exist_ok=True)
 
 CROSS_REFERENCE_DATASET = "OpenBible Cross References"
 

@@ -14,8 +14,8 @@ import tempfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ENRICHMENT = HERE.parent
-sys.path.insert(0, str(ENRICHMENT))
+PHASE1 = HERE.parent          # pipeline/phase1 - the code
+sys.path.insert(0, str(PHASE1))
 
 import build_ledger  # noqa: E402
 import build_priors  # noqa: E402
@@ -77,7 +77,7 @@ def status_of(record: dict) -> tuple[str, str]:
 def test_corpus_immutability() -> None:
     before = mv.phase0_digests()
     subprocess.run(
-        [sys.executable, "build_label_inventory.py"], cwd=ENRICHMENT,
+        [sys.executable, "build_label_inventory.py"], cwd=PHASE1,
         capture_output=True, check=True,
     )
     after = mv.phase0_digests()
@@ -91,13 +91,13 @@ def test_corpus_immutability() -> None:
 # ---------------------------------------------------------------------------
 
 def test_replay_determinism() -> None:
-    target = ENRICHMENT / "curation" / "enrichment.jsonl"
+    target = mv.ENRICHMENT / "curation" / "enrichment.jsonl"
     if not target.exists():
         skip("2  replay determinism", "enrichment.jsonl not built yet")
         return
     first = mv.sha256_file(target)
     subprocess.run(
-        [sys.executable, "build_enrichment.py", "--bootstrap"], cwd=ENRICHMENT,
+        [sys.executable, "build_enrichment.py", "--bootstrap"], cwd=PHASE1,
         capture_output=True, check=True,
     )
     second = mv.sha256_file(target)
@@ -111,8 +111,8 @@ def test_replay_determinism() -> None:
 # ---------------------------------------------------------------------------
 
 def test_ledger_roundtrip() -> None:
-    inventory = mv.read_json(ENRICHMENT / "mappings" / "label_inventory.json")
-    ledger = mv.read_json(ENRICHMENT / "mappings" / "source_label_ledger.json")
+    inventory = mv.read_json(mv.ENRICHMENT / "mappings" / "label_inventory.json")
+    ledger = mv.read_json(mv.ENRICHMENT / "mappings" / "source_label_ledger.json")
     inv_keys = {(l["source"], l["annotation_type"], l["label"]) for l in inventory["labels"]}
     led_keys = {(r["source"], r["source_annotation_type"], r["source_label"]) for r in ledger["rows"]}
     check("3  ledger round-trip forward", inv_keys == led_keys,
@@ -167,7 +167,7 @@ def test_vote_independence() -> None:
     """
     offenders = []
     for name in ("build_priors.py", "build_enrichment.py", "curation.py"):
-        text = (ENRICHMENT / name).read_text(encoding="utf-8")
+        text = (PHASE1 / name).read_text(encoding="utf-8")
         for marker in ('"votes"', "'votes'", "[\"votes\"]", "get('votes'"):
             if marker in text and "never read" not in text.split(marker)[0][-200:]:
                 offenders.append(f"{name}:{marker}")
@@ -180,7 +180,7 @@ def test_vote_independence() -> None:
 # ---------------------------------------------------------------------------
 
 def test_derived_exclusion() -> None:
-    ledger = mv.read_json(ENRICHMENT / "mappings" / "source_label_ledger.json")
+    ledger = mv.read_json(mv.ENRICHMENT / "mappings" / "source_label_ledger.json")
     derived = [r for r in ledger["rows"] if not r["independent_annotation_source"]]
     weighted = [r for r in derived if r["evidence_weight"] != 0.0]
     check("7  derived sources carry zero weight", derived and not weighted,
@@ -315,7 +315,7 @@ def test_response_guards() -> None:
 # ---------------------------------------------------------------------------
 
 def test_enrichment_records() -> None:
-    path = ENRICHMENT / "curation" / "enrichment.jsonl"
+    path = mv.ENRICHMENT / "curation" / "enrichment.jsonl"
     if not path.exists():
         skip("13 schema conformance", "enrichment.jsonl not built yet")
         skip("16 Quran xref nullity", "enrichment.jsonl not built yet")
@@ -352,10 +352,10 @@ def test_utf8_safety() -> None:
         "import sys; sys.path.insert(0, r'%s');"
         "import mv_common as mv; mv.setup_stdout();"
         "r=next(x for x in mv.iter_corpus() if x['religion']=='quran');"
-        "print(r['text']['original'][:40])" % ENRICHMENT
+        "print(r['text']['original'][:40])" % PHASE1
     )
     proc = subprocess.run(
-        [sys.executable, "-c", script], cwd=ENRICHMENT,
+        [sys.executable, "-c", script], cwd=PHASE1,
         capture_output=True, env={"PYTHONIOENCODING": "cp1252", "PATH": ""},
     )
     check("17 UTF-8 safety on cp1252 console", proc.returncode == 0,
@@ -378,7 +378,7 @@ def test_provenance_monotonicity() -> None:
 
 
 def test_parity_report() -> None:
-    path = ENRICHMENT / "validation" / "parity_report.json"
+    path = mv.ENRICHMENT / "validation" / "parity_report.json"
     if not path.exists():
         skip("18 parity gate", "parity_report.json not generated yet")
         return

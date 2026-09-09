@@ -35,7 +35,7 @@
   "sources": [
     {
       "source_id": "bible_akjv",
-      "path": "bible related/AKJV.xml",
+      "path": "data/raw/bible/AKJV.xml",
       "sha256": "1ff3c7005dfff30f6ffb8588df9a0bc92a6223e197c931f508a610fbd38f26b2",
       "size_bytes": 5130575,
       "format": "xml (Zefania-style XMLBIBLE / BIBLEBOOK / CHAPTER / VERS)",
@@ -73,7 +73,7 @@
     },
     {
       "source_id": "bible_cross_references",
-      "path": "bible related/cross_references.txt",
+      "path": "data/raw/bible/cross_references.txt",
       "sha256": "5d4a3b992bd76c7cc7a3caee1d33b6c5cd0b7c25e9422f62c5793b69a8fe73be",
       "size_bytes": 8301259,
       "format": "tab-separated text with a single header row",
@@ -110,7 +110,7 @@
     },
     {
       "source_id": "quran_complete",
-      "path": "quran related/Complete_Quran_data.csv",
+      "path": "data/raw/quran/Complete_Quran_data.csv",
       "sha256": "3a248a180009eee0a5a60c0e70758de759920fecf0e065aa4d71cf9f5ac48e1e",
       "size_bytes": 4326543,
       "format": "csv",
@@ -219,7 +219,7 @@
     },
     {
       "source_id": "quran_tcec_subset",
-      "path": "quran related/Only TCEC cols.csv",
+      "path": "data/raw/quran/only_tcec_cols.csv",
       "sha256": "32c3cb1acbe766bded6664d9f8640d41e95e464eea49c7085f156d2376983bdf",
       "size_bytes": 753825,
       "format": "csv",
@@ -256,7 +256,7 @@
     },
     {
       "source_id": "elqv",
-      "path": "quran related/ELQV-main/ELQV.csv",
+      "path": "data/raw/quran/elqv/ELQV.csv",
       "sha256": "171eff9be7925f4c21a974d7ac6a5c8a553daf3197ad63b9fddf1217f5f4e445",
       "size_bytes": 558512,
       "format": "csv",
@@ -305,7 +305,7 @@
     },
     {
       "source_id": "elqv_v2",
-      "path": "quran related/ELQV-main/ELQVv2.csv",
+      "path": "data/raw/quran/elqv/ELQVv2.csv",
       "sha256": "62bcf26ff8373cfd82b1a377cd88f9bf6272e2672fcc9b419ddfbdcd2237ef98",
       "size_bytes": 2117801,
       "format": "csv",
@@ -397,7 +397,7 @@
     },
     {
       "source_id": "qsac_dataset",
-      "path": "quran related/quran-semantic-annotation-corpus-master/data/qsac-dataset.csv",
+      "path": "data/raw/quran/qsac/qsac-dataset.csv",
       "sha256": "e242e15533eea643a5181006501d56fb95b8674362e7b18ea16c08793471b7a2",
       "size_bytes": 2471287,
       "format": "csv with leading '#' comment block",
@@ -459,7 +459,7 @@
     },
     {
       "source_id": "qsac_ontology",
-      "path": "quran related/quran-semantic-annotation-corpus-master/data/qsac-ontology.json",
+      "path": "data/raw/quran/qsac/qsac-ontology.json",
       "sha256": "95637f6ee8be5d7eb234820a2149805eae51e43d5526343290cca51fec2a7524",
       "size_bytes": 398104,
       "format": "json",

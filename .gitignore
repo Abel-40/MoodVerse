@@ -14,30 +14,36 @@ credentials.json
 service-account*.json
 
 # ---------------------------------------------------------------------------
-# Proprietary LLM prompts  -- MoodVerse annotation prompts, not for publication
+# Proprietary LLM prompts  -- not for publication
+#
+# annotation/runs/ is deliberately NOT ignored: the enrichment produced by the
+# development agent is version-controlled data, and build_enrichment.py replays
+# it. Only the prompt templates are withheld.
 # ---------------------------------------------------------------------------
-processed/enrichment/annotation/prompts/
+data/processed/enrichment/annotation/prompts/
 annotate_verse.md
 
-# Model run logs: raw request payloads and unreviewed model output
-processed/enrichment/annotation/runs/
+# ---------------------------------------------------------------------------
+# Generated pipeline artefacts
+#
+# Deterministic outputs, not inputs: same sources + same pipeline version
+# reproduce them byte-for-byte. The unified corpus alone exceeds GitHub's
+# 100 MB per-file limit.
+#
+#   python pipeline/phase0/build_unified_corpus.py
+#   python pipeline/phase1/build_priors.py
+#   python pipeline/phase1/build_enrichment.py --bootstrap
+# ---------------------------------------------------------------------------
+data/processed/unified_scripture_corpus.jsonl
+data/processed/cross_reference_graph.json
+data/processed/enrichment/priors/deterministic_priors.jsonl
+data/processed/enrichment/curation/enrichment.jsonl
+data/processed/enrichment/curation/decisions.jsonl
 
-# ---------------------------------------------------------------------------
-# Generated pipeline artifacts
-#
-# These are deterministic outputs, not inputs. Same sources + same pipeline
-# version reproduce them byte-for-byte, so they are rebuilt, never committed.
-# The largest exceeds GitHub's 100 MB per-file limit in any case.
-#
-#   python processed/build_unified_corpus.py     -> Phase 0 outputs
-#   python processed/enrichment/build_priors.py  -> priors
-#   python processed/enrichment/curation.py      -> curation outputs
-# ---------------------------------------------------------------------------
-processed/unified_scripture_corpus.jsonl
-processed/cross_reference_graph.json
-processed/enrichment/priors/deterministic_priors.jsonl
-processed/enrichment/curation/enrichment.jsonl
-processed/enrichment/curation/decisions.jsonl
+# Generated documentation -- rebuilt by pipeline/phase1/build_docs.py
+data/processed/enrichment/taxonomy/definitions.md
+data/processed/enrichment/mappings/mapping_rules.md
+data/processed/enrichment/priors/prior_rules.md
 
 # ---------------------------------------------------------------------------
 # Python

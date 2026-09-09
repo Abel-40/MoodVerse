@@ -47,14 +47,14 @@ fails if any digest changed.
 
 | Source file | SHA-256 / size |
 | --- | ---: |
-| bible related/AKJV.xml | 1ff3c7005dfff30f... (5,130,575 bytes) |
-| bible related/cross_references.txt | 5d4a3b992bd76c7c... (8,301,259 bytes) |
-| quran related/Complete_Quran_data.csv | 3a248a180009eee0... (4,326,543 bytes) |
-| quran related/Only TCEC cols.csv | 32c3cb1acbe766bd... (753,825 bytes) |
-| quran related/ELQV-main/ELQV.csv | 171eff9be7925f4c... (558,512 bytes) |
-| quran related/ELQV-main/ELQVv2.csv | 62bcf26ff8373cfd... (2,117,801 bytes) |
-| quran related/quran-semantic-annotation-corpus-master/data/qsac-dataset.csv | e242e15533eea643... (2,471,287 bytes) |
-| quran related/quran-semantic-annotation-corpus-master/data/qsac-ontology.json | 95637f6ee8be5d7e... (398,104 bytes) |
+| data/raw/bible/AKJV.xml | 1ff3c7005dfff30f... (5,130,575 bytes) |
+| data/raw/bible/cross_references.txt | 5d4a3b992bd76c7c... (8,301,259 bytes) |
+| data/raw/quran/Complete_Quran_data.csv | 3a248a180009eee0... (4,326,543 bytes) |
+| data/raw/quran/only_tcec_cols.csv | 32c3cb1acbe766bd... (753,825 bytes) |
+| data/raw/quran/elqv/ELQV.csv | 171eff9be7925f4c... (558,512 bytes) |
+| data/raw/quran/elqv/ELQVv2.csv | 62bcf26ff8373cfd... (2,117,801 bytes) |
+| data/raw/quran/qsac/qsac-dataset.csv | e242e15533eea643... (2,471,287 bytes) |
+| data/raw/quran/qsac/qsac-ontology.json | 95637f6ee8be5d7e... (398,104 bytes) |
 
 | Source | Role in Phase 0 |
 | --- | --- |
@@ -514,7 +514,7 @@ Concretely, Phase 1 should:
 
 | File | Contents |
 | --- | --- |
-| `unified_scripture_corpus.jsonl` | 37,339 records (125,569,931 bytes), one JSON object per line. |
+| `unified_scripture_corpus.jsonl` | 37,339 records (124,550,005 bytes), one JSON object per line. |
 | `cross_reference_graph.json` | Authoritative cross-reference graph, 344,756 edges. |
 | `qsac_ontology.json` | Verbatim byte-for-byte copy of the QSAC ontology. |
 | `source_catalog.json` | Per-source metadata, vocabularies, coverage, relationships. |

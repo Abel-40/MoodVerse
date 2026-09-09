@@ -3,7 +3,7 @@
 Standard library only, matching the Phase 0 convention. Everything here is
 deterministic: same inputs produce byte-identical outputs.
 
-The Phase 0 artefacts in ``processed/`` are treated as frozen. ``phase0_digests``
+The Phase 0 artefacts in ``data/processed/`` are treated as frozen. ``phase0_digests``
 hashes them and ``assert_phase0_unchanged`` fails the build if any digest moved.
 """
 
@@ -20,9 +20,14 @@ from typing import Any, Iterator
 # paths
 # --------------------------------------------------------------------------
 
-ENRICHMENT = Path(__file__).resolve().parent
-PROCESSED = ENRICHMENT.parent
-BASE = PROCESSED.parent
+# Code lives under pipeline/, data under data/. This module sits in
+# pipeline/phase1/, so the repo root is two levels up.
+HERE = Path(__file__).resolve().parent
+BASE = HERE.parent.parent
+PIPELINE = BASE / "pipeline"
+PROCESSED = BASE / "data" / "processed"
+ENRICHMENT = PROCESSED / "enrichment"
+RAW = BASE / "data" / "raw"
 
 CORPUS = PROCESSED / "unified_scripture_corpus.jsonl"
 XREF_GRAPH = PROCESSED / "cross_reference_graph.json"
@@ -35,7 +40,8 @@ TAXONOMY = ENRICHMENT / "taxonomy" / "taxonomy.json"
 # Every Phase 0 artefact. Hashed before and after each run; any change is a
 # hard failure. This is the Phase 0 read-only guard, extended to cover Phase 0's
 # own outputs rather than only the raw sources.
-PHASE0_FILES = (
+# Phase 0 data artefacts, relative to data/processed/.
+PHASE0_DATA_FILES = (
     "unified_scripture_corpus.jsonl",
     "cross_reference_graph.json",
     "qsac_ontology.json",
@@ -44,14 +50,17 @@ PHASE0_FILES = (
     "source_mapping_report.json",
     "unresolved_records.json",
     "clarification.md",
-    "build_unified_corpus.py",
-    "osis_book_map.py",
 )
 
-RAW_SOURCE_DIRS = ("bible related", "quran related")
+# Phase 0 code, relative to pipeline/. Frozen for the same reason the data is:
+# a changed pipeline invalidates the artefacts it produced.
+PHASE0_CODE_FILES = (
+    "phase0/build_unified_corpus.py",
+    "phase0/osis_book_map.py",
+)
 
 # 3 John 1:14 is split in this workspace's AKJV copy, so the Bible carries 31,103
-# verses rather than the published edition's 31,102. See processed/clarification.md.
+# verses rather than the published edition's 31,102. See data/processed/clarification.md.
 EXPECTED_RECORDS = 37339
 EXPECTED_BIBLE = 31103
 EXPECTED_QURAN = 6236
@@ -93,15 +102,18 @@ def sha256_text(text: str) -> str:
 def phase0_digests() -> dict[str, str]:
     """SHA-256 of every Phase 0 artefact, plus every raw source file."""
     digests: dict[str, str] = {}
-    for name in PHASE0_FILES:
+    for name in PHASE0_DATA_FILES:
         path = PROCESSED / name
         if path.exists():
-            digests[f"processed/{name}"] = sha256_file(path)
-    for directory in RAW_SOURCE_DIRS:
-        root = BASE / directory
-        if not root.exists():
-            continue
-        for path in sorted(root.rglob("*")):
+            digests[f"data/processed/{name}"] = sha256_file(path)
+    for name in PHASE0_CODE_FILES:
+        path = PIPELINE / name
+        if path.exists():
+            digests[f"pipeline/{name}"] = sha256_file(path)
+    # data/raw/ holds source data and nothing else, so every file under it is
+    # hashed. Repository metadata is kept out of this tree deliberately.
+    if RAW.exists():
+        for path in sorted(RAW.rglob("*")):
             if path.is_file():
                 digests[path.relative_to(BASE).as_posix()] = sha256_file(path)
     return digests
@@ -183,7 +195,7 @@ def display_text(record: dict[str, Any]) -> tuple[str, str]:
 
     This is a *deterministic display choice*, recorded on every enrichment
     record as ``display_text_ref``. It is not a claim that one reading is
-    correct - decision 15 in PHASE1A_DESIGN.md remains open, and records whose
+    correct - the open display decision remains unresolved, and records whose
     Arabic diverges across sources are flagged regardless of which English is
     shown.
     """

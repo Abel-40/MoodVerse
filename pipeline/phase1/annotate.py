@@ -11,8 +11,8 @@ A malformed response is rejected and retried once, then the record is left for
 review. It is NEVER programmatically repaired - repair is silent
 reinterpretation, which is exactly what Phase 0 refused to do.
 
-Credentials: set GEMINI_API_KEY in the environment, or put it in a gitignored
-enrichment/.env as GEMINI_API_KEY=... . The key is never logged or written into
+Credentials: set GEMINI_API_KEY in the environment, or put it in the gitignored
+repo-root .env as GEMINI_API_KEY=... . The key is never logged or written into
 any artefact.
 """
 
@@ -59,7 +59,7 @@ def load_api_key() -> str | None:
     key = os.environ.get("GEMINI_API_KEY")
     if key:
         return key.strip()
-    env_file = mv.ENRICHMENT / ".env"
+    env_file = mv.BASE / ".env"
     if env_file.exists():
         for line in env_file.read_text(encoding="utf-8").splitlines():
             line = line.strip()
@@ -390,7 +390,7 @@ def main() -> int:
     schema = response_schema(taxonomy)
     api_key = load_api_key()
     if not api_key and not args.dry_run:
-        print("No GEMINI_API_KEY found in the environment or enrichment/.env.")
+        print("No GEMINI_API_KEY found in the environment or the repo-root .env.")
         print("Set it, or use --dry-run to generate requests without calling the API.")
         return 2
 

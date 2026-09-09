@@ -1,4 +1,0 @@
-# Read-only source inputs. The pipeline SHA-256 hashes these files and records
-# the digests in processed/source_catalog.json. Any line-ending normalization
-# on clone or checkout would change their bytes and break reproducibility.
-* -text

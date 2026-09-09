@@ -1,6 +1,11 @@
 # Default: normalize line endings for text files in the repository.
 * text=auto
 
+# Raw source data is SHA-256 hashed by the pipeline and the digests are recorded
+# in data/processed/source_catalog.json. Line-ending normalization on clone or
+# checkout would change these bytes and break reproducibility.
+data/raw/** -text
+
 # Verbatim copy of the upstream QSAC ontology. The pipeline asserts that its
 # SHA-256 equals the source file's, so its bytes must not be rewritten.
-processed/qsac_ontology.json -text
+data/processed/qsac_ontology.json -text
