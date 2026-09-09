@@ -10,16 +10,19 @@
     "p5_awaiting_annotation"
   ],
   "counts": {
-    "p2_crisis_relevant": 7,
+    "p2_crisis_relevant": 10,
     "p4_phase0_flagged": 120,
-    "p5_awaiting_annotation": 37187
+    "p5_awaiting_annotation": 37172
   },
-  "total": 37314,
+  "total": 37302,
   "sample_ids": {
     "p2_crisis_relevant": [
       "bible:Job:1:22",
       "bible:Job:3:11",
       "bible:Job:3:3",
+      "bible:Proverbs:10:28",
+      "bible:Psalms:27:14",
+      "bible:Psalms:31:24",
       "quran:16:127",
       "quran:1:5",
       "quran:39:53",

@@ -8,18 +8,18 @@
     "quran": 6236
   },
   "annotated": {
-    "bible": 28,
+    "bible": 44,
     "quran": 27
   },
   "annotation_coverage": {
-    "bible": 0.0009,
+    "bible": 0.0014,
     "quran": 0.0043
   },
   "status_distribution": {
     "bible": {
-      "REVIEW_REQUIRED": 31090,
-      "EXCLUDE_FROM_DEFAULT_RECOMMENDATIONS": 9,
-      "INCLUDE_WITH_CONTEXT": 4
+      "REVIEW_REQUIRED": 31078,
+      "EXCLUDE_FROM_DEFAULT_RECOMMENDATIONS": 12,
+      "INCLUDE_WITH_CONTEXT": 13
     },
     "quran": {
       "REVIEW_REQUIRED": 6224,
@@ -28,13 +28,13 @@
     }
   },
   "mean_curation_confidence": {
-    "bible": 0.314,
+    "bible": 0.345,
     "quran": 0.459
   },
   "mean_scores": {
     "bible": {
-      "standalone_usefulness": 1.036,
-      "context_dependency": 2.429
+      "standalone_usefulness": 1.455,
+      "context_dependency": 2.273
     },
     "quran": {
       "standalone_usefulness": 2.0,
@@ -43,7 +43,7 @@
   },
   "purpose_coverage": {
     "comfort": {
-      "bible": 0,
+      "bible": 4,
       "quran": 0
     },
     "hope": {
@@ -51,7 +51,7 @@
       "quran": 1
     },
     "encouragement": {
-      "bible": 1,
+      "bible": 3,
       "quran": 1
     },
     "peace": {
@@ -59,15 +59,15 @@
       "quran": 0
     },
     "guidance": {
-      "bible": 0,
+      "bible": 3,
       "quran": 3
     },
     "strength": {
-      "bible": 1,
+      "bible": 2,
       "quran": 0
     },
     "patience": {
-      "bible": 0,
+      "bible": 4,
       "quran": 1
     },
     "gratitude": {
@@ -87,11 +87,11 @@
       "quran": 2
     },
     "wisdom": {
-      "bible": 0,
+      "bible": 3,
       "quran": 3
     },
     "perseverance": {
-      "bible": 1,
+      "bible": 5,
       "quran": 1
     }
   },
@@ -99,9 +99,9 @@
     {
       "purpose": "comfort",
       "religion": "bible",
-      "include_verses": 0,
+      "include_verses": 4,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 16
     },
     {
       "purpose": "comfort",
@@ -127,9 +127,9 @@
     {
       "purpose": "encouragement",
       "religion": "bible",
-      "include_verses": 1,
+      "include_verses": 3,
       "required": 20,
-      "shortfall": 19
+      "shortfall": 17
     },
     {
       "purpose": "encouragement",
@@ -155,9 +155,9 @@
     {
       "purpose": "guidance",
       "religion": "bible",
-      "include_verses": 0,
+      "include_verses": 3,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 17
     },
     {
       "purpose": "guidance",
@@ -169,9 +169,9 @@
     {
       "purpose": "strength",
       "religion": "bible",
-      "include_verses": 1,
+      "include_verses": 2,
       "required": 20,
-      "shortfall": 19
+      "shortfall": 18
     },
     {
       "purpose": "strength",
@@ -183,9 +183,9 @@
     {
       "purpose": "patience",
       "religion": "bible",
-      "include_verses": 0,
+      "include_verses": 4,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 16
     },
     {
       "purpose": "patience",
@@ -253,9 +253,9 @@
     {
       "purpose": "wisdom",
       "religion": "bible",
-      "include_verses": 0,
+      "include_verses": 3,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 17
     },
     {
       "purpose": "wisdom",
@@ -267,9 +267,9 @@
     {
       "purpose": "perseverance",
       "religion": "bible",
-      "include_verses": 1,
+      "include_verses": 5,
       "required": 20,
-      "shortfall": 19
+      "shortfall": 15
     },
     {
       "purpose": "perseverance",
