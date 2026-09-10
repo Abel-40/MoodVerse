@@ -37,6 +37,7 @@ from app.schemas.auth import (
     TokenResponse,
     UserOut,
     UserRegister,
+    UserPreferencesUpdate,
 )
 from app.services import auth as auth_service
 from app.tasks.email import send_verification_email
@@ -162,6 +163,21 @@ async def logout(
 
 @router.get("/me", response_model=UserOut)
 async def me(current_user: User = Depends(get_current_user)) -> UserOut:
+    out = UserOut.model_validate(current_user)
+    return out.model_copy(
+        update={"linked_providers": [a.provider for a in current_user.oauth_accounts]}
+    )
+
+
+@router.patch("/me/preferences", response_model=UserOut)
+async def update_preferences(
+    payload: UserPreferencesUpdate,
+    current_user: User = Depends(get_current_user),
+    session: AsyncSession = Depends(get_session),
+) -> UserOut:
+    current_user.preferred_religion = payload.preferred_religion
+    await session.commit()
+    await session.refresh(current_user)
     out = UserOut.model_validate(current_user)
     return out.model_copy(
         update={"linked_providers": [a.provider for a in current_user.oauth_accounts]}

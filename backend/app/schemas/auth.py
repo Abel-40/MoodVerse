@@ -9,6 +9,8 @@ from __future__ import annotations
 
 from datetime import datetime
 
+from typing import Literal
+
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
@@ -33,6 +35,10 @@ class RefreshRequest(BaseModel):
 
 class LogoutRequest(BaseModel):
     refresh_token: str
+
+
+class UserPreferencesUpdate(BaseModel):
+    preferred_religion: Literal["bible", "quran"]
 
 
 class UserOut(BaseModel):
