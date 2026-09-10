@@ -6,7 +6,6 @@
 # Secrets and credentials  -- never commit
 # ---------------------------------------------------------------------------
 .env
-.env.*
 *.pem
 *.key
 credentials.json
