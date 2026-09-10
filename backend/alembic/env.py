@@ -31,6 +31,24 @@ if config.config_file_name is not None:
 config.set_main_option("sqlalchemy.url", get_settings().database_url)
 target_metadata = Base.metadata
 
+# Celery's SQLAlchemy result backend and Kombu's SQLAlchemy broker transport
+# (app/core/celery_app.py) create these four tables themselves on first
+# connection, in the same database, outside Base.metadata entirely. Without
+# this filter autogenerate would see them as unmanaged and propose dropping
+# them on every future revision.
+_CELERY_OWNED_TABLES = {
+    "kombu_message",
+    "kombu_queue",
+    "celery_taskmeta",
+    "celery_tasksetmeta",
+}
+
+
+def _include_object(object, name, type_, reflected, compare_to):
+    if type_ == "table" and name in _CELERY_OWNED_TABLES:
+        return False
+    return True
+
 
 def do_run_migrations(connection: Connection) -> None:
     # pgvector must exist before any table declaring a Vector column is created.
@@ -43,6 +61,7 @@ def do_run_migrations(connection: Connection) -> None:
         target_metadata=target_metadata,
         compare_type=True,
         compare_server_default=True,
+        include_object=_include_object,
     )
     with context.begin_transaction():
         context.run_migrations()
@@ -67,6 +86,7 @@ def run_migrations_offline() -> None:
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
         compare_type=True,
+        include_object=_include_object,
     )
     with context.begin_transaction():
         context.run_migrations()

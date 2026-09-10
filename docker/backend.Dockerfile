@@ -1,3 +1,8 @@
+# MoodVerse backend image. Serves the API and, with a different command, both
+# Celery workers - one image, three roles, so they can never drift apart.
+#
+# Build context is the repository root (see .dockerignore), not backend/, so
+# that backend-entrypoint.sh next to this file can be copied in as well.
 
 FROM python:3.13-slim AS builder
 
@@ -8,9 +13,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /build
 
-
-COPY pyproject.toml README.md ./
-COPY app ./app
+COPY backend/pyproject.toml backend/README.md ./
+COPY backend/app ./app
 
 RUN python -m venv /opt/venv \
     && /opt/venv/bin/pip install --upgrade pip \
@@ -30,9 +34,10 @@ RUN apt-get update \
 COPY --from=builder /opt/venv /opt/venv
 
 WORKDIR /app
-COPY . .
+COPY backend/ ./
+COPY docker/backend-entrypoint.sh /usr/local/bin/backend-entrypoint.sh
 
-RUN chmod +x /app/docker-entrypoint.sh \
+RUN chmod +x /usr/local/bin/backend-entrypoint.sh \
     && groupadd --system moodverse \
     && useradd --system --gid moodverse --home-dir /app moodverse \
     && chown -R moodverse:moodverse /app
@@ -44,6 +49,6 @@ EXPOSE 8000
 HEALTHCHECK --interval=15s --timeout=5s --start-period=20s --retries=3 \
     CMD curl -fsS http://127.0.0.1:8000/health || exit 1
 
-ENTRYPOINT ["/app/docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/backend-entrypoint.sh"]
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

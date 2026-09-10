@@ -20,15 +20,6 @@ class ReflectionCreate(BaseModel):
     religion: Religion
 
 
-class AnalysisOut(BaseModel):
-    primary_emotion: str
-    secondary_emotions: list[str]
-    intensity: int
-    intent: str
-    themes: list[str]
-    crisis_signals: bool
-
-
 class VerseOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -38,52 +29,62 @@ class VerseOut(BaseModel):
     text: str
 
 
-class ScoreBreakdown(BaseModel):
-    similarity: float
-    addressed_state: float
-    intent: float
-    standalone: float
-    confidence: float
+class ReflectionSubmitResponse(BaseModel):
+    """Returned immediately by POST /api/v1/recommendations and
+    POST /api/v1/reflections/voice - analysis and retrieval run in a Celery
+    worker, never inline in the request. Poll GET /api/v1/reflections/{id}
+    (or the history list) for the outcome."""
 
-
-class RecommendationOut(BaseModel):
-    """One recommended verse.
-
-    `context` is populated whenever the verse is curated INCLUDE_WITH_CONTEXT.
-    A client must render it alongside the verse; the API will not return such a
-    verse with an empty context.
-    """
-
-    verse: VerseOut
-    rank: int
-    similarity: float
-    final_score: float
-    breakdown: ScoreBreakdown
-    served_with_context: bool
-    context: list[VerseOut] = Field(default_factory=list)
-    curation_status: str
-
-
-class RecommendationResponse(BaseModel):
-    reflection_id: int | None = None
-    analysis: AnalysisOut
-    results: list[RecommendationOut]
-    # True when the corpus had nothing eligible. The correct response to an
-    # empty result is to say so, never to generate a passage.
-    empty_reason: str | None = None
+    reflection_id: int
+    status: Literal["pending"] = "pending"
 
 
 class FeedbackCreate(BaseModel):
+    # Which served verse this feedback is about. Optional only when the
+    # reflection has exactly one result - required and validated against the
+    # reflection's own results otherwise.
+    canonical_id: str | None = None
     helpful: bool | None = None
     note: str | None = Field(default=None, max_length=2000)
     reported_harmful: bool = False
 
 
-class ReflectionOut(BaseModel):
+class FeedbackOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
     created_at: datetime
-    text: str
+    canonical_id: str
+    helpful: bool | None
+    note: str | None
+    reported_harmful: bool
+
+
+class ReflectionHistoryResult(BaseModel):
+    verse: VerseOut
+    rank: int
+    similarity: float | None
+    final_score: float | None
+    served_with_context: bool
+
+
+class ReflectionHistoryItem(BaseModel):
+    """Also the shape GET /api/v1/reflections/{id} returns for one reflection -
+    polling for a single item and listing history are the same read, so they
+    share a schema rather than drifting into two shapes for one row."""
+
+    id: int
+    created_at: datetime
+    # Null only while a voice reflection is still waiting on transcription.
+    text: str | None
     religion: Religion
-    analysis: dict | None = None
+    status: str
+    error: str | None
+    analysis: dict | None
+    results: list[ReflectionHistoryResult]
+
+
+class ReflectionHistoryResponse(BaseModel):
+    items: list[ReflectionHistoryItem]
+    limit: int
+    offset: int

@@ -18,6 +18,28 @@ dependencies = [
     "pgvector>=0.3",
     # SQLAlchemy needs greenlet for its asyncio bridge.
     "greenlet>=3.0",
+    # Auth. Authlib drives the Google OIDC flow (its Starlette integration);
+    # joserfc is its maintained JOSE implementation and issues the app's own
+    # access/refresh JWTs, so one JOSE library covers both. bcrypt hashes
+    # passwords directly rather than through passlib. itsdangerous signs the
+    # session cookie SessionMiddleware uses to carry OIDC state/nonce.
+    # python-multipart is required by OAuth2PasswordRequestForm on /auth/login,
+    # and pydantic's EmailStr needs email-validator.
+    "authlib>=1.3",
+    # authlib.integrations.starlette_client imports its httpx_client submodule
+    # unconditionally (for the OAuth1 client class it also defines), so httpx
+    # is a real runtime dependency here even though only OAuth2/OIDC is used.
+    "httpx>=0.27",
+    "joserfc>=1.0",
+    "bcrypt>=4.1",
+    "itsdangerous>=2.2",
+    "python-multipart>=0.0.9",
+    "email-validator>=2.2",
+    # Background jobs. Broker (Kombu's SQLAlchemy transport, `sqla+...`) and
+    # result backend (Celery's own SQLAlchemy backend, `db+...`) both point at
+    # database_url by default - see app/core/celery_app.py - so no Redis or
+    # second service is needed to run the heavy/light queues.
+    "celery>=5.4",
 ]
 
 [project.optional-dependencies]

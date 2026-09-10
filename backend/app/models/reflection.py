@@ -8,6 +8,7 @@ show me this" later, so it is stored rather than recomputed.
 from __future__ import annotations
 
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import (
     Boolean,
@@ -25,13 +26,25 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
 
+if TYPE_CHECKING:
+    from app.models.auth import OAuthAccount
+
+# Mirrors app/services/reflection_pipeline.py. A reflection starts pending,
+# moves to processing when a worker picks it up, and ends completed or
+# failed - the backend never computes this from the presence of results,
+# because "no results yet" and "no results ever" must be distinguishable.
+REFLECTION_STATUSES = ("pending", "processing", "completed", "failed")
+
 
 class User(Base):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     email: Mapped[str] = mapped_column(String(320), unique=True, nullable=False, index=True)
-    password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
+    # Null for an account that has only ever signed in via OIDC. Login with a
+    # password must reject a null hash rather than attempt to verify against it.
+    password_hash: Mapped[str | None] = mapped_column(String(255))
+    email_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     display_name: Mapped[str | None] = mapped_column(String(120))
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
@@ -44,6 +57,9 @@ class User(Base):
 
     reflections: Mapped[list[Reflection]] = relationship(
         back_populates="user", cascade="all, delete-orphan"
+    )
+    oauth_accounts: Mapped[list[OAuthAccount]] = relationship(
+        back_populates="user", cascade="all, delete-orphan", lazy="selectin"
     )
 
     __table_args__ = (
@@ -67,9 +83,16 @@ class Reflection(Base):
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
 
-    # Stored verbatim. Never rewritten, never normalised.
-    text: Mapped[str] = mapped_column(Text, nullable=False)
+    # Stored verbatim. Never rewritten, never normalised. Null only while a
+    # voice reflection is waiting on transcription - see ck_reflection_text_
+    # present_when_completed below.
+    text: Mapped[str | None] = mapped_column(Text)
     religion: Mapped[str] = mapped_column(String(16), nullable=False)
+
+    # AI work (analysis, and for voice input, transcription) runs in a Celery
+    # worker, never inline in the request - see app/services/reflection_pipeline.py.
+    status: Mapped[str] = mapped_column(String(16), default="pending", nullable=False)
+    error: Mapped[str | None] = mapped_column(Text)
 
     # The validated provider output. Kept as JSON so a taxonomy revision does
     # not invalidate historical rows.
@@ -84,6 +107,11 @@ class Reflection(Base):
 
     __table_args__ = (
         CheckConstraint("religion in ('bible', 'quran')", name="ck_reflection_religion"),
+        CheckConstraint(f"status in {REFLECTION_STATUSES!r}", name="ck_reflection_status"),
+        CheckConstraint(
+            "status <> 'completed' or text is not null",
+            name="ck_reflection_text_present_when_completed",
+        ),
     )
 
 

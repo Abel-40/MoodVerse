@@ -1,130 +1,136 @@
-
 name: moodverse
 
-# --- reusable fragments ----------------------------------------------------
-# Anchors, so a new service inherits the same build, database wiring and
-# defaults with one line each.
-
-x-backend-build: &backend-build
-  context: ./backend
-  dockerfile: Dockerfile
-
-x-database-env: &database-env
-  # Service name, not localhost: `db` resolves inside this network only, so a
-  # service here can never reach another project's database by accident.
-  DATABASE_URL: >-
-    postgresql+psycopg://${POSTGRES_USER:-moodverse}:${POSTGRES_PASSWORD:-moodverse}@db:5432/${POSTGRES_DB:-moodverse}
-
-x-embedding-env: &embedding-env
-  EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-hash}
-  EMBEDDING_DIMENSION: ${EMBEDDING_DIMENSION:-768}
-
-x-data-volume: &data-volume
-  # Read-only. The corpus is Phase 0 output; no container may write to it.
-  - ./data:/data:ro
-
-x-db-healthy: &db-healthy
-  db:
-    condition: service_healthy
-
-x-service-defaults: &service-defaults
-  restart: unless-stopped
-  networks:
-    - moodverse-net
-
-# --- services --------------------------------------------------------------
+# Every service reads its configuration from .env (copy .env.example first).
+# The only values set inline are the ones that must differ inside the network
+# from what a developer running the backend on the host would use.
 
 services:
   db:
-    <<: *service-defaults
     image: pgvector/pgvector:pg17
     container_name: moodverse-db
+    restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-moodverse}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-moodverse}
       POSTGRES_DB: ${POSTGRES_DB:-moodverse}
-      # Data lives in a subdirectory so remounting this volume elsewhere later
-      # cannot scribble over an existing PGDATA.
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - "127.0.0.1:${DB_HOST_PORT:-55433}:5432"
     volumes:
       - moodverse-pgdata:/var/lib/postgresql/data
-      - ./docker/initdb:/docker-entrypoint-initdb.d:ro
+      - ./docker/postgres/initdb:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      # Everything else waits on this, so no service starts against a socket
-      # that is still closing during the image's own first-boot restart.
-      test:
-        ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-moodverse} -d ${POSTGRES_DB:-moodverse}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-moodverse} -d ${POSTGRES_DB:-moodverse}"]
       interval: 5s
       timeout: 5s
       retries: 20
       start_period: 10s
 
+  # The public API. Owns migrations; no worker runs them.
   api:
-    <<: *service-defaults
-    build: *backend-build
-    image: moodverse-api:local
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    image: moodverse-backend:local
     container_name: moodverse-api
-    depends_on: *db-healthy
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
     environment:
-      <<: [*database-env, *embedding-env]
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-moodverse}:${POSTGRES_PASSWORD:-moodverse}@db:5432/${POSTGRES_DB:-moodverse}
       RUN_MIGRATIONS: "1"
-      # heuristic needs no key and costs nothing. Set gemini plus a key for
-      # real reflection analysis.
-      AI_PROVIDER: ${AI_PROVIDER:-heuristic}
-      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
-      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash}
       MOODVERSE_DATA_DIR: /data
     ports:
       - "127.0.0.1:${API_HOST_PORT:-8080}:8000"
-    volumes: *data-volume
+    volumes:
+      - ./data:/data:ro
 
-  # One-shot. Excluded from `up` by its profile; run it explicitly:
-  #   docker compose run --rm ingest
-  ingest:
-    build: *backend-build
-    image: moodverse-api:local
-    container_name: moodverse-ingest
-    profiles: ["tools"]
-    restart: "no"
-    networks:
-      - moodverse-net
-    depends_on: *db-healthy
+  # Heavy queue: reflection analysis and voice transcription.
+  worker-heavy:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    image: moodverse-backend:local
+    container_name: moodverse-worker-heavy
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
     environment:
-      <<: [*database-env, *embedding-env]
-      MOODVERSE_DATA_DIR: /data
-    volumes: *data-volume
-    entrypoint: ["python", "ingest.py"]
-    command: ["--only-servable"]
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-moodverse}:${POSTGRES_PASSWORD:-moodverse}@db:5432/${POSTGRES_DB:-moodverse}
+    command:
+      - celery
+      - -A
+      - app.core.celery_app
+      - worker
+      - -Q
+      - ${CELERY_QUEUE_HEAVY:-heavy}
+      - --concurrency=${CELERY_HEAVY_CONCURRENCY:-2}
+      - --loglevel=info
+    healthcheck:
+      # Broker reachability, not `celery inspect ping`: the SQLAlchemy transport
+      # implements no fanout exchange, so inspect hangs rather than replying.
+      test: ["CMD-SHELL", "python -c \"from app.core.celery_app import celery_app; celery_app.connection().ensure_connection(max_retries=1)\" || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
 
-  # --- adding a service ----------------------------------------------------
-  # A worker, scheduler or second API reuses the anchors and needs no new
-  # configuration beyond its own command:
-  #
-  #   worker:
-  #     <<: *service-defaults
-  #     build: *backend-build
-  #     image: moodverse-api:local
-  #     container_name: moodverse-worker
-  #     depends_on: *db-healthy
-  #     environment:
-  #       <<: [*database-env, *embedding-env]
-  #     volumes: *data-volume
-  #     command: ["python", "-m", "app.worker"]
-  #
-  # A service with its own image (frontend, proxy, cache) needs only
-  # `<<: *service-defaults` to join the network with the same restart policy.
-  # Give it a moodverse-* container name and a host port outside the ranges
-  # already taken on this machine.
+  # Light queue: outbound email only.
+  worker-light:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    image: moodverse-backend:local
+    container_name: moodverse-worker-light
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-moodverse}:${POSTGRES_PASSWORD:-moodverse}@db:5432/${POSTGRES_DB:-moodverse}
+    command:
+      - celery
+      - -A
+      - app.core.celery_app
+      - worker
+      - -Q
+      - ${CELERY_QUEUE_LIGHT:-light}
+      - --concurrency=${CELERY_LIGHT_CONCURRENCY:-4}
+      - --loglevel=info
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"from app.core.celery_app import celery_app; celery_app.connection().ensure_connection(max_retries=1)\" || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  # One-shot corpus load. Excluded from `up`: docker compose run --rm ingest
+  ingest:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    image: moodverse-backend:local
+    container_name: moodverse-ingest
+    profiles: [tools]
+    restart: "no"
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-moodverse}:${POSTGRES_PASSWORD:-moodverse}@db:5432/${POSTGRES_DB:-moodverse}
+      MOODVERSE_DATA_DIR: /data
+    volumes:
+      - ./data:/data:ro
+    entrypoint: [python, ingest.py]
+    command: [--only-servable]
 
 volumes:
   moodverse-pgdata:
-    # Explicitly named. Otherwise Compose derives it from the project directory
-    # and renaming that directory would silently orphan the data.
+    # Named explicitly so renaming the checkout directory cannot orphan the data.
     name: moodverse-pgdata
-
-networks:
-  moodverse-net:
-    name: moodverse-net
-    driver: bridge
