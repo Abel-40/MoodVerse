@@ -13,9 +13,10 @@ provider, so a model cannot supply scripture even if its prompt were subverted.
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import Settings, get_settings
+from app.models.scripture import format_reference
 from app.db.session import get_session
 from app.schemas.reflection import (
     AnalysisOut,
@@ -44,15 +45,17 @@ def _verse_out(scripture) -> VerseOut:
     return VerseOut(
         canonical_id=scripture.canonical_id,
         religion=scripture.religion,
-        reference=f"{scripture.book_or_surah} {scripture.chapter}:{scripture.verse}",
+        reference=format_reference(
+            scripture.religion, scripture.book_or_surah, scripture.chapter, scripture.verse
+        ),
         text=scripture.text,
     )
 
 
 @router.post("/recommendations", response_model=RecommendationResponse)
-def recommend(
+async def recommend(
     payload: ReflectionCreate,
-    session: Session = Depends(get_session),
+    session: AsyncSession = Depends(get_session),
     provider: AIProvider = Depends(provider_dependency),
     embedder: EmbeddingProvider = Depends(embedder_dependency),
     settings: Settings = Depends(get_settings),
@@ -65,7 +68,7 @@ def recommend(
             detail="Reflection analysis is unavailable.",
         ) from exc
 
-    ranked = retrieval.recommend(
+    ranked = await retrieval.recommend(
         session=session,
         religion=payload.religion,
         analysis=analysis,
@@ -80,7 +83,9 @@ def recommend(
         context: list[VerseOut] = []
         if item.served_with_context:
             start, end = item.candidate.context_span
-            verses = retrieval.context_verses(session, start, end) if start and end else []
+            verses = (
+                await retrieval.context_verses(session, start, end) if start and end else []
+            )
             if not verses:
                 # Context that cannot be rendered may not be promised. Drop the
                 # result rather than serve a verse known to mislead alone.

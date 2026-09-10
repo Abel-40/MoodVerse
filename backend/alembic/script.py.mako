@@ -8,6 +8,10 @@ from __future__ import annotations
 
 from alembic import op
 import sqlalchemy as sa
+
+# Autogenerate renders Vector columns as pgvector.sqlalchemy.vector.VECTOR but
+# does not emit this import, so every revision would fail with NameError.
+import pgvector.sqlalchemy  # noqa: F401
 ${imports if imports else ""}
 
 revision = ${repr(up_revision)}

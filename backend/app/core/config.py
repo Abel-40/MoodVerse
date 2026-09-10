@@ -18,10 +18,14 @@ class Settings(BaseSettings):
         env_file=".env", env_file_encoding="utf-8", extra="ignore"
     )
 
+    # psycopg3 serves both sync and async through this one scheme, so the
+    # application, Alembic and ingestion all read the same string.
     database_url: str = Field(
-        default="postgresql+psycopg://postgres:postgres@localhost:5432/moodverse",
+        default="postgresql+psycopg://moodverse:moodverse@localhost:55433/moodverse",
         alias="DATABASE_URL",
     )
+    db_pool_size: int = Field(default=5, alias="DB_POOL_SIZE")
+    db_max_overflow: int = Field(default=10, alias="DB_MAX_OVERFLOW")
 
     # Runtime AI. Analyses a reflection; never produces scripture.
     ai_provider: str = Field(default="gemini", alias="AI_PROVIDER")

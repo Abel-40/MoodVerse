@@ -42,6 +42,19 @@ CURATION_STATUSES = (
 SERVABLE_STATUSES = ("INCLUDE", "INCLUDE_WITH_CONTEXT")
 
 
+def format_reference(religion: str, book_or_surah: str, chapter: int, verse: int) -> str:
+    """Human-readable reference.
+
+    Quran rows store book_or_surah as "Surah 5" with chapter 5, so the Bible
+    form would render "Surah 5 5:34". One formatter keeps every caller
+    consistent.
+    """
+    if religion == "quran":
+        return f"{book_or_surah}:{verse}"
+    return f"{book_or_surah} {chapter}:{verse}"
+
+
+
 class Scripture(Base):
     """One verse. Source-faithful; never written by application code."""
 

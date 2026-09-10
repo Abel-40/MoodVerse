@@ -1,24 +1,47 @@
-"""Engine and session factory."""
+"""Async engine and session factory.
+
+psycopg3 is async-capable through the same `postgresql+psycopg://` URL the
+sync driver uses, so there is one connection string for the application, for
+Alembic and for ingestion rather than three that can drift apart.
+"""
 
 from __future__ import annotations
 
-from collections.abc import Iterator
+from collections.abc import AsyncIterator
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 
 from app.core.config import get_settings
 
 _settings = get_settings()
 
-engine = create_engine(_settings.database_url, pool_pre_ping=True, future=True)
-SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
+engine: AsyncEngine = create_async_engine(
+    _settings.database_url,
+    pool_pre_ping=True,
+    pool_size=_settings.db_pool_size,
+    max_overflow=_settings.db_max_overflow,
+    echo=False,
+)
+
+# expire_on_commit=False so a response model can still read an ORM object after
+# the session commits; otherwise every attribute access would trigger a lazy
+# refresh against a closed session.
+SessionLocal = async_sessionmaker(
+    bind=engine, expire_on_commit=False, autoflush=False, class_=AsyncSession
+)
 
 
-def get_session() -> Iterator[Session]:
+async def get_session() -> AsyncIterator[AsyncSession]:
     """FastAPI dependency. One session per request, always closed."""
-    session = SessionLocal()
-    try:
+    async with SessionLocal() as session:
         yield session
-    finally:
-        session.close()
+
+
+async def dispose_engine() -> None:
+    """Close the pool. Called on application shutdown."""
+    await engine.dispose()

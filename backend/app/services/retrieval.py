@@ -14,12 +14,14 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from sqlalchemy import select
-from sqlalchemy.orm import Session, selectinload
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from app.models.scripture import (
     ContentAdvisory,
     Scripture,
     ScriptureEnrichment,
+    format_reference,
 )
 from app.services.ai_provider import ReflectionAnalysis
 from app.services.embeddings import EmbeddingProvider, cosine_similarity
@@ -175,7 +177,9 @@ def _to_candidate(scripture: Scripture, enrichment: ScriptureEnrichment) -> Cand
         canonical_id=scripture.canonical_id,
         religion=scripture.religion,
         text=scripture.text,
-        reference=f"{scripture.book_or_surah} {scripture.chapter}:{scripture.verse}",
+        reference=format_reference(
+            scripture.religion, scripture.book_or_surah, scripture.chapter, scripture.verse
+        ),
         curation_status=enrichment.curation_status,
         curation_confidence=enrichment.curation_confidence,
         standalone_usefulness=enrichment.standalone_usefulness,
@@ -190,8 +194,8 @@ def _to_candidate(scripture: Scripture, enrichment: ScriptureEnrichment) -> Cand
     )
 
 
-def fetch_candidates(
-    session: Session,
+async def fetch_candidates(
+    session: AsyncSession,
     religion: str,
     reflection_vector: list[float],
     limit: int,
@@ -220,19 +224,20 @@ def fetch_candidates(
         )
     statement = statement.limit(limit)
 
-    return [_to_candidate(s, e) for s, e in session.execute(statement).all()]
+    rows = (await session.execute(statement)).all()
+    return [_to_candidate(s, e) for s, e in rows]
 
 
-def context_verses(
-    session: Session, start_canonical_id: str, end_canonical_id: str
+async def context_verses(
+    session: AsyncSession, start_canonical_id: str, end_canonical_id: str
 ) -> list[Scripture]:
     """The passage an INCLUDE_WITH_CONTEXT verse must be shown with.
 
     Returned from the database, never reconstructed. If this comes back empty
     the caller must drop the result rather than serve the verse bare.
     """
-    start = session.get(Scripture, start_canonical_id)
-    end = session.get(Scripture, end_canonical_id)
+    start = await session.get(Scripture, start_canonical_id)
+    end = await session.get(Scripture, end_canonical_id)
     if start is None or end is None or start.religion != end.religion:
         return []
 
@@ -244,7 +249,7 @@ def context_verses(
         .where(Scripture.chapter <= end.chapter)
         .order_by(Scripture.chapter, Scripture.verse)
     )
-    rows = list(session.execute(statement).scalars())
+    rows = list((await session.execute(statement)).scalars())
     return [
         verse
         for verse in rows
@@ -253,8 +258,8 @@ def context_verses(
     ]
 
 
-def recommend(
-    session: Session,
+async def recommend(
+    session: AsyncSession,
     religion: str,
     analysis: ReflectionAnalysis,
     embedder: EmbeddingProvider,
@@ -264,5 +269,5 @@ def recommend(
 ) -> list[RankedResult]:
     """End to end: embed the reflection, fetch candidates, rank them."""
     vector = embedder.embed(reflection_text)
-    candidates = fetch_candidates(session, religion, vector, candidate_limit)
+    candidates = await fetch_candidates(session, religion, vector, candidate_limit)
     return rank(candidates, analysis, vector, result_limit)

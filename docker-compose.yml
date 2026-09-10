@@ -1,0 +1,155 @@
+# MoodVerse stack.
+#
+# Compose is the entry point; the Dockerfile only describes how one image is
+# built. Adding a service (worker, scheduler, frontend, proxy) means appending a
+# block that reuses the anchors below, not repeating configuration.
+#
+# ---------------------------------------------------------------------------
+# Isolation from the other stacks on this machine is deliberate and layered.
+# `workroom-db` already runs pgvector on 0.0.0.0:5432 and `workroom-bd` holds
+# 8000, so every one of these is chosen not to collide:
+#
+#   project name      `moodverse`, so Compose namespaces what it creates
+#   container names   moodverse-*, never bare `db` / `api`
+#   network           `moodverse-net`, its own bridge. Containers in different
+#                     networks can both listen on 5432 internally without
+#                     clashing; only published host ports are actually shared.
+#   host ports        55433 and 8080, bound to 127.0.0.1 so neither is exposed
+#                     to the LAN. 5432 and 8000 are left alone.
+#   volume            `moodverse-pgdata`, explicitly named so it can never be
+#                     adopted by, or adopt, another project's data directory
+#   credentials       moodverse / moodverse / moodverse
+#
+# Any host port can be moved without editing this file:
+#   DB_HOST_PORT=55555 API_HOST_PORT=8090 docker compose up -d
+# ---------------------------------------------------------------------------
+
+name: moodverse
+
+# --- reusable fragments ----------------------------------------------------
+# Anchors, so a new service inherits the same build, database wiring and
+# defaults with one line each.
+
+x-backend-build: &backend-build
+  context: ./backend
+  dockerfile: Dockerfile
+
+x-database-env: &database-env
+  # Service name, not localhost: `db` resolves inside this network only, so a
+  # service here can never reach another project's database by accident.
+  DATABASE_URL: >-
+    postgresql+psycopg://${POSTGRES_USER:-moodverse}:${POSTGRES_PASSWORD:-moodverse}@db:5432/${POSTGRES_DB:-moodverse}
+
+x-embedding-env: &embedding-env
+  EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-hash}
+  EMBEDDING_DIMENSION: ${EMBEDDING_DIMENSION:-768}
+
+x-data-volume: &data-volume
+  # Read-only. The corpus is Phase 0 output; no container may write to it.
+  - ./data:/data:ro
+
+x-db-healthy: &db-healthy
+  db:
+    condition: service_healthy
+
+x-service-defaults: &service-defaults
+  restart: unless-stopped
+  networks:
+    - moodverse-net
+
+# --- services --------------------------------------------------------------
+
+services:
+  db:
+    <<: *service-defaults
+    image: pgvector/pgvector:pg17
+    container_name: moodverse-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-moodverse}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-moodverse}
+      POSTGRES_DB: ${POSTGRES_DB:-moodverse}
+      # Data lives in a subdirectory so remounting this volume elsewhere later
+      # cannot scribble over an existing PGDATA.
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "127.0.0.1:${DB_HOST_PORT:-55433}:5432"
+    volumes:
+      - moodverse-pgdata:/var/lib/postgresql/data
+      - ./docker/initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      # Everything else waits on this, so no service starts against a socket
+      # that is still closing during the image's own first-boot restart.
+      test:
+        ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-moodverse} -d ${POSTGRES_DB:-moodverse}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  api:
+    <<: *service-defaults
+    build: *backend-build
+    image: moodverse-api:local
+    container_name: moodverse-api
+    depends_on: *db-healthy
+    environment:
+      <<: [*database-env, *embedding-env]
+      RUN_MIGRATIONS: "1"
+      # heuristic needs no key and costs nothing. Set gemini plus a key for
+      # real reflection analysis.
+      AI_PROVIDER: ${AI_PROVIDER:-heuristic}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash}
+      MOODVERSE_DATA_DIR: /data
+    ports:
+      - "127.0.0.1:${API_HOST_PORT:-8080}:8000"
+    volumes: *data-volume
+
+  # One-shot. Excluded from `up` by its profile; run it explicitly:
+  #   docker compose run --rm ingest
+  ingest:
+    build: *backend-build
+    image: moodverse-api:local
+    container_name: moodverse-ingest
+    profiles: ["tools"]
+    restart: "no"
+    networks:
+      - moodverse-net
+    depends_on: *db-healthy
+    environment:
+      <<: [*database-env, *embedding-env]
+      MOODVERSE_DATA_DIR: /data
+    volumes: *data-volume
+    entrypoint: ["python", "ingest.py"]
+    command: ["--only-servable"]
+
+  # --- adding a service ----------------------------------------------------
+  # A worker, scheduler or second API reuses the anchors and needs no new
+  # configuration beyond its own command:
+  #
+  #   worker:
+  #     <<: *service-defaults
+  #     build: *backend-build
+  #     image: moodverse-api:local
+  #     container_name: moodverse-worker
+  #     depends_on: *db-healthy
+  #     environment:
+  #       <<: [*database-env, *embedding-env]
+  #     volumes: *data-volume
+  #     command: ["python", "-m", "app.worker"]
+  #
+  # A service with its own image (frontend, proxy, cache) needs only
+  # `<<: *service-defaults` to join the network with the same restart policy.
+  # Give it a moodverse-* container name and a host port outside the ranges
+  # already taken on this machine.
+
+volumes:
+  moodverse-pgdata:
+    # Explicitly named. Otherwise Compose derives it from the project directory
+    # and renaming that directory would silently orphan the data.
+    name: moodverse-pgdata
+
+networks:
+  moodverse-net:
+    name: moodverse-net
+    driver: bridge

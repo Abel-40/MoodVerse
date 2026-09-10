@@ -20,15 +20,18 @@ catch.
 from __future__ import annotations
 
 import argparse
+import asyncio
 import hashlib
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Any, Iterator
 
-from sqlalchemy import select
+from sqlalchemy import delete
 from sqlalchemy.dialects.postgresql import insert
 
+from app.core.eventloop import configure_event_loop
 from app.db.session import SessionLocal
 from app.models.scripture import (
     AddressedState,
@@ -41,10 +44,14 @@ from app.models.scripture import (
 )
 from app.services.embeddings import get_embedding_provider
 
+# In the repository this resolves to <repo>/data. In a container the data
+# volume is mounted elsewhere, so MOODVERSE_DATA_DIR overrides it.
 REPO = Path(__file__).resolve().parent.parent
-CORPUS = REPO / "data" / "processed" / "unified_scripture_corpus.jsonl"
-ENRICHMENT = REPO / "data" / "processed" / "enrichment" / "curation" / "enrichment.jsonl"
-DECISIONS = REPO / "data" / "processed" / "enrichment" / "curation" / "decisions.jsonl"
+DATA = Path(os.environ.get("MOODVERSE_DATA_DIR") or (REPO / "data"))
+
+CORPUS = DATA / "processed" / "unified_scripture_corpus.jsonl"
+ENRICHMENT = DATA / "processed" / "enrichment" / "curation" / "enrichment.jsonl"
+DECISIONS = DATA / "processed" / "enrichment" / "curation" / "decisions.jsonl"
 
 SERVABLE = ("INCLUDE", "INCLUDE_WITH_CONTEXT")
 
@@ -52,7 +59,7 @@ SERVABLE = ("INCLUDE", "INCLUDE_WITH_CONTEXT")
 def read_jsonl(path: Path) -> Iterator[dict[str, Any]]:
     if not path.exists():
         raise SystemExit(
-            f"missing {path.relative_to(REPO)}. Build it first:\n"
+            f"missing {path}. Build it first:\n"
             "  python pipeline/phase0/build_unified_corpus.py\n"
             "  python pipeline/phase1/build_enrichment.py --bootstrap"
         )
@@ -90,7 +97,43 @@ def location_of(record: dict[str, Any]) -> tuple[str, int, int]:
     )
 
 
-def main() -> int:
+# A span longer than this is treated as malformed rather than followed. Without
+# a cap, one bad pair of endpoints would drag thousands of verses into the
+# database as "context".
+MAX_SPAN_VERSES = 50
+
+
+def span_ids(
+    item: dict[str, Any],
+    corpus: dict[str, dict[str, Any]],
+    position: dict[str, int],
+    order: list[str],
+) -> set[str]:
+    """Every verse needed to render this record's recommended context span.
+
+    An INCLUDE_WITH_CONTEXT verse may only be served together with its passage,
+    and those neighbours are usually REVIEW_REQUIRED themselves. Ingesting only
+    servable records would therefore guarantee that no such verse can ever be
+    shown - the API would correctly drop every one for missing context.
+    """
+    span = item.get("recommended_context_span") or {}
+    start, end = span.get("start_canonical_id"), span.get("end_canonical_id")
+    if not start or not end or start not in position or end not in position:
+        return set()
+
+    low, high = sorted((position[start], position[end]))
+    if high - low + 1 > MAX_SPAN_VERSES:
+        return set()
+
+    religion = corpus[start]["religion"]
+    return {
+        order[i]
+        for i in range(low, high + 1)
+        if corpus[order[i]]["religion"] == religion
+    }
+
+
+async def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--only-servable", action="store_true",
@@ -100,43 +143,79 @@ def main() -> int:
 
     embedder = get_embedding_provider()
     corpus = {r["canonical_id"]: r for r in read_jsonl(CORPUS)}
+    order = list(corpus)
+    position = {cid: i for i, cid in enumerate(order)}
     decisions = {d["canonical_id"]: d for d in read_jsonl(DECISIONS)}
 
-    ingested = skipped = drifted = 0
+    # ---- pass 1: pick the records, and the context they cannot be served
+    # without. Context rows carry text only; they get no enrichment and so can
+    # never be recommended in their own right.
+    selected: list[dict[str, Any]] = []
+    context_only: set[str] = set()
+    skipped = drifted = 0
     taxonomy_version = pipeline_version = None
+
+    for item in read_jsonl(ENRICHMENT):
+        cid = item["canonical_id"]
+        status = item["curation"]["status"]
+        taxonomy_version = taxonomy_version or item.get("taxonomy_version")
+        pipeline_version = pipeline_version or item.get("pipeline_version")
+
+        if args.only_servable and status not in SERVABLE:
+            skipped += 1
+            continue
+
+        record = corpus.get(cid)
+        if record is None:
+            skipped += 1
+            continue
+
+        text, _ = display_text(record)
+        digest = hashlib.sha256(text.encode("utf-8")).hexdigest()
+        if item.get("corpus_text_sha256") and item["corpus_text_sha256"] != digest:
+            # Enrichment was computed against different text than we would serve.
+            drifted += 1
+            continue
+
+        if args.limit and len(selected) >= args.limit:
+            break
+        selected.append(item)
+        context_only |= span_ids(item, corpus, position, order)
+
+    context_only -= {i["canonical_id"] for i in selected}
+    ingested = len(selected)
+
     session = SessionLocal() if not args.dry_run else None
 
     try:
-        for item in read_jsonl(ENRICHMENT):
+        # ---- pass 2a: context-only verses. Text, no enrichment.
+        if not args.dry_run:
+            for cid in sorted(context_only):
+                record = corpus[cid]
+                text, text_source = display_text(record)
+                book, chapter, verse = location_of(record)
+                await session.execute(
+                    insert(Scripture)
+                    .values(
+                        canonical_id=cid, religion=record["religion"], book_or_surah=book,
+                        chapter=chapter, verse=verse, text=text, text_source=text_source,
+                        text_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest(),
+                    )
+                    .on_conflict_do_nothing(index_elements=[Scripture.canonical_id])
+                )
+
+        # ---- pass 2b: the curated records themselves
+        for item in selected:
             cid = item["canonical_id"]
             status = item["curation"]["status"]
-            taxonomy_version = taxonomy_version or item.get("taxonomy_version")
-            pipeline_version = pipeline_version or item.get("pipeline_version")
-
-            if args.only_servable and status not in SERVABLE:
-                skipped += 1
-                continue
-
-            record = corpus.get(cid)
-            if record is None:
-                skipped += 1
-                continue
-
+            record = corpus[cid]
             text, text_source = display_text(record)
             digest = hashlib.sha256(text.encode("utf-8")).hexdigest()
-            if item.get("corpus_text_sha256") and item["corpus_text_sha256"] != digest:
-                # Enrichment was computed against different text than we would serve.
-                drifted += 1
-                continue
-
-            if args.limit and ingested >= args.limit:
-                break
-            ingested += 1
             if args.dry_run:
                 continue
 
             book, chapter, verse = location_of(record)
-            session.execute(
+            await session.execute(
                 insert(Scripture)
                 .values(
                     canonical_id=cid, religion=record["religion"], book_or_surah=book,
@@ -168,7 +247,7 @@ def main() -> int:
                 embedding=embedder.embed(text),
                 embedding_model=embedder.model_id,
             )
-            session.execute(
+            await session.execute(
                 insert(ScriptureEnrichment)
                 .values(**values)
                 .on_conflict_do_update(
@@ -180,7 +259,7 @@ def main() -> int:
             # Child rows are replaced wholesale: a re-curation may remove a
             # state or an advisory, and a merge would silently keep the old one.
             for model in (AddressedState, IntentScore, ScriptureTheme, ContentAdvisory):
-                session.query(model).filter(model.canonical_id == cid).delete()
+                await session.execute(delete(model).where(model.canonical_id == cid))
 
             for state in item.get("addressed_states") or []:
                 session.add(AddressedState(
@@ -206,14 +285,15 @@ def main() -> int:
                 taxonomy_version=taxonomy_version or "unknown",
                 pipeline_version=pipeline_version,
                 records_ingested=ingested, records_skipped=skipped,
-                notes=f"drifted={drifted}",
+                notes=f"drifted={drifted} context_rows={len(context_only)}",
             ))
-            session.commit()
+            await session.commit()
     finally:
         if session is not None:
-            session.close()
+            await session.close()
 
     print(f"{'dry run: ' if args.dry_run else ''}ingested {ingested:,}")
+    print(f"  context  {len(context_only):,}  (text only, required to render spans)")
     print(f"  skipped  {skipped:,}")
     print(f"  drifted  {drifted:,}  (enrichment digest did not match corpus text)")
     if drifted:
@@ -222,4 +302,5 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    configure_event_loop()
+    sys.exit(asyncio.run(main()))
