@@ -1,28 +1,3 @@
-# MoodVerse stack.
-#
-# Compose is the entry point; the Dockerfile only describes how one image is
-# built. Adding a service (worker, scheduler, frontend, proxy) means appending a
-# block that reuses the anchors below, not repeating configuration.
-#
-# ---------------------------------------------------------------------------
-# Isolation from the other stacks on this machine is deliberate and layered.
-# `workroom-db` already runs pgvector on 0.0.0.0:5432 and `workroom-bd` holds
-# 8000, so every one of these is chosen not to collide:
-#
-#   project name      `moodverse`, so Compose namespaces what it creates
-#   container names   moodverse-*, never bare `db` / `api`
-#   network           `moodverse-net`, its own bridge. Containers in different
-#                     networks can both listen on 5432 internally without
-#                     clashing; only published host ports are actually shared.
-#   host ports        55433 and 8080, bound to 127.0.0.1 so neither is exposed
-#                     to the LAN. 5432 and 8000 are left alone.
-#   volume            `moodverse-pgdata`, explicitly named so it can never be
-#                     adopted by, or adopt, another project's data directory
-#   credentials       moodverse / moodverse / moodverse
-#
-# Any host port can be moved without editing this file:
-#   DB_HOST_PORT=55555 API_HOST_PORT=8090 docker compose up -d
-# ---------------------------------------------------------------------------
 
 name: moodverse
 
