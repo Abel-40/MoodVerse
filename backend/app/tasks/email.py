@@ -57,3 +57,24 @@ def send_verification_email(
         _send(to_email, "Verify your MoodVerse email", body)
     except Exception as exc:
         raise self.retry(exc=exc) from exc
+
+
+@celery_app.task(
+    name="app.tasks.email.send_magic_link_email",
+    bind=True,
+    max_retries=3,
+    default_retry_delay=30,
+)
+def send_magic_link_email(self, to_email: str, sign_in_url: str) -> None:
+    body = (
+        "Hi,\n\n"
+        "Here is your link to sign in to MoodVerse:\n\n"
+        f"{sign_in_url}\n\n"
+        f"It works once and expires in {get_settings().magic_link_expire_minutes} minutes.\n\n"
+        "If you didn't ask for this, you can ignore this email. Nobody can sign "
+        "in without the link."
+    )
+    try:
+        _send(to_email, "Your MoodVerse sign-in link", body)
+    except Exception as exc:
+        raise self.retry(exc=exc) from exc

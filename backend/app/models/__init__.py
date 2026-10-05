@@ -1,6 +1,6 @@
 """SQLAlchemy models. Importing this module registers every table on Base.metadata."""
 
-from app.models.auth import OAuthAccount, RefreshToken
+from app.models.auth import MagicLinkToken, OAuthAccount, RefreshToken
 from app.models.reflection import (
     REFLECTION_STATUSES,
     Feedback,
@@ -29,6 +29,7 @@ __all__ = [
     "Feedback",
     "IngestionRun",
     "IntentScore",
+    "MagicLinkToken",
     "OAuthAccount",
     "Reflection",
     "ReflectionResult",

@@ -170,6 +170,19 @@ class Settings(BaseSettings):
     # kind of host-header trust an attacker can abuse.
     public_base_url: str = Field(default="http://localhost:8080", alias="PUBLIC_BASE_URL")
 
+    # --- auth: passwordless email sign-in ("magic link") --------------------
+    magic_link_expire_minutes: int = Field(default=15, alias="MAGIC_LINK_EXPIRE_MINUTES")
+    # The page the emailed link opens, with ?token= appended; that page posts
+    # the token to /auth/magic-link/verify. A server-set constant like
+    # email_verification_redirect_url, never caller-supplied, so the link in
+    # the email can't be pointed somewhere else.
+    magic_link_url: str = Field(
+        default="http://127.0.0.1:3200/auth/magic", alias="MAGIC_LINK_URL"
+    )
+    # Minimum gap between two links to the same address, so the endpoint
+    # can't be used to flood someone's inbox.
+    magic_link_resend_seconds: int = Field(default=60, alias="MAGIC_LINK_RESEND_SECONDS")
+
     # --- voice: speech-to-text ----------------------------------------------
     stt_provider: str = Field(default="cartesia", alias="STT_PROVIDER")
     cartesia_api_key: str | None = Field(default=None, alias="CARTESIA_API_KEY")

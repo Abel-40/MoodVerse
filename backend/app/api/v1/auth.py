@@ -1,4 +1,5 @@
-"""Custom password-based auth: register, login, refresh, logout, me.
+"""Custom auth: register, password login, emailed sign-in links, refresh,
+logout, me.
 
 Mounted at /auth rather than under /api/v1 - these are cross-cutting identity
 endpoints, not versioned business API. api/v1/oidc.py follows the same
@@ -33,6 +34,8 @@ from app.models.auth import RefreshToken
 from app.models.reflection import User
 from app.schemas.auth import (
     LogoutRequest,
+    MagicLinkRequest,
+    MagicLinkVerify,
     RefreshRequest,
     TokenResponse,
     UserOut,
@@ -40,7 +43,7 @@ from app.schemas.auth import (
     UserPreferencesUpdate,
 )
 from app.services import auth as auth_service
-from app.tasks.email import send_verification_email
+from app.tasks.email import send_magic_link_email, send_verification_email
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 logger = logging.getLogger(__name__)
@@ -105,6 +108,47 @@ async def login(
     if not user.is_active:
         raise HTTPException(status.HTTP_403_FORBIDDEN, "This account is disabled.")
 
+    return await auth_service.issue_tokens(session, user, settings)
+
+
+@router.post("/magic-link", status_code=status.HTTP_202_ACCEPTED)
+async def request_magic_link(
+    payload: MagicLinkRequest,
+    session: AsyncSession = Depends(get_session),
+    settings: Settings = Depends(get_settings),
+) -> dict:
+    """Email a single-use sign-in link. Works for new and existing accounts.
+
+    Always answers 202 with the same body, whether or not an account exists
+    or a link was actually sent, so this can't be used to discover who has
+    an account.
+    """
+    token = await auth_service.create_magic_link_token(session, payload.email, settings)
+    if token is not None:
+        separator = "&" if "?" in settings.magic_link_url else "?"
+        link = f"{settings.magic_link_url}{separator}token={token}"
+        try:
+            send_magic_link_email.delay(payload.email, link)
+        except Exception:
+            # Never log the address or the link: either one is enough to act on.
+            logger.exception("failed to enqueue a magic-link email")
+    return {"sent": True}
+
+
+@router.post("/magic-link/verify", response_model=TokenResponse)
+async def verify_magic_link(
+    payload: MagicLinkVerify,
+    session: AsyncSession = Depends(get_session),
+    settings: Settings = Depends(get_settings),
+) -> TokenResponse:
+    user = await auth_service.redeem_magic_link_token(session, payload.token)
+    if user is None:
+        raise HTTPException(
+            status.HTTP_400_BAD_REQUEST,
+            "This sign-in link is invalid, has expired, or was already used.",
+        )
+    if not user.is_active:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "This account is disabled.")
     return await auth_service.issue_tokens(session, user, settings)
 
 

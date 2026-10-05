@@ -1,6 +1,6 @@
-"""Federated identities and refresh-token revocation.
+"""Federated identities, refresh-token revocation and emailed sign-in links.
 
-Two tables, both existing only to make auth work, neither touched by the
+Three tables, all existing only to make auth work, none touched by the
 recommendation/retrieval domain:
 
     OAuthAccount    links a provider identity (e.g. Google's `sub`) to a User,
@@ -9,6 +9,8 @@ recommendation/retrieval domain:
     RefreshToken    one row per issued refresh token, tracked by its JWT `jti`.
                     A bare JWT cannot be revoked; this is what makes /logout
                     and refresh-token rotation actually work.
+    MagicLinkToken  one emailed passwordless sign-in link. Stores only a
+                    SHA-256 of the token, and `used_at` makes it single-use.
 """
 
 from __future__ import annotations
@@ -80,3 +82,24 @@ class RefreshToken(Base):
     @property
     def is_active(self) -> bool:
         return self.revoked_at is None and self.expires_at > datetime.now(timezone.utc)
+
+
+class MagicLinkToken(Base):
+    """One emailed sign-in link ("magic link").
+
+    Keyed by email rather than user: the first link sent to a new address is
+    also how that account gets created. Only the token's SHA-256 is stored, so
+    a leaked table cannot be replayed into a sign-in; the raw token exists
+    only in the email.
+    """
+
+    __tablename__ = "magic_link_tokens"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    email: Mapped[str] = mapped_column(String(320), index=True, nullable=False)
+    token_hash: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    used_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )

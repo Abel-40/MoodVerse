@@ -20,6 +20,15 @@ class UserRegister(BaseModel):
     display_name: str | None = Field(default=None, max_length=120)
 
 
+class MagicLinkRequest(BaseModel):
+    email: EmailStr
+
+
+class MagicLinkVerify(BaseModel):
+    # token_urlsafe(32) is 43 characters; the bounds only reject junk.
+    token: str = Field(min_length=20, max_length=200)
+
+
 class TokenResponse(BaseModel):
     access_token: str
     refresh_token: str
