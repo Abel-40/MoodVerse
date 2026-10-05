@@ -26,6 +26,8 @@ class VerseOut(BaseModel):
     canonical_id: str
     religion: Religion
     reference: str
+    # Display name of the edition `text` comes from, e.g. "Saheeh International".
+    translation: str
     text: str
 
 

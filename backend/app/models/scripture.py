@@ -54,6 +54,19 @@ def format_reference(religion: str, book_or_surah: str, chapter: int, verse: int
     return f"{book_or_surah} {chapter}:{verse}"
 
 
+# Display names for the `text_source` values ingestion writes. A passage is
+# always shown with its translation, so an unlisted source is shown as stored
+# rather than with no name at all.
+TRANSLATION_NAMES = {
+    "AKJV": "American King James Version",
+    "QSAC/Saheeh International": "Saheeh International",
+}
+
+
+def translation_name(text_source: str) -> str:
+    return TRANSLATION_NAMES.get(text_source, text_source)
+
+
 
 class Scripture(Base):
     """One verse. Source-faithful; never written by application code."""
