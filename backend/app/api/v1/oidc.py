@@ -16,6 +16,8 @@ other.
 
 from __future__ import annotations
 
+from urllib.parse import urlencode, urlsplit
+
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.responses import RedirectResponse
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -113,11 +115,22 @@ async def oidc_callback(
 
     app_redirect = request.session.pop("oidc_app_redirect", None)
     if app_redirect:
-        separator = "&" if "?" in app_redirect else "?"
-        return RedirectResponse(
-            f"{app_redirect}{separator}access_token={tokens.access_token}"
-            f"&refresh_token={tokens.refresh_token}&token_type=bearer"
+        params = urlencode(
+            {
+                "access_token": tokens.access_token,
+                "refresh_token": tokens.refresh_token,
+                "token_type": "bearer",
+            }
         )
+        # A web page gets the tokens in the URL fragment, which browsers never
+        # send to a server, so they stay out of access logs, Referer headers
+        # and synced history. A native deep link (custom scheme) keeps the
+        # query string its handler already parses.
+        if urlsplit(app_redirect).scheme in ("http", "https"):
+            separator = "#"
+        else:
+            separator = "&" if "?" in app_redirect else "?"
+        return RedirectResponse(f"{app_redirect}{separator}{params}")
 
     return tokens
 
