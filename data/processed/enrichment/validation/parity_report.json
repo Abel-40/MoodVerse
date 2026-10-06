@@ -17,14 +17,15 @@
   },
   "status_distribution": {
     "bible": {
-      "REVIEW_REQUIRED": 31067,
-      "EXCLUDE_FROM_DEFAULT_RECOMMENDATIONS": 16,
+      "REVIEW_REQUIRED": 31069,
+      "EXCLUDE_FROM_DEFAULT_RECOMMENDATIONS": 14,
       "INCLUDE_WITH_CONTEXT": 20
     },
     "quran": {
-      "REVIEW_REQUIRED": 6224,
-      "INCLUDE_WITH_CONTEXT": 8,
-      "EXCLUDE_FROM_DEFAULT_RECOMMENDATIONS": 4
+      "INCLUDE": 3,
+      "REVIEW_REQUIRED": 6214,
+      "INCLUDE_WITH_CONTEXT": 17,
+      "EXCLUDE_FROM_DEFAULT_RECOMMENDATIONS": 2
     }
   },
   "mean_curation_confidence": {
@@ -44,47 +45,47 @@
   "purpose_coverage": {
     "comfort": {
       "bible": 5,
-      "quran": 0
+      "quran": 5
     },
     "hope": {
       "bible": 2,
-      "quran": 1
+      "quran": 4
     },
     "encouragement": {
       "bible": 3,
-      "quran": 1
+      "quran": 2
     },
     "peace": {
       "bible": 0,
-      "quran": 0
+      "quran": 3
     },
     "guidance": {
       "bible": 3,
-      "quran": 3
+      "quran": 4
     },
     "strength": {
       "bible": 2,
-      "quran": 0
+      "quran": 2
     },
     "patience": {
       "bible": 6,
-      "quran": 1
+      "quran": 2
     },
     "gratitude": {
       "bible": 2,
-      "quran": 0
+      "quran": 3
     },
     "praise": {
       "bible": 3,
-      "quran": 2
+      "quran": 6
     },
     "repentance": {
       "bible": 0,
-      "quran": 1
+      "quran": 3
     },
     "forgiveness": {
       "bible": 1,
-      "quran": 2
+      "quran": 4
     },
     "wisdom": {
       "bible": 4,
@@ -92,7 +93,7 @@
     },
     "perseverance": {
       "bible": 5,
-      "quran": 1
+      "quran": 2
     }
   },
   "gaps": [
@@ -106,9 +107,9 @@
     {
       "purpose": "comfort",
       "religion": "quran",
-      "include_verses": 0,
+      "include_verses": 5,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 15
     },
     {
       "purpose": "hope",
@@ -120,9 +121,9 @@
     {
       "purpose": "hope",
       "religion": "quran",
-      "include_verses": 1,
+      "include_verses": 4,
       "required": 20,
-      "shortfall": 19
+      "shortfall": 16
     },
     {
       "purpose": "encouragement",
@@ -134,9 +135,9 @@
     {
       "purpose": "encouragement",
       "religion": "quran",
-      "include_verses": 1,
+      "include_verses": 2,
       "required": 20,
-      "shortfall": 19
+      "shortfall": 18
     },
     {
       "purpose": "peace",
@@ -148,9 +149,9 @@
     {
       "purpose": "peace",
       "religion": "quran",
-      "include_verses": 0,
+      "include_verses": 3,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 17
     },
     {
       "purpose": "guidance",
@@ -162,9 +163,9 @@
     {
       "purpose": "guidance",
       "religion": "quran",
-      "include_verses": 3,
+      "include_verses": 4,
       "required": 20,
-      "shortfall": 17
+      "shortfall": 16
     },
     {
       "purpose": "strength",
@@ -176,9 +177,9 @@
     {
       "purpose": "strength",
       "religion": "quran",
-      "include_verses": 0,
+      "include_verses": 2,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 18
     },
     {
       "purpose": "patience",
@@ -190,9 +191,9 @@
     {
       "purpose": "patience",
       "religion": "quran",
-      "include_verses": 1,
+      "include_verses": 2,
       "required": 20,
-      "shortfall": 19
+      "shortfall": 18
     },
     {
       "purpose": "gratitude",
@@ -204,9 +205,9 @@
     {
       "purpose": "gratitude",
       "religion": "quran",
-      "include_verses": 0,
+      "include_verses": 3,
       "required": 20,
-      "shortfall": 20
+      "shortfall": 17
     },
     {
       "purpose": "praise",
@@ -218,9 +219,9 @@
     {
       "purpose": "praise",
       "religion": "quran",
-      "include_verses": 2,
+      "include_verses": 6,
       "required": 20,
-      "shortfall": 18
+      "shortfall": 14
     },
     {
       "purpose": "repentance",
@@ -232,9 +233,9 @@
     {
       "purpose": "repentance",
       "religion": "quran",
-      "include_verses": 1,
+      "include_verses": 3,
       "required": 20,
-      "shortfall": 19
+      "shortfall": 17
     },
     {
       "purpose": "forgiveness",
@@ -246,9 +247,9 @@
     {
       "purpose": "forgiveness",
       "religion": "quran",
-      "include_verses": 2,
+      "include_verses": 4,
       "required": 20,
-      "shortfall": 18
+      "shortfall": 16
     },
     {
       "purpose": "wisdom",
@@ -274,9 +275,9 @@
     {
       "purpose": "perseverance",
       "religion": "quran",
-      "include_verses": 1,
+      "include_verses": 2,
       "required": 20,
-      "shortfall": 19
+      "shortfall": 18
     }
   ],
   "gate_passed": false,

@@ -3,6 +3,7 @@
   "generated_by": "processed/enrichment/build_enrichment.py",
   "max_age_days": 90,
   "priority_order": [
+    "p0_single_pass_includes",
     "p1_would_otherwise_be_included",
     "p2_crisis_relevant",
     "p3_source_disagreement",
@@ -10,23 +11,24 @@
     "p5_awaiting_annotation"
   ],
   "counts": {
-    "p2_crisis_relevant": 10,
+    "p0_single_pass_includes": 2,
+    "p2_crisis_relevant": 6,
     "p4_phase0_flagged": 120,
-    "p5_awaiting_annotation": 37161
+    "p5_awaiting_annotation": 37157
   },
-  "total": 37291,
+  "total": 37285,
   "sample_ids": {
+    "p0_single_pass_includes": [
+      "quran:1:1",
+      "quran:1:5"
+    ],
     "p2_crisis_relevant": [
       "bible:Job:1:22",
       "bible:Job:3:11",
       "bible:Job:3:3",
       "bible:Proverbs:10:28",
       "bible:Psalms:27:14",
-      "bible:Psalms:31:24",
-      "quran:16:127",
-      "quran:1:5",
-      "quran:39:53",
-      "quran:9:118"
+      "bible:Psalms:31:24"
     ],
     "p4_phase0_flagged": [
       "quran:100:1",
