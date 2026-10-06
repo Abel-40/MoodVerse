@@ -47,6 +47,41 @@ CRISIS_SAFE_INTENTS = frozenset({"comfort", "lament", "assurance", "peace"})
 CRISIS_MIN_INTENT_SCORE = 3
 
 
+# What a served passage must actually do, given the need the analysis read.
+# Emotion match alone is not enough: a lament matches exhaustion perfectly and
+# still leaves a worn-out person with nothing to stand on. Someone struggling
+# is served a passage that strengthens, comforts, gives hope or reassures;
+# someone with good news is served thanks and praise; a lament only to someone
+# who asked to lament.
+UPLIFTING_INTENTS = frozenset({
+    "comfort", "hope", "assurance", "strength", "encouragement",
+    "peace", "perseverance", "patience",
+})
+_TURNING = frozenset({"forgiveness", "repentance", "comfort", "assurance"})
+_DIRECTING = frozenset({"guidance", "wisdom", "instruction", "assurance"})
+_THANKS = frozenset({"gratitude", "praise"})
+SERVES_NEED: dict[str, frozenset[str]] = {
+    **{intent: UPLIFTING_INTENTS for intent in UPLIFTING_INTENTS},
+    "lament": UPLIFTING_INTENTS | {"lament"},
+    "gratitude": _THANKS,
+    "praise": _THANKS,
+    "forgiveness": _TURNING,
+    "repentance": _TURNING,
+    "guidance": _DIRECTING,
+    "wisdom": _DIRECTING,
+    "instruction": _DIRECTING,
+    "warning": _DIRECTING | {"warning"},
+}
+# On the 0-4 suitability scale, 3 is "does this well".
+MIN_NEED_SCORE = 3
+
+
+def serves_need(candidate: Candidate, intent: str) -> bool:
+    """Whether the passage does well what this person needs from it."""
+    accepted = SERVES_NEED.get(intent, frozenset({intent}))
+    return any(candidate.intents.get(i, 0) >= MIN_NEED_SCORE for i in accepted)
+
+
 def is_crisis(analysis: ReflectionAnalysis) -> bool:
     return analysis.crisis_signals or analysis.intensity >= 4
 
@@ -119,6 +154,10 @@ def eligible(candidate: Candidate, analysis: ReflectionAnalysis) -> tuple[bool, 
     for state in (analysis.primary_emotion, *analysis.secondary_emotions):
         if state in candidate.avoid_states:
             return False, f"avoid_for_states contains {state}"
+
+    need = effective_intent(analysis)
+    if not serves_need(candidate, need):
+        return False, f"does not serve the need {need!r} well enough"
 
     if is_crisis(analysis):
         if candidate.crisis_safe is not True:

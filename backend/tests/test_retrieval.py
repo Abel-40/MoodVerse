@@ -119,7 +119,8 @@ def test_crisis_never_serves_a_verse_that_only_warns():
     analysis = make_analysis(intent="warning", crisis_signals=True, intensity=4)
     allowed, reason = eligible(candidate, analysis)
     assert not allowed
-    assert "crisis-safe intent" in reason
+    # Served as comfort at crisis, which a warning does not give.
+    assert "comfort" in reason
 
 
 def test_crisis_asking_for_hope_is_served_comfort_rather_than_nothing():
@@ -161,7 +162,7 @@ def test_intensity_four_alone_triggers_crisis_constraints():
 
 def test_ranking_is_deterministic_and_ordered():
     weak = make_candidate(
-        canonical_id="bible:A:1:1", addressed={"anxiety": 1}, intents={"peace": 1}
+        canonical_id="bible:A:1:1", addressed={"anxiety": 1}, intents={"peace": 3}
     )
     strong = make_candidate(
         canonical_id="bible:B:1:1", addressed={"anxiety": 4}, intents={"peace": 4}
@@ -318,3 +319,44 @@ def test_heuristic_catches_common_crisis_phrasing():
     analysis = HeuristicProvider().analyse("Some nights I don't want to live anymore.")
     assert analysis.crisis_signals is True
     assert analysis.intensity == 4
+
+
+# --------------------------------------------------------------------------
+# a passage must do what the person needs, not only match how they feel
+# --------------------------------------------------------------------------
+
+LAMENT = dict(addressed={"exhaustion": 4, "anxiety": 3}, intents={"lament": 3, "comfort": 1})
+
+
+def test_a_lament_is_not_served_to_someone_who_needs_strength():
+    # Job 3:24-26: a perfect match for exhaustion, and no help to the exhausted.
+    candidate = make_candidate(**LAMENT)
+    analysis = make_analysis(primary_emotion="exhaustion", secondary_emotions=["anxiety"], intent="strength")
+    allowed, reason = eligible(candidate, analysis)
+    assert not allowed
+    assert "strength" in reason
+
+
+def test_a_strengthening_passage_wins_over_a_closer_lament():
+    lament = make_candidate(canonical_id="bible:Job:3:26", **LAMENT)
+    strength = make_candidate(
+        canonical_id="bible:Isaiah:40:29", addressed={"exhaustion": 3},
+        intents={"strength": 4, "hope": 3},
+        embedding=EMBEDDER.embed("unrelated words about something else"),
+    )
+    analysis = make_analysis(primary_emotion="exhaustion", intent="strength")
+    results = rank([lament, strength], analysis, lament.embedding, limit=5)
+    assert [r.candidate.canonical_id for r in results] == ["bible:Isaiah:40:29"]
+
+
+def test_a_lament_is_served_to_someone_who_asked_to_lament():
+    analysis = make_analysis(primary_emotion="grief", intent="lament")
+    assert eligible(make_candidate(**LAMENT), analysis)[0]
+
+
+def test_good_news_is_met_with_thanks_not_consolation():
+    analysis = make_analysis(primary_emotion="joy", secondary_emotions=["gratitude"], intent="praise", intensity=1)
+    consolation = make_candidate(addressed={"joy": 2}, intents={"comfort": 4})
+    thanks = make_candidate(addressed={"joy": 4}, intents={"gratitude": 4, "praise": 4})
+    assert not eligible(consolation, analysis)[0]
+    assert eligible(thanks, analysis)[0]
