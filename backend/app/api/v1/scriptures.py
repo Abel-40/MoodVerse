@@ -13,7 +13,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.deps import get_current_user
 from app.db.session import get_session
 from app.models.reflection import User
-from app.models.scripture import Scripture, format_reference, translation_name
+from app.models.scripture import Scripture
 from app.schemas.reflection import VerseOut
 
 router = APIRouter(prefix="/api/v1", tags=["scriptures"])
@@ -29,12 +29,4 @@ async def get_scripture(
     if scripture is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "No scripture with that id.")
 
-    return VerseOut(
-        canonical_id=scripture.canonical_id,
-        religion=scripture.religion,
-        reference=format_reference(
-            scripture.religion, scripture.book_or_surah, scripture.chapter, scripture.verse
-        ),
-        translation=translation_name(scripture.text_source),
-        text=scripture.text,
-    )
+    return VerseOut.from_scripture(scripture)

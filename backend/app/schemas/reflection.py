@@ -12,6 +12,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from app.models.scripture import Scripture, format_reference, translation_name
+
 Religion = Literal["bible", "quran"]
 
 
@@ -29,6 +31,22 @@ class VerseOut(BaseModel):
     # Display name of the edition `text` comes from, e.g. "Saheeh International".
     translation: str
     text: str
+    # Quran only: the Arabic, verbatim from one source. Null for the Bible and
+    # for the few ayat whose reading is still undecided.
+    arabic: str | None = None
+
+    @classmethod
+    def from_scripture(cls, scripture: Scripture) -> VerseOut:
+        return cls(
+            canonical_id=scripture.canonical_id,
+            religion=scripture.religion,
+            reference=format_reference(
+                scripture.religion, scripture.book_or_surah, scripture.chapter, scripture.verse
+            ),
+            translation=translation_name(scripture.text_source),
+            text=scripture.text,
+            arabic=scripture.original_text,
+        )
 
 
 class ReflectionSubmitResponse(BaseModel):
@@ -68,6 +86,9 @@ class ReflectionHistoryResult(BaseModel):
     similarity: float | None
     final_score: float | None
     served_with_context: bool
+    # When served_with_context, the passage `verse` must be shown inside, in
+    # order and including `verse` itself. Empty otherwise.
+    context: list[VerseOut] = Field(default_factory=list)
 
 
 class ReflectionHistoryItem(BaseModel):

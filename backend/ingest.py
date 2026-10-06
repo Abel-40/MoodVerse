@@ -184,10 +184,15 @@ async def main() -> int:
     taxonomy_version = pipeline_version = None
 
     statuses: dict[str, str] = {}
+    originals: dict[str, tuple[str, str]] = {}
     for item in read_jsonl(ENRICHMENT):
         cid = item["canonical_id"]
         status = item["curation"]["status"]
         statuses[cid] = status
+        ref = item.get("display_text_ref") or {}
+        # Only a reading display policy v1 settled; an undecided one is not shown.
+        if ref.get("decision") == "display_policy_v1" and ref.get("original_display_text"):
+            originals[cid] = (ref["original_display_text"], ref.get("original_display_source"))
         taxonomy_version = taxonomy_version or item.get("taxonomy_version")
         pipeline_version = pipeline_version or item.get("pipeline_version")
 
@@ -236,14 +241,19 @@ async def main() -> int:
                 record = corpus[cid]
                 text, text_source = display_text(record)
                 book, chapter, verse = location_of(record)
+                original, original_source = originals.get(cid, (None, None))
                 await session.execute(
                     insert(Scripture)
                     .values(
                         canonical_id=cid, religion=record["religion"], book_or_surah=book,
                         chapter=chapter, verse=verse, text=text, text_source=text_source,
                         text_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest(),
+                        original_text=original, original_source=original_source,
                     )
-                    .on_conflict_do_nothing(index_elements=[Scripture.canonical_id])
+                    .on_conflict_do_update(
+                        index_elements=[Scripture.canonical_id],
+                        set_={"original_text": original, "original_source": original_source},
+                    )
                 )
 
         # ---- pass 2b: the curated records themselves
@@ -257,16 +267,19 @@ async def main() -> int:
                 continue
 
             book, chapter, verse = location_of(record)
+            original, original_source = originals.get(cid, (None, None))
             await session.execute(
                 insert(Scripture)
                 .values(
                     canonical_id=cid, religion=record["religion"], book_or_surah=book,
                     chapter=chapter, verse=verse, text=text,
                     text_source=text_source, text_sha256=digest,
+                    original_text=original, original_source=original_source,
                 )
                 .on_conflict_do_update(
                     index_elements=[Scripture.canonical_id],
-                    set_={"text": text, "text_source": text_source, "text_sha256": digest},
+                    set_={"text": text, "text_source": text_source, "text_sha256": digest,
+                          "original_text": original, "original_source": original_source},
                 )
             )
 

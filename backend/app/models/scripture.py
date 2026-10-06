@@ -42,14 +42,39 @@ CURATION_STATUSES = (
 SERVABLE_STATUSES = ("INCLUDE", "INCLUDE_WITH_CONTEXT")
 
 
+# The 114 surah names in their common English transliteration, by number.
+SURAH_NAMES = (
+    "Al-Fatihah", "Al-Baqarah", "Ali 'Imran", "An-Nisa", "Al-Ma'idah", "Al-An'am",
+    "Al-A'raf", "Al-Anfal", "At-Tawbah", "Yunus", "Hud", "Yusuf", "Ar-Ra'd", "Ibrahim",
+    "Al-Hijr", "An-Nahl", "Al-Isra", "Al-Kahf", "Maryam", "Taha", "Al-Anbya", "Al-Hajj",
+    "Al-Mu'minun", "An-Nur", "Al-Furqan", "Ash-Shu'ara", "An-Naml", "Al-Qasas",
+    "Al-'Ankabut", "Ar-Rum", "Luqman", "As-Sajdah", "Al-Ahzab", "Saba", "Fatir", "Ya-Sin",
+    "As-Saffat", "Sad", "Az-Zumar", "Ghafir", "Fussilat", "Ash-Shuraa", "Az-Zukhruf",
+    "Ad-Dukhan", "Al-Jathiyah", "Al-Ahqaf", "Muhammad", "Al-Fath", "Al-Hujurat", "Qaf",
+    "Adh-Dhariyat", "At-Tur", "An-Najm", "Al-Qamar", "Ar-Rahman", "Al-Waqi'ah",
+    "Al-Hadid", "Al-Mujadila", "Al-Hashr", "Al-Mumtahanah", "As-Saf", "Al-Jumu'ah",
+    "Al-Munafiqun", "At-Taghabun", "At-Talaq", "At-Tahrim", "Al-Mulk", "Al-Qalam",
+    "Al-Haqqah", "Al-Ma'arij", "Nuh", "Al-Jinn", "Al-Muzzammil", "Al-Muddaththir",
+    "Al-Qiyamah", "Al-Insan", "Al-Mursalat", "An-Naba", "An-Nazi'at", "'Abasa",
+    "At-Takwir", "Al-Infitar", "Al-Mutaffifin", "Al-Inshiqaq", "Al-Buruj", "At-Tariq",
+    "Al-A'la", "Al-Ghashiyah", "Al-Fajr", "Al-Balad", "Ash-Shams", "Al-Layl", "Ad-Duhaa",
+    "Ash-Sharh", "At-Tin", "Al-'Alaq", "Al-Qadr", "Al-Bayyinah", "Az-Zalzalah",
+    "Al-'Adiyat", "Al-Qari'ah", "At-Takathur", "Al-'Asr", "Al-Humazah", "Al-Fil",
+    "Quraysh", "Al-Ma'un", "Al-Kawthar", "Al-Kafirun", "An-Nasr", "Al-Masad", "Al-Ikhlas",
+    "Al-Falaq", "An-Nas",
+)
+
+
 def format_reference(religion: str, book_or_surah: str, chapter: int, verse: int) -> str:
     """Human-readable reference.
 
     Quran rows store book_or_surah as "Surah 5" with chapter 5, so the Bible
     form would render "Surah 5 5:34". One formatter keeps every caller
-    consistent.
+    consistent. Quran references carry the surah's name, as readers know them.
     """
     if religion == "quran":
+        if 1 <= chapter <= len(SURAH_NAMES):
+            return f"Surah {SURAH_NAMES[chapter - 1]} {chapter}:{verse}"
         return f"{book_or_surah}:{verse}"
     return f"{book_or_surah} {chapter}:{verse}"
 
@@ -80,6 +105,11 @@ class Scripture(Base):
     verse: Mapped[int] = mapped_column(Integer, nullable=False)
     text: Mapped[str] = mapped_column(Text, nullable=False)
     text_source: Mapped[str] = mapped_column(String(128), nullable=False)
+    # Quran only: the Arabic shown beside the translation, verbatim from one
+    # source as chosen by display policy v1 (pipeline/phase1/display_policy.py).
+    # Null where no reading has been decided, and for the Bible.
+    original_text: Mapped[str | None] = mapped_column(Text)
+    original_source: Mapped[str | None] = mapped_column(String(128))
     # SHA-256 of the Phase 0 text. Ingestion refuses any enrichment row whose
     # recorded digest disagrees with this, which is how corpus drift is caught.
     text_sha256: Mapped[str] = mapped_column(String(64), nullable=False)

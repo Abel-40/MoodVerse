@@ -25,7 +25,7 @@ from app.api.deps import get_current_user
 from app.core.config import Settings, get_settings
 from app.db.session import get_session
 from app.models.reflection import Feedback, Reflection, User
-from app.models.scripture import Scripture, format_reference, translation_name
+from app.models.scripture import Scripture, ScriptureEnrichment
 from app.schemas.reflection import (
     FeedbackCreate,
     FeedbackOut,
@@ -36,6 +36,7 @@ from app.schemas.reflection import (
     ReflectionSubmitResponse,
     VerseOut,
 )
+from app.services.retrieval import context_verses
 from app.tasks.reflections import process_voice_reflection
 
 router = APIRouter(prefix="/api/v1/reflections", tags=["reflections"])
@@ -54,18 +55,6 @@ _ALLOWED_VOICE_CONTENT_TYPES = {
 }
 
 
-def _verse_out(scripture: Scripture) -> VerseOut:
-    return VerseOut(
-        canonical_id=scripture.canonical_id,
-        religion=scripture.religion,
-        reference=format_reference(
-            scripture.religion, scripture.book_or_surah, scripture.chapter, scripture.verse
-        ),
-        translation=translation_name(scripture.text_source),
-        text=scripture.text,
-    )
-
-
 async def _fetch_scriptures(
     session: AsyncSession, canonical_ids: set[str]
 ) -> dict[str, Scripture]:
@@ -77,8 +66,34 @@ async def _fetch_scriptures(
     return {s.canonical_id: s for s in rows.scalars()}
 
 
+async def _fetch_contexts(
+    session: AsyncSession, reflections: list[Reflection]
+) -> dict[str, list[Scripture]]:
+    """The passage each served-with-context verse belongs inside.
+
+    Read from the enrichment span, the same one ranking required to exist
+    before it would serve the verse.
+    """
+    wanted = {
+        r.canonical_id for refl in reflections for r in refl.results if r.served_with_context
+    }
+    if not wanted:
+        return {}
+    rows = await session.execute(
+        select(ScriptureEnrichment).where(ScriptureEnrichment.canonical_id.in_(wanted))
+    )
+    contexts: dict[str, list[Scripture]] = {}
+    for enrichment in rows.scalars():
+        start, end = enrichment.context_span_start, enrichment.context_span_end
+        if start and end:
+            contexts[enrichment.canonical_id] = await context_verses(session, start, end)
+    return contexts
+
+
 def _to_history_item(
-    reflection: Reflection, scriptures: dict[str, Scripture]
+    reflection: Reflection,
+    scriptures: dict[str, Scripture],
+    contexts: dict[str, list[Scripture]],
 ) -> ReflectionHistoryItem:
     results: list[ReflectionHistoryResult] = []
     for r in sorted(reflection.results, key=lambda x: x.rank):
@@ -89,11 +104,15 @@ def _to_history_item(
             continue
         results.append(
             ReflectionHistoryResult(
-                verse=_verse_out(scripture),
+                verse=VerseOut.from_scripture(scripture),
                 rank=r.rank,
                 similarity=r.similarity,
                 final_score=r.final_score,
                 served_with_context=r.served_with_context,
+                context=[
+                    VerseOut.from_scripture(v)
+                    for v in (contexts.get(r.canonical_id, []) if r.served_with_context else [])
+                ],
             )
         )
     return ReflectionHistoryItem(
@@ -128,7 +147,8 @@ async def history(
     canonical_ids = {r.canonical_id for refl in reflections for r in refl.results}
     scriptures = await _fetch_scriptures(session, canonical_ids)
 
-    items = [_to_history_item(refl, scriptures) for refl in reflections]
+    contexts = await _fetch_contexts(session, reflections)
+    items = [_to_history_item(refl, scriptures, contexts) for refl in reflections]
     return ReflectionHistoryResponse(items=items, limit=limit, offset=offset)
 
 
@@ -152,7 +172,8 @@ async def get_reflection(
     scriptures = await _fetch_scriptures(
         session, {r.canonical_id for r in reflection.results}
     )
-    return _to_history_item(reflection, scriptures)
+    contexts = await _fetch_contexts(session, [reflection])
+    return _to_history_item(reflection, scriptures, contexts)
 
 
 @router.post(
