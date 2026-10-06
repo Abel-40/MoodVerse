@@ -56,6 +56,7 @@ def base_record(**overrides) -> dict:
         "_annotated": True,
         "_max_pass_disagreement": 0,
         "_needs_display_decision": False,
+        "_theologically_contested": False,
         "_low_kappa_fields": [],
     }
     record.update(overrides)
@@ -248,6 +249,26 @@ CASES = [
                  recommended_context_span={"start_canonical_id": "bible:Test:1:1",
                                            "end_canonical_id": "bible:Test:1:3"}),
      curation.INCLUDE_WITH_CONTEXT, "gate3.include_with_context"),
+    ("single pass, safest profile", base_record(curation={"curation_confidence": 0.40}),
+     curation.INCLUDE, "gate4.include_single_pass"),
+    ("single pass, mild isolation risk",
+     base_record(curation={"curation_confidence": 0.40},
+                 isolation_risk={"level": 1, "kinds": [], "explanation": None}),
+     curation.REVIEW, "default.deny"),
+    ("single pass, promise to someone else",
+     base_record(curation={"curation_confidence": 0.40},
+                 scripture_purpose=[{"purpose": "promise",
+                                     "promise_conditionality": "addressee_specific"}]),
+     curation.REVIEW, "default.deny"),
+    ("single pass, ordinary speaker",
+     base_record(curation={"curation_confidence": 0.40},
+                 scripture_purpose=[{"purpose": "reported_speech",
+                                     "speaker_role": "ordinary_person"}]),
+     curation.REVIEW, "default.deny"),
+    ("single pass, below the floor", base_record(curation={"curation_confidence": 0.20}),
+     curation.REVIEW, "gate1.low_confidence"),
+    ("theologically contested", base_record(_theologically_contested=True),
+     curation.REVIEW, "gate1.theologically_contested"),
     ("context span missing",
      base_record(context_dependency={"level": 3, "reasons": ["narrative_setup_required"]},
                  standalone_usefulness=3),
@@ -389,6 +410,44 @@ def test_parity_report() -> None:
 
 # ---------------------------------------------------------------------------
 
+def test_display_policy() -> None:
+    """Script differences and the prefixed Basmala are decided; a changed word is not."""
+    import display_policy as dp
+
+    def quran(original, variants, surah=94, ayah=6):
+        return {
+            "religion": "quran",
+            "location": {"chapter_or_surah_number": surah, "verse_start": ayah},
+            "text": {
+                "original": original,
+                "original_source": "Complete_Quran_data",
+                "original_variants": [
+                    {"text": v, "sources": [{"source": src, "source_field": "x"}]}
+                    for src, v in variants
+                ],
+            },
+        }
+
+    uthmani = dp.display_original(quran(
+        "إِنَّ مَعَ الْعُسْرِ يُسْرًا", [("ELQV", "إِنَّ مَعَ ٱلۡعُسۡرِ يُسۡرٗا")]))
+    basmala = dp.display_original(quran(
+        "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ الر ۚ تِلْكَ آيَاتُ الْكِتَابِ الْحَكِيمِ",
+        [("QSAC", "الر ۚ تِلْكَ آيَاتُ الْكِتَابِ الْحَكِيمِ")], surah=10, ayah=1))
+    changed = dp.display_original(quran(
+        "إِنَّ مَعَ الْعُسْرِ يُسْرًا", [("ELQV", "إِنَّ مَعَ الْيُسْرِ عُسْرًا")]))
+    fatihah = dp.display_original(quran("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", [], surah=1, ayah=1))
+
+    ok = (
+        uthmani["rule"] == "primary_reading_other_scripts_agree" and not uthmani["needs_decision"]
+        and basmala["rule"] == "ayah_without_prefixed_basmala"
+        and basmala["text"] == "الر ۚ تِلْكَ آيَاتُ الْكِتَابِ الْحَكِيمِ"
+        and changed["needs_decision"]
+        and fatihah["rule"] == "primary_reading"
+    )
+    check("19 display policy", ok,
+          "script variants agree, a prefixed Basmala is dropped from ayah 1, a changed word is held")
+
+
 def main() -> int:
     mv.setup_stdout()
     for fn in (
@@ -404,6 +463,7 @@ def main() -> int:
         test_utf8_safety,
         test_provenance_monotonicity,
         test_parity_report,
+        test_display_policy,
     ):
         try:
             fn()

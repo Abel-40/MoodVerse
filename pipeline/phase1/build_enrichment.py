@@ -24,6 +24,7 @@ from pathlib import Path
 from typing import Any
 
 import curation
+import display_policy
 import mv_common as mv
 
 ENRICHMENT_SCHEMA_VERSION = "phase1-1"
@@ -213,7 +214,8 @@ def build(bootstrap: bool) -> tuple[list[dict], list[dict], dict]:
         responses = annotations.get(cid, [])
         annotation, disagreement, used_runs = reconcile(responses)
 
-        needs_display_decision = bool(record["text"].get("original_variants"))
+        display = display_policy.display_original(record)
+        needs_display_decision = display["needs_decision"]
 
         item: dict[str, Any] = {
             "canonical_id": cid,
@@ -225,11 +227,16 @@ def build(bootstrap: bool) -> tuple[list[dict], list[dict], dict]:
             "display_text_ref": {
                 "text_source": text_source,
                 "original_source": record["text"].get("original_source", record["text"].get("source")),
-                "decision": "deterministic_default" if not needs_display_decision else "undecided",
+                "decision": "display_policy_v1" if not needs_display_decision else "undecided",
                 "decided_by": "deterministic_rule",
+                # Quran only: the Arabic shown beside the translation, verbatim
+                # from one source, and the rule that chose it. See display_policy.py.
+                "original_display_rule": display["rule"],
+                "original_display_source": display["source"],
+                "original_display_text": display["text"],
                 "note": (
-                    "Sources disagree on this verse's original text; which reading is displayed is "
-                    "a content decision that has not been made."
+                    "Sources disagree on this verse's original text beyond script and spelling "
+                    "conventions; which reading is displayed is a content decision for a person."
                     if needs_display_decision
                     else None
                 ),
@@ -286,6 +293,7 @@ def build(bootstrap: bool) -> tuple[list[dict], list[dict], dict]:
             "_annotated": bool(annotation),
             "_max_pass_disagreement": disagreement,
             "_needs_display_decision": needs_display_decision,
+            "_theologically_contested": bool(annotation.get("theologically_contested")),
             "_low_kappa_fields": [],
         }
 
@@ -414,6 +422,10 @@ def build_review_queue(enrichment: list[dict]) -> dict:
     """Prioritised review worklist. Highest user exposure first."""
     buckets: dict[str, list[str]] = defaultdict(list)
     for item in enrichment:
+        # Served on one pass (gate 4b): confirm these first, they reach people.
+        if item["curation"].get("rule_fired") == "gate4.include_single_pass":
+            buckets["p0_single_pass_includes"].append(item["canonical_id"])
+            continue
         if item["curation"]["status"] != curation.REVIEW:
             continue
         rule = item["curation"]["rule_fired"]
@@ -434,6 +446,7 @@ def build_review_queue(enrichment: list[dict]) -> dict:
         "generated_by": "processed/enrichment/build_enrichment.py",
         "max_age_days": curation.REVIEW_MAX_AGE_DAYS,
         "priority_order": [
+            "p0_single_pass_includes",
             "p1_would_otherwise_be_included",
             "p2_crisis_relevant",
             "p3_source_disagreement",

@@ -32,6 +32,13 @@ REVIEW_MAX_AGE_DAYS = 90
 # blocked there - notably `warning`, `repentance`, `instruction` and `guidance`.
 CRISIS_SAFE_INTENTS = frozenset({"comfort", "lament", "assurance", "peace"})
 
+# Gate 4b (single-pass INCLUDE): whose words may be served on one pass, and
+# which speech acts never are.
+SINGLE_PASS_SPEAKERS = frozenset({"divine", "prophet_or_apostle", "righteous_figure", "narrator"})
+SINGLE_PASS_EXCLUDED_PURPOSES = frozenset(
+    {"warning_or_threat", "legal_ruling", "genealogy_or_record"}
+)
+
 
 def _scores(record: dict[str, Any]) -> dict[str, Any]:
     """Pull the decision-relevant fields, tolerating absent annotation."""
@@ -58,6 +65,11 @@ def _scores(record: dict[str, Any]) -> dict[str, Any]:
             p.get("speaker_role")
             for p in (record.get("scripture_purpose") or [])
             if p.get("purpose") == "reported_speech"
+        ],
+        "promise_conditions": [
+            p.get("promise_conditionality")
+            for p in (record.get("scripture_purpose") or [])
+            if p.get("purpose") == "promise"
         ],
         "advisories": (record.get("safety") or {}).get("content_advisories") or [],
         "crisis_safe": (record.get("safety") or {}).get("crisis_safe"),
@@ -148,6 +160,13 @@ def decide(record: dict[str, Any], hard_exclusion_speakers: frozenset[str]) -> t
             "least one score. Disagreement is recorded, never averaged away.",
         )
 
+    if record.get("_theologically_contested"):
+        return (
+            REVIEW,
+            "gate1.theologically_contested",
+            "The annotation marks the reading as genuinely contested between traditions. The "
+            "annotator may not resolve that, so a person must.",
+        )
     if record.get("_needs_display_decision"):
         return (
             REVIEW,
@@ -286,6 +305,51 @@ def decide(record: dict[str, Any], hard_exclusion_speakers: frozenset[str]) -> t
             f"Self-contained (context {s['context_level']}), reads well alone "
             f"(standalone {s['standalone']}), low isolation risk, and performs `{best[0]}` at "
             f"{best[1]}.",
+        )
+
+    # ---------------------------------------------------------------- Gate 4b
+    # INCLUDE on a single corroborated pass, for the safest profile only.
+    #
+    # This resolves the "confidence ceiling" decision in
+    # docs/implementation_phases.md, deliberately and narrowly (2026-10-06).
+    # One annotation pass caps confidence at 0.40, so gate 4 could never fire,
+    # while gate 3 admitted context-dependent verses at 0.40. The product shows
+    # a single passage, so that served exactly the verses that most need their
+    # surroundings and withheld the self-contained ones that need none.
+    #
+    # The bar is not lowered across the board: everything in gates 1-3 still
+    # applies, and on top of gate 4's own conditions the verse must need no
+    # context at all, carry no isolation risk, no advisory, no warning, no
+    # addressee-specific promise, and no words but God's, a prophet's, a
+    # righteous figure's or the narrator's. Records admitted here are queued
+    # for a second pass or human confirmation (review_queue p0).
+    if (
+        s["confidence"] is not None
+        and s["confidence"] >= 0.40
+        and s["context_level"] is not None
+        and s["context_level"] <= 1
+        and s["standalone"] is not None
+        and s["standalone"] >= 3
+        and s["isolation_level"] == 0
+        and (s["max_suitability"] or 0) >= 3
+        and s["crisis_safe"] is not None
+        and s["states"]
+        and not s["advisories"]
+        and not set(s["purpose_ids"]) & SINGLE_PASS_EXCLUDED_PURPOSES
+        and all(role in SINGLE_PASS_SPEAKERS for role in s["speaker_roles"])
+        and "addressee_specific" not in s["promise_conditions"]
+    ):
+        best = max(
+            ((k, v) for k, v in s["purposes"].items() if v is not None),
+            key=lambda kv: (kv[1], kv[0]),
+            default=("unknown", 0),
+        )
+        return (
+            INCLUDE,
+            "gate4.include_single_pass",
+            f"One corroborated annotation pass. Self-contained, reads well alone (standalone "
+            f"{s['standalone']}), no isolation risk, and performs `{best[0]}` at {best[1]}. "
+            "Awaiting a second pass or human confirmation.",
         )
 
     # ------------------------------------------------------------ default deny
