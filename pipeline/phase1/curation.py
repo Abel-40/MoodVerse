@@ -39,6 +39,25 @@ SINGLE_PASS_EXCLUDED_PURPOSES = frozenset(
     {"warning_or_threat", "legal_ruling", "genealogy_or_record"}
 )
 
+# Phase 0 warnings a deterministic, documented rule has already settled. A
+# cross-source Arabic variant is settled once display policy v1 has chosen the
+# reading (implementation_phases.md, "Decided 2026-10-06"); every other warning
+# still needs a person.
+SETTLED_BY_DISPLAY_POLICY = frozenset({"original_text_variant_across_sources"})
+
+
+def phase0_open(record: dict[str, Any]) -> bool:
+    """True while a Phase 0 flag on this record still needs a person to clear it."""
+    quality = record.get("phase0_data_quality") or {}
+    status = quality.get("status")
+    if status in (None, "valid"):
+        return False
+    if status != "warning":
+        return True
+    codes = {w.get("code") for w in quality.get("warnings") or []}
+    display_decided = (record.get("display_text_ref") or {}).get("decision") == "display_policy_v1"
+    return not (codes <= SETTLED_BY_DISPLAY_POLICY and display_decided)
+
 
 def _scores(record: dict[str, Any]) -> dict[str, Any]:
     """Pull the decision-relevant fields, tolerating absent annotation."""
@@ -75,6 +94,7 @@ def _scores(record: dict[str, Any]) -> dict[str, Any]:
         "crisis_safe": (record.get("safety") or {}).get("crisis_safe"),
         "span": record.get("recommended_context_span"),
         "phase0": (record.get("phase0_data_quality") or {}).get("status"),
+        "phase0_open": phase0_open(record),
         "disagreement": record.get("_max_pass_disagreement", 0),
         "low_kappa_fields": record.get("_low_kappa_fields") or [],
         "annotated": bool(record.get("_annotated")),
@@ -96,7 +116,7 @@ def decide(record: dict[str, Any], hard_exclusion_speakers: frozenset[str]) -> t
             "No annotation exists for this record yet, so no automatic status can be earned.",
         )
 
-    if s["phase0"] in ("unresolved", "error"):
+    if s["phase0_open"]:
         return (
             REVIEW,
             "gate1.phase0_data_quality",

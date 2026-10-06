@@ -142,7 +142,7 @@ def validate() -> dict:
                     derived_leak.append(f"{cid}:{label['source']}")
 
         # 14. Phase 0 flagged records must be routed to review
-        if item["phase0_data_quality"]["status"] != "valid":
+        if curation.phase0_open(item):
             if item["curation"]["status"] != curation.REVIEW and item["review"]["state"] == "unreviewed":
                 unreviewed_flagged.append(cid)
 

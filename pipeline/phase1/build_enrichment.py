@@ -436,7 +436,7 @@ def build_review_queue(enrichment: list[dict]) -> dict:
             buckets["p2_crisis_relevant"].append(item["canonical_id"])
         elif item["evidence"]["source_disagreements"]:
             buckets["p3_source_disagreement"].append(item["canonical_id"])
-        elif item["phase0_data_quality"]["status"] != "valid":
+        elif curation.phase0_open(item):
             buckets["p4_phase0_flagged"].append(item["canonical_id"])
         else:
             buckets["p5_awaiting_annotation"].append(item["canonical_id"])

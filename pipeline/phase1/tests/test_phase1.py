@@ -197,6 +197,19 @@ CASES = [
     ("unannotated", base_record(_annotated=False), curation.REVIEW, "gate1.not_annotated"),
     ("phase0 unresolved", base_record(phase0_data_quality={"status": "unresolved"}),
      curation.REVIEW, "gate1.phase0_data_quality"),
+    ("phase0 label warning", base_record(phase0_data_quality={
+        "status": "warning", "warnings": [{"code": "repeated_source_rows"}]}),
+     curation.REVIEW, "gate1.phase0_data_quality"),
+    ("phase0 text variant, display settled", base_record(
+        phase0_data_quality={"status": "warning",
+                             "warnings": [{"code": "original_text_variant_across_sources"}]},
+        display_text_ref={"decision": "display_policy_v1"}),
+     curation.INCLUDE, "gate4.include"),
+    ("phase0 text variant, display undecided", base_record(
+        phase0_data_quality={"status": "warning",
+                             "warnings": [{"code": "original_text_variant_across_sources"}]},
+        display_text_ref={"decision": "undecided"}),
+     curation.REVIEW, "gate1.phase0_data_quality"),
     ("low confidence", base_record(curation={"curation_confidence": 0.20}),
      curation.REVIEW, "gate1.low_confidence"),
     ("self-contradictory", base_record(isolation_risk={"level": 2}, standalone_usefulness=4),
