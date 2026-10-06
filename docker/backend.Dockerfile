@@ -14,11 +14,16 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /build
 
 COPY backend/pyproject.toml backend/README.md ./
-COPY backend/app ./app
 
+# Dependencies first, from pyproject alone, so a code change reuses this layer
+# instead of downloading every package again.
 RUN python -m venv /opt/venv \
     && /opt/venv/bin/pip install --upgrade pip \
-    && /opt/venv/bin/pip install .
+    && /opt/venv/bin/python -c "import tomllib; print('\n'.join(tomllib.load(open('pyproject.toml', 'rb'))['project']['dependencies']))" > requirements.txt \
+    && /opt/venv/bin/pip install -r requirements.txt
+
+COPY backend/app ./app
+RUN /opt/venv/bin/pip install --no-deps .
 
 FROM python:3.13-slim AS runtime
 
