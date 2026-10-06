@@ -11,6 +11,7 @@ re-running anything.
 
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass, field
 
 from sqlalchemy import select
@@ -18,6 +19,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.models.scripture import (
+    AddressedState,
     ContentAdvisory,
     Scripture,
     ScriptureEnrichment,
@@ -25,6 +27,8 @@ from app.models.scripture import (
 )
 from app.services.ai_provider import ReflectionAnalysis
 from app.services.embeddings import EmbeddingProvider, cosine_similarity
+
+logger = logging.getLogger(__name__)
 
 # Ranking weights. Deliberately explicit and summing to 1.0 so a change is
 # visible in review. These are a starting point to be evaluated, not truth.
@@ -75,6 +79,7 @@ class Candidate:
     crisis_safe: bool | None
     embedding: list[float] | None
     addressed: dict[str, int] = field(default_factory=dict)
+    embedding_model: str | None = None
     intents: dict[str, int] = field(default_factory=dict)
     avoid_states: set[str] = field(default_factory=set)
 
@@ -214,6 +219,7 @@ def _to_candidate(scripture: Scripture, enrichment: ScriptureEnrichment) -> Cand
         context_span=(enrichment.context_span_start, enrichment.context_span_end),
         crisis_safe=enrichment.crisis_safe,
         embedding=list(enrichment.embedding) if enrichment.embedding is not None else None,
+        embedding_model=enrichment.embedding_model,
         addressed={s.state: s.emotional_relevance for s in enrichment.addressed_states},
         intents={i.intent: i.score for i in enrichment.intent_scores},
         avoid_states={
@@ -227,13 +233,15 @@ async def fetch_candidates(
     religion: str,
     reflection_vector: list[float],
     limit: int,
+    states: tuple[str, ...] = (),
 ) -> list[Candidate]:
     """Pull the nearest servable verses for one tradition.
 
     Religion is a hard SQL filter, never a ranking signal. A Bible reader must
     not receive a Quran verse because it scored well, and the reverse.
     Curation status is filtered in SQL too, so excluded records never enter the
-    candidate pool at any similarity.
+    candidate pool at any similarity. With `states`, only verses annotated as
+    addressing one of them are pulled.
     """
     statement = (
         select(Scripture, ScriptureEnrichment)
@@ -246,6 +254,12 @@ async def fetch_candidates(
         .where(Scripture.religion == religion)
         .where(ScriptureEnrichment.curation_status.in_(("INCLUDE", "INCLUDE_WITH_CONTEXT")))
     )
+    if states:
+        statement = statement.where(
+            ScriptureEnrichment.canonical_id.in_(
+                select(AddressedState.canonical_id).where(AddressedState.state.in_(states))
+            )
+        )
     if reflection_vector:
         statement = statement.order_by(
             ScriptureEnrichment.embedding.cosine_distance(reflection_vector)
@@ -295,7 +309,28 @@ async def recommend(
     candidate_limit: int,
     result_limit: int,
 ) -> list[RankedResult]:
-    """End to end: embed the reflection, fetch candidates, rank them."""
-    vector = embedder.embed(reflection_text)
+    """End to end: embed the reflection, fetch candidates, rank them.
+
+    Similarity is one ranking signal, not a gate. If the reflection cannot be
+    embedded (a rate-limited encoder), or a verse was embedded by a different
+    model than the one embedding the reflection, that similarity is unknown
+    rather than noise, and ranking proceeds on the curated fields alone.
+    """
+    try:
+        vector = embedder.embed_query(reflection_text)
+    except Exception as exc:  # noqa: BLE001 - any encoder failure degrades the same way
+        logger.warning("reflection not embedded, ranking without similarity: %s", exc)
+        vector = []
     candidates = await fetch_candidates(session, religion, vector, candidate_limit)
+    # The nearest verses by vector need not include the ones annotated for what
+    # the person feels, so those are always in the pool as well.
+    wanted = (analysis.primary_emotion, *analysis.secondary_emotions)
+    seen = {c.canonical_id for c in candidates}
+    for candidate in await fetch_candidates(session, religion, vector, candidate_limit, wanted):
+        if candidate.canonical_id not in seen:
+            candidates.append(candidate)
+            seen.add(candidate.canonical_id)
+    for candidate in candidates:
+        if candidate.embedding_model != embedder.model_id:
+            candidate.embedding = None
     return rank(candidates, analysis, vector, result_limit)
