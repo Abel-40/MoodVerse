@@ -51,6 +51,11 @@ class Settings(BaseSettings):
 
     embedding_provider: str = Field(default="hash", alias="EMBEDDING_PROVIDER")
     embedding_dimension: int = Field(default=768, alias="EMBEDDING_DIMENSION")
+    # Used when EMBEDDING_PROVIDER=gemini. Truncated to EMBEDDING_DIMENSION
+    # server-side, so the pgvector column does not change with the model.
+    gemini_embedding_model: str = Field(
+        default="gemini-embedding-001", alias="GEMINI_EMBEDDING_MODEL"
+    )
 
     retrieval_candidate_limit: int = Field(default=200, alias="RETRIEVAL_CANDIDATE_LIMIT")
     retrieval_result_limit: int = Field(default=2, alias="RETRIEVAL_RESULT_LIMIT")
