@@ -37,7 +37,17 @@ class Settings(BaseSettings):
     # Runtime AI. Analyses a reflection; never produces scripture.
     ai_provider: str = Field(default="gemini", alias="AI_PROVIDER")
     gemini_api_key: str | None = Field(default=None, alias="GEMINI_API_KEY")
-    gemini_model: str = Field(default="gemini-2.5-flash", alias="GEMINI_MODEL")
+    gemini_model: str = Field(default="gemini-3.1-flash-lite", alias="GEMINI_MODEL")
+    # Tried in order when the primary model is rate-limited or unavailable.
+    # Free-tier quotas are per model and can be as low as 20 requests a day,
+    # so one exhausted model must not fail every reflection after it.
+    gemini_fallback_models_raw: str = Field(
+        default="gemini-flash-lite-latest,gemini-2.5-flash", alias="GEMINI_FALLBACK_MODELS"
+    )
+
+    @property
+    def gemini_fallback_models(self) -> list[str]:
+        return [m.strip() for m in self.gemini_fallback_models_raw.split(",") if m.strip()]
 
     embedding_provider: str = Field(default="hash", alias="EMBEDDING_PROVIDER")
     embedding_dimension: int = Field(default=768, alias="EMBEDDING_DIMENSION")

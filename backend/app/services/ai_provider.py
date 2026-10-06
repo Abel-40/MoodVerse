@@ -21,7 +21,7 @@ import urllib.error
 import urllib.request
 from abc import ABC, abstractmethod
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, ValidationError, field_validator
 
 from app.core.config import Settings, get_settings
 
@@ -150,7 +150,8 @@ class HeuristicProvider(AIProvider):
 
     _CRISIS_CUES = (
         "kill myself", "end my life", "suicide", "self harm", "self-harm",
-        "not want to live", "better off dead",
+        "not want to live", "don't want to live", "dont want to live",
+        "want to die", "better off dead", "end it all", "hurt myself",
     )
 
     @property
@@ -205,10 +206,25 @@ class GeminiProvider(AIProvider):
         "Return ONLY a JSON object with these keys:\n"
         "  primary_emotion       one of: {emotions}\n"
         "  secondary_emotions    up to 3, from the same list\n"
-        "  intensity             integer 1-4\n"
+        "  intensity             integer 1-4: how acute the person's DISTRESS is - "
+        "1 mild, 2 moderate, 3 high (hard to function), 4 crisis (overwhelming "
+        "or safety-relevant). Gratitude, joy, awe, peace and hope are 1 or 2, "
+        "however strongly felt.\n"
         "  intent                one of: {intents}\n"
         "  themes                up to 6 short lowercase keywords\n"
         "  crisis_signals        true only if the text indicates risk of self-harm\n\n"
+        "What `intent` means: the NEED a short passage should meet for this "
+        "person right now - what would help them - not a label for what they "
+        "are doing. Someone sad is not asking to lament; someone lonely needs "
+        "comfort. Unless the reflection says otherwise, these fit:\n"
+        "  loneliness, grief, sadness -> comfort; fear, doubt -> assurance; "
+        "anxiety -> peace; despair -> hope; exhaustion -> strength; "
+        "confusion -> guidance; guilt, shame -> forgiveness; anger -> patience; "
+        "gratitude -> gratitude; joy, awe -> praise; hope -> encouragement.\n"
+        "  Use `lament` only when the person asks for words to voice sorrow or "
+        "complaint. Use `warning`, `instruction` or `repentance` only when they "
+        "ask to be corrected or directed about their own conduct; never for "
+        "someone who is hurting.\n\n"
         "Rules you must follow:\n"
         "  - Describe only what the person wrote. Do not advise them.\n"
         "  - Do NOT quote, cite, paraphrase or produce any scripture, verse "
@@ -221,6 +237,7 @@ class GeminiProvider(AIProvider):
 
     def __init__(self, settings: Settings | None = None) -> None:
         self._settings = settings or get_settings()
+        self._used_model: str | None = None
         if not self._settings.gemini_api_key:
             raise RuntimeError(
                 "GEMINI_API_KEY is not set. Set it in the environment or the "
@@ -229,7 +246,34 @@ class GeminiProvider(AIProvider):
 
     @property
     def model_id(self) -> str:
-        return self._settings.gemini_model
+        # The model that produced the last analysis, which may be a fallback.
+        return self._used_model or self._settings.gemini_model
+
+    @property
+    def models(self) -> list[str]:
+        ordered = [self._settings.gemini_model, *self._settings.gemini_fallback_models]
+        return list(dict.fromkeys(ordered))
+
+    @staticmethod
+    def _response_schema() -> dict:
+        """Constrain decoding to the taxonomy, so an off-list label such as
+        "disbelief" cannot be produced at all (and fail the reflection),
+        rather than being caught afterwards. Pydantic still validates."""
+        emotion = {"type": "STRING", "enum": sorted(EMOTIONS)}
+        fields = {
+            "primary_emotion": emotion,
+            "secondary_emotions": {"type": "ARRAY", "items": emotion, "maxItems": 3},
+            "intensity": {"type": "INTEGER"},
+            "intent": {"type": "STRING", "enum": sorted(INTENTS)},
+            "themes": {"type": "ARRAY", "items": {"type": "STRING"}, "maxItems": THEMES_MAX},
+            "crisis_signals": {"type": "BOOLEAN"},
+        }
+        return {
+            "type": "OBJECT",
+            "properties": fields,
+            "required": list(fields),
+            "propertyOrdering": list(fields),
+        }
 
     def analyse(self, reflection_text: str) -> ReflectionAnalysis:
         prompt = self._PROMPT.format(
@@ -239,10 +283,30 @@ class GeminiProvider(AIProvider):
         )
         payload = {
             "contents": [{"parts": [{"text": prompt}]}],
-            "generationConfig": {"temperature": 0, "responseMimeType": "application/json"},
+            "generationConfig": {
+                "temperature": 0,
+                "responseMimeType": "application/json",
+                "responseSchema": self._response_schema(),
+            },
         }
+        failures: list[str] = []
+        for model in self.models:
+            try:
+                body = self._generate(model, payload)
+            except _Unavailable as exc:
+                # Rate-limited, overloaded or retired: the next model may answer.
+                failures.append(f"{model}: {exc}")
+                continue
+            text = body["candidates"][0]["content"]["parts"][0]["text"]
+            # Rejected on failure, never repaired.
+            analysis = ReflectionAnalysis.model_validate_json(text)
+            self._used_model = model
+            return analysis
+        raise RuntimeError("reflection analysis failed: " + "; ".join(failures))
+
+    def _generate(self, model: str, payload: dict) -> dict:
         request = urllib.request.Request(
-            f"{self._API_ROOT}/{self._settings.gemini_model}:generateContent",
+            f"{self._API_ROOT}/{model}:generateContent",
             data=json.dumps(payload).encode("utf-8"),
             headers={
                 "Content-Type": "application/json",
@@ -251,20 +315,59 @@ class GeminiProvider(AIProvider):
         )
         try:
             with urllib.request.urlopen(request, timeout=30) as response:
-                body = json.loads(response.read().decode("utf-8"))
-        except urllib.error.URLError as exc:
-            raise RuntimeError(f"reflection analysis failed: {exc}") from exc
+                return json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as exc:
+            if exc.code in (404, 429, 500, 502, 503, 504):
+                raise _Unavailable(f"HTTP {exc.code}") from exc
+            raise RuntimeError(f"reflection analysis failed: HTTP {exc.code}") from exc
+        except (urllib.error.URLError, TimeoutError) as exc:
+            raise _Unavailable(str(exc)) from exc
 
-        text = body["candidates"][0]["content"]["parts"][0]["text"]
-        # Rejected on failure, never repaired.
-        return ReflectionAnalysis.model_validate_json(text)
+
+class _Unavailable(Exception):
+    """A model that cannot answer right now; try the next one."""
+
+
+class FallbackProvider(AIProvider):
+    """Use the primary provider, and the heuristic one if it cannot answer.
+
+    A reflection should not fail because a free-tier quota ran out. The
+    heuristic analysis is coarser, so the row records which provider and model
+    actually produced it (analysis_provider / analysis_model).
+    """
+
+    def __init__(self, primary: AIProvider, fallback: AIProvider) -> None:
+        self._primary = primary
+        self._fallback = fallback
+        self._used: AIProvider = primary
+
+    @property
+    def name(self) -> str:  # type: ignore[override]
+        return self._used.name
+
+    @property
+    def model_id(self) -> str:
+        return self._used.model_id
+
+    def analyse(self, reflection_text: str) -> ReflectionAnalysis:
+        try:
+            analysis = self._primary.analyse(reflection_text)
+            self._used = self._primary
+        # RuntimeError: no model could answer. KeyError/IndexError: an answer
+        # with no content, e.g. withheld by the provider's safety filter, which
+        # is most likely for exactly the reflections that most need a reply.
+        # ValidationError: off-schema output, rejected rather than repaired.
+        except (RuntimeError, KeyError, IndexError, ValidationError):
+            analysis = self._fallback.analyse(reflection_text)
+            self._used = self._fallback
+        return analysis
 
 
 def get_provider(settings: Settings | None = None) -> AIProvider:
     """Resolve the configured provider. The only place a provider is chosen."""
     settings = settings or get_settings()
     if settings.ai_provider == "gemini":
-        return GeminiProvider(settings)
+        return FallbackProvider(GeminiProvider(settings), HeuristicProvider())
     if settings.ai_provider == "heuristic":
         return HeuristicProvider()
     raise ValueError(f"unknown AI_PROVIDER {settings.ai_provider!r}")
