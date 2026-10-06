@@ -9,12 +9,13 @@ from __future__ import annotations
 import pytest
 
 from app.services.ai_provider import (
+    FallbackProvider,
     HeuristicProvider,
     ReflectionAnalysis,
     get_provider,
 )
 from app.services.embeddings import HashingEmbedding, cosine_similarity
-from app.services.retrieval import Candidate, eligible, rank, score
+from app.services.retrieval import Candidate, effective_intent, eligible, rank, score
 
 DIM = 64
 EMBEDDER = HashingEmbedding(DIM)
@@ -113,12 +114,31 @@ def test_crisis_requires_crisis_safe_even_for_include():
     assert "crisis_safe" in reason
 
 
-def test_crisis_restricts_intent_to_the_permitted_set():
+def test_crisis_never_serves_a_verse_that_only_warns():
     candidate = make_candidate(crisis_safe=True, intents={"warning": 4})
     analysis = make_analysis(intent="warning", crisis_signals=True, intensity=4)
     allowed, reason = eligible(candidate, analysis)
     assert not allowed
-    assert "not permitted at crisis intensity" in reason
+    assert "crisis-safe intent" in reason
+
+
+def test_crisis_asking_for_hope_is_served_comfort_rather_than_nothing():
+    """Despair maps to `hope`, which is not crisis-safe. Refusing every verse
+    would leave someone in crisis with no passage at all."""
+    comfort = make_candidate(canonical_id="bible:C:1:1", crisis_safe=True, intents={"comfort": 4})
+    analysis = make_analysis(primary_emotion="despair", intent="hope", crisis_signals=True, intensity=4)
+    assert effective_intent(analysis) == "comfort"
+    ranked = rank([comfort], analysis, EMBEDDER.embed("heavy"), limit=1)
+    assert [r.candidate.canonical_id for r in ranked] == ["bible:C:1:1"]
+    assert ranked[0].breakdown["intent"] > 0
+
+
+def test_avoid_for_states_vetoes_secondary_emotions_too():
+    candidate = make_candidate(avoid_states={"loneliness"})
+    analysis = make_analysis(primary_emotion="doubt", secondary_emotions=["loneliness"], intent="assurance")
+    allowed, reason = eligible(candidate, analysis)
+    assert not allowed
+    assert "loneliness" in reason
 
 
 def test_crisis_safe_comfort_verse_still_served_in_crisis():
@@ -271,3 +291,30 @@ def test_unknown_provider_is_rejected():
 
     with pytest.raises(ValueError):
         get_provider(Settings(AI_PROVIDER="not-a-provider"))
+
+
+# --------------------------------------------------------------------------
+# analysis provider resilience
+# --------------------------------------------------------------------------
+
+class _Exhausted(HeuristicProvider):
+    name = "gemini"
+
+    def analyse(self, reflection_text: str) -> ReflectionAnalysis:
+        raise RuntimeError("reflection analysis failed: HTTP 429")
+
+
+def test_a_rate_limited_provider_falls_back_instead_of_failing():
+    provider = FallbackProvider(_Exhausted(), HeuristicProvider())
+    analysis = provider.analyse("I feel so alone since I moved here.")
+    assert analysis.primary_emotion == "loneliness"
+    assert analysis.intent == "comfort"
+    # The row records what actually produced the analysis.
+    assert provider.name == "heuristic"
+    assert provider.model_id == "heuristic-v1"
+
+
+def test_heuristic_catches_common_crisis_phrasing():
+    analysis = HeuristicProvider().analyse("Some nights I don't want to live anymore.")
+    assert analysis.crisis_signals is True
+    assert analysis.intensity == 4

@@ -38,6 +38,26 @@ WEIGHTS = {
 
 # Intents that may be served at intensity 4. Mirrors curation.CRISIS_SAFE_INTENTS.
 CRISIS_SAFE_INTENTS = frozenset({"comfort", "lament", "assurance", "peace"})
+# At crisis intensity a verse must itself do one of those well, not merely be
+# tagged crisis-safe.
+CRISIS_MIN_INTENT_SCORE = 3
+
+
+def is_crisis(analysis: ReflectionAnalysis) -> bool:
+    return analysis.crisis_signals or analysis.intensity >= 4
+
+
+def effective_intent(analysis: ReflectionAnalysis) -> str:
+    """The intent ranking serves.
+
+    At crisis intensity only the crisis-safe intents may be served. Despair
+    reads naturally as needing `hope`, and refusing every verse because of that
+    would leave someone in crisis with no passage at all, so a non-crisis-safe
+    intent is served as `comfort` there instead.
+    """
+    if is_crisis(analysis) and analysis.intent not in CRISIS_SAFE_INTENTS:
+        return "comfort"
+    return analysis.intent
 
 
 @dataclass
@@ -88,15 +108,23 @@ def eligible(candidate: Candidate, analysis: ReflectionAnalysis) -> tuple[bool, 
         if not start or not end:
             return False, "INCLUDE_WITH_CONTEXT without a resolvable span"
 
-    # The annotation named states this verse must not be served for.
-    if analysis.primary_emotion in candidate.avoid_states:
-        return False, f"avoid_for_states contains {analysis.primary_emotion}"
+    # The annotation named states this verse must not be served for. Any state
+    # the person reports counts, not only the primary one: a verse that could
+    # worsen shame is wrong for someone lonely and ashamed.
+    for state in (analysis.primary_emotion, *analysis.secondary_emotions):
+        if state in candidate.avoid_states:
+            return False, f"avoid_for_states contains {state}"
 
-    if analysis.crisis_signals or analysis.intensity >= 4:
+    if is_crisis(analysis):
         if candidate.crisis_safe is not True:
             return False, "not crisis_safe at crisis intensity"
-        if analysis.intent not in CRISIS_SAFE_INTENTS:
+        if effective_intent(analysis) not in CRISIS_SAFE_INTENTS:
             return False, f"intent {analysis.intent} is not permitted at crisis intensity"
+        if not any(
+            candidate.intents.get(intent, 0) >= CRISIS_MIN_INTENT_SCORE
+            for intent in CRISIS_SAFE_INTENTS
+        ):
+            return False, "does not perform a crisis-safe intent well enough for crisis intensity"
 
     return True, ""
 
@@ -122,7 +150,7 @@ def score(
         weighted = 0.0
     addressed = weighted / 4.0
 
-    intent = candidate.intents.get(analysis.intent, 0) / 4.0
+    intent = candidate.intents.get(effective_intent(analysis), 0) / 4.0
     standalone = (candidate.standalone_usefulness or 0) / 4.0
     confidence = candidate.curation_confidence or 0.0
 
