@@ -28,7 +28,7 @@ import sys
 from pathlib import Path
 from typing import Any, Iterator
 
-from sqlalchemy import delete
+from sqlalchemy import delete, select, update
 from sqlalchemy.dialects.postgresql import insert
 
 from app.core.eventloop import configure_event_loop
@@ -133,6 +133,34 @@ def span_ids(
     }
 
 
+def _words(values: list[str]) -> str:
+    return ", ".join(v.replace("_", " ") for v in values)
+
+
+def embedding_document(item: dict[str, Any], text: str) -> str:
+    """What a verse is embedded as: its text plus what curation says it is for.
+
+    Reflections are written in today's words about feelings and situations;
+    verses are often archaic and never name the feeling they answer. The plain
+    paraphrase and the annotated states, intents and themes give the encoder
+    that bridge. Only reviewed annotation goes in, never source labels.
+    """
+    states = [s["state"] for s in item.get("addressed_states") or []
+              if (s.get("emotional_relevance") or 0) >= 3]
+    parts = [text]
+    if item.get("model_rationale"):
+        parts.append(item["model_rationale"])
+    if states:
+        parts.append(f"Speaks to: {_words(states)}.")
+    if item.get("intents"):
+        parts.append(f"Offers: {_words(item['intents'])}.")
+    if item.get("themes"):
+        parts.append(f"Themes: {_words(item['themes'])}.")
+    if item.get("situations"):
+        parts.append(f"Situations: {_words(item['situations'])}.")
+    return "\n".join(parts)
+
+
 async def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dry-run", action="store_true")
@@ -155,9 +183,11 @@ async def main() -> int:
     skipped = drifted = 0
     taxonomy_version = pipeline_version = None
 
+    statuses: dict[str, str] = {}
     for item in read_jsonl(ENRICHMENT):
         cid = item["canonical_id"]
         status = item["curation"]["status"]
+        statuses[cid] = status
         taxonomy_version = taxonomy_version or item.get("taxonomy_version")
         pipeline_version = pipeline_version or item.get("pipeline_version")
 
@@ -184,6 +214,18 @@ async def main() -> int:
 
     context_only -= {i["canonical_id"] for i in selected}
     ingested = len(selected)
+
+    # Embedded in batches up front: a remote encoder is called a few times,
+    # not once per verse, and a failure stops the run before anything is written.
+    vectors: dict[str, list[float]] = {}
+    if not args.dry_run:
+        documents = [
+            embedding_document(item, display_text(corpus[item["canonical_id"]])[0])
+            for item in selected
+        ]
+        print(f"embedding {len(documents)} records with {embedder.model_id}")
+        for item, vector in zip(selected, embedder.embed_documents(documents)):
+            vectors[item["canonical_id"]] = vector
 
     session = SessionLocal() if not args.dry_run else None
 
@@ -244,7 +286,7 @@ async def main() -> int:
                 crisis_safe=(item.get("safety") or {}).get("crisis_safe"),
                 context_span_start=span.get("start_canonical_id"),
                 context_span_end=span.get("end_canonical_id"),
-                embedding=embedder.embed(text),
+                embedding=vectors[cid],
                 embedding_model=embedder.model_id,
             )
             await session.execute(
@@ -280,12 +322,31 @@ async def main() -> int:
             for state in safety.get("avoid_for_states") or []:
                 session.add(ContentAdvisory(canonical_id=cid, kind="avoid_state", value=state))
 
+        # A verse ingested by an earlier run and since re-curated out of the
+        # servable set must stop being served; upserting the selected records
+        # alone would leave its old status in place.
+        demoted = 0
+        if not args.dry_run and not args.limit:
+            selected_ids = [i["canonical_id"] for i in selected]
+            stale = (await session.execute(
+                select(ScriptureEnrichment.canonical_id)
+                .where(ScriptureEnrichment.canonical_id.not_in(selected_ids))
+                .where(ScriptureEnrichment.curation_status.in_(SERVABLE))
+            )).scalars().all()
+            for cid in stale:
+                await session.execute(
+                    update(ScriptureEnrichment)
+                    .where(ScriptureEnrichment.canonical_id == cid)
+                    .values(curation_status=statuses.get(cid, "REVIEW_REQUIRED"))
+                )
+            demoted = len(stale)
+
         if not args.dry_run:
             session.add(IngestionRun(
                 taxonomy_version=taxonomy_version or "unknown",
                 pipeline_version=pipeline_version,
                 records_ingested=ingested, records_skipped=skipped,
-                notes=f"drifted={drifted} context_rows={len(context_only)}",
+                notes=f"drifted={drifted} context_rows={len(context_only)} demoted={demoted}",
             ))
             await session.commit()
     finally:
@@ -295,6 +356,7 @@ async def main() -> int:
     print(f"{'dry run: ' if args.dry_run else ''}ingested {ingested:,}")
     print(f"  context  {len(context_only):,}  (text only, required to render spans)")
     print(f"  skipped  {skipped:,}")
+    print(f"  demoted  {demoted:,}  (previously servable, now curated out)")
     print(f"  drifted  {drifted:,}  (enrichment digest did not match corpus text)")
     if drifted:
         print("  a drifted record means enrichment is stale; rebuild Phase 1 before serving.")
