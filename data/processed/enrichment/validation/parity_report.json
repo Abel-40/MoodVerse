@@ -8,17 +8,17 @@
     "quran": 6236
   },
   "annotated": {
-    "bible": 400,
+    "bible": 451,
     "quran": 179
   },
   "annotation_coverage": {
-    "bible": 0.0129,
+    "bible": 0.0145,
     "quran": 0.0287
   },
   "status_distribution": {
     "bible": {
-      "REVIEW_REQUIRED": 30780,
-      "INCLUDE_WITH_CONTEXT": 51,
+      "REVIEW_REQUIRED": 30777,
+      "INCLUDE_WITH_CONTEXT": 54,
       "INCLUDE": 253,
       "EXCLUDE_FROM_DEFAULT_RECOMMENDATIONS": 19
     },
@@ -30,13 +30,13 @@
     }
   },
   "mean_curation_confidence": {
-    "bible": 0.37,
+    "bible": 0.352,
     "quran": 0.453
   },
   "mean_scores": {
     "bible": {
-      "standalone_usefulness": 3.228,
-      "context_dependency": 0.725
+      "standalone_usefulness": 3.271,
+      "context_dependency": 0.698
     },
     "quran": {
       "standalone_usefulness": 3.162,
@@ -45,11 +45,11 @@
   },
   "purpose_coverage": {
     "comfort": {
-      "bible": 104,
+      "bible": 105,
       "quran": 43
     },
     "hope": {
-      "bible": 72,
+      "bible": 73,
       "quran": 41
     },
     "encouragement": {
@@ -61,7 +61,7 @@
       "quran": 14
     },
     "guidance": {
-      "bible": 27,
+      "bible": 28,
       "quran": 23
     },
     "strength": {
@@ -81,7 +81,7 @@
       "quran": 26
     },
     "repentance": {
-      "bible": 10,
+      "bible": 11,
       "quran": 12
     },
     "forgiveness": {
@@ -143,9 +143,9 @@
     {
       "purpose": "repentance",
       "religion": "bible",
-      "include_verses": 10,
+      "include_verses": 11,
       "required": 20,
-      "shortfall": 10
+      "shortfall": 9
     },
     {
       "purpose": "repentance",

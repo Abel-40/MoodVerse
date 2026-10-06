@@ -13,11 +13,11 @@
   "counts": {
     "p0_single_pass_includes": 351,
     "p1_would_otherwise_be_included": 1,
-    "p2_crisis_relevant": 21,
+    "p2_crisis_relevant": 32,
     "p4_phase0_flagged": 15,
-    "p5_awaiting_annotation": 36806
+    "p5_awaiting_annotation": 36792
   },
-  "total": 37194,
+  "total": 37191,
   "sample_ids": {
     "p0_single_pass_includes": [
       "bible:1 Chronicles:16:34",
@@ -225,27 +225,38 @@
       "quran:40:60"
     ],
     "p2_crisis_relevant": [
+      "bible:1 Peter:5:10",
       "bible:2 Corinthians:1:3",
       "bible:2 Corinthians:5:17",
       "bible:Galatians:6:9",
       "bible:Habakkuk:3:17",
+      "bible:Hebrews:4:16",
+      "bible:Hosea:6:1",
       "bible:Isaiah:25:8",
       "bible:Isaiah:53:4",
       "bible:Isaiah:54:4",
+      "bible:Isaiah:57:15",
+      "bible:Jeremiah:32:17",
       "bible:Job:1:22",
       "bible:Job:3:11",
       "bible:Job:3:3",
       "bible:Joel:2:25",
       "bible:John:14:18",
+      "bible:John:16:33",
       "bible:Lamentations:3:23",
+      "bible:Lamentations:3:26",
       "bible:Matthew:5:4",
       "bible:Proverbs:10:28",
+      "bible:Psalms:119:50",
       "bible:Psalms:142:7",
       "bible:Psalms:147:3",
+      "bible:Psalms:18:28",
       "bible:Psalms:27:14",
       "bible:Psalms:30:5",
       "bible:Psalms:31:24",
-      "bible:Romans:12:12"
+      "bible:Psalms:40:1",
+      "bible:Romans:12:12",
+      "bible:Romans:8:26"
     ],
     "p4_phase0_flagged": [
       "quran:15:29",
