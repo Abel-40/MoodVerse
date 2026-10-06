@@ -311,10 +311,17 @@ jobs, and voice input pulled forward from Phase 4.
 Known limitations are listed in [backend/README.md](backend/README.md). The two
 that matter most:
 
-- **Only 28 verses are currently servable**, because Phase 1 annotation is still
-  in progress. Retrieval is correct; the corpus behind it is thin. A crisis
-  reflection returns nothing at all — default-deny working as designed, but not
-  yet a usable product state.
-- **The default embedding is a hashed bag-of-words.** It approximates lexical
-  overlap, not meaning: it matches "weep" to "weep" but not to "mourn". Replace
-  it with a sentence encoder before making any claim about retrieval quality.
+- **About 480 passages are servable** (Bible ~300, Quran ~170) out of 37,339,
+  because Phase 1 annotation is still in progress. They were chosen to cover
+  every emotion and need the analyser can report, including crisis, where only
+  comfort, lament, assurance and peace are served. Classic verses that no
+  independent source corroborates sit in `REVIEW_REQUIRED` until a person
+  approves them (`curation/overrides.jsonl`).
+- **Embeddings are configurable.** `EMBEDDING_PROVIDER=gemini` (the setting in
+  `.env.example`) embeds verses and reflections with `gemini-embedding-001`;
+  each verse is embedded with its plain paraphrase and the states, intents and
+  themes curation gave it. `hash` is an offline bag-of-words for tests and
+  key-less development: it matches "weep" to "weep" but not to "mourn".
+  Changing the provider means re-running ingest so the stored vectors match;
+  until then retrieval ignores vectors from another model rather than compare
+  across spaces.

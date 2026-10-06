@@ -80,8 +80,10 @@ Autogenerate renders `Vector` columns but does not emit the `pgvector` import;
 
 ## Ingestion
 
-Loads the committed corpus and enrichment. Calls no AI provider and costs
-nothing. Idempotent - re-run after any re-curation.
+Loads the committed corpus and enrichment, and embeds each servable verse with
+the configured embedding provider (a few batched calls with `gemini`, none with
+`hash`). Idempotent - re-run after any re-curation: a verse curated out of the
+servable set since the last run is demoted, not left being served.
 
 ```bash
 docker compose run --rm ingest          # or: python ingest.py --only-servable
@@ -252,13 +254,20 @@ deterministic with a breakdown that sums to the final score.
 
 ## Known limitations
 
-- The default embedding is a hashed bag-of-words. It approximates lexical
-  overlap, not meaning: it matches "weep" to "weep" but not to "mourn". Replace
-  it with a sentence encoder before making any claim about retrieval quality.
-- Only 28 verses are currently servable, because Phase 1 annotation is in
-  progress. Retrieval is correct but the corpus behind it is thin. A crisis
-  reflection currently returns nothing at all, which is default-deny working
-  as designed rather than a fault, but it is not a usable product state.
+- Embeddings are configurable. `EMBEDDING_PROVIDER=gemini` (the setting in
+  `.env.example`) embeds verses and reflections with `gemini-embedding-001`;
+  each verse is embedded with its plain paraphrase and the states, intents and
+  themes curation gave it. `hash` is an offline bag-of-words for tests and
+  key-less development: it matches "weep" to "weep" but not to "mourn".
+  Changing the provider means re-running ingest so the stored vectors match;
+  until then retrieval ignores vectors from another model rather than compare
+  across spaces.
+- About 480 passages are servable (Bible ~300, Quran ~170) out of 37,339,
+  because Phase 1 annotation is still in progress. They were chosen to cover
+  every emotion and need the analyser can report, including crisis, where only
+  comfort, lament, assurance and peace are served. Classic verses that no
+  independent source corroborates sit in `REVIEW_REQUIRED` until a person
+  approves them (`curation/overrides.jsonl`).
 - `JWT_SECRET_KEY` and `SESSION_SECRET_KEY` ship with insecure dev defaults
   (like `database_url` does) so the app runs out of the box. Both must be
   replaced with a random value before any non-local deployment; nothing
